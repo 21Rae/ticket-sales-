@@ -141,13 +141,13 @@ export default function CountdownView() {
              <div className="p-6 h-full flex flex-col justify-center">
                 <p className="text-[10px] font-bold uppercase tracking-widest text-[#999999] mb-1">Next Up</p>
                 <p className="text-sm font-black uppercase italic text-white mb-6">FIFA World Cup™</p>
-                <div className="relative aspect-[3/4] overflow-hidden rounded-sm group">
-                  <img src="https://images.unsplash.com/photo-1551244072-5d12893278ab?auto=format&fit=crop&w=800&q=80" className="h-full w-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110" alt="Brazil" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4">
-                     <p className="text-xl font-black text-white italic uppercase tracking-tighter">Kings of the Game</p>
-                  </div>
-                </div>
+            <div className="relative aspect-[3/4] overflow-hidden rounded-sm group">
+              <img src="https://images.unsplash.com/photo-1540749303346-5b0aa034ef82?auto=format&fit=crop&w=800&q=80" className="h-full w-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110" alt="Stadium" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+              <div className="absolute bottom-4 left-4 right-4">
+                 <p className="text-xl font-black text-white italic uppercase tracking-tighter">Kings of the Game</p>
+              </div>
+            </div>
              </div>
           </div>
         </div>

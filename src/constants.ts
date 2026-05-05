@@ -32,7 +32,7 @@ export const MOCK_TEAMS: Team[] = [
     id: 'brazil',
     name: 'Brazil',
     description: 'Brazil at the FIFA World Cup: Team profile and history',
-    image: 'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1431324155629-1a6eda1eed2d?auto=format&fit=crop&w=800&q=80',
     group: 'C',
     ranking: 5,
     flagCode: 'br'
@@ -158,7 +158,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '20:00',
     startingPrice: 210,
     category: 'Sports',
-    image: 'https://images.unsplash.com/photo-1511886929837-354d827aae26?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1518091043644-c1d445ebb751?auto=format&fit=crop&w=1200&q=80',
     details: {
       rankings: { home: 34, away: 19 },
       historical: { lastMatch: 'Switzerland 0-1 Qatar (2018)', headToHead: 'Qatar: 1 win' },
@@ -236,7 +236,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '21:00',
     startingPrice: 340,
     category: 'Sports',
-    image: 'https://images.unsplash.com/photo-1518091043644-c1d445bcc97a?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1518091043644-c1d445ebb751?auto=format&fit=crop&w=1200&q=80',
     details: {
       rankings: { home: 7, away: 18 },
       historical: { lastMatch: 'Netherlands 2-2 Japan (2013)', headToHead: 'Ned: 2 wins, 1 draw' },
@@ -341,7 +341,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'Mexico',
     capacity: '87,523',
     description: 'The historic "Cathedral of Football," hosting its third World Cup opening match.',
-    image: 'https://images.unsplash.com/photo-1620215904535-43a992525167?auto=format&fit=crop&w=1200&q=80'
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80'
   },
   {
     id: 's4',
@@ -368,7 +368,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'USA',
     capacity: '64,767',
     description: "A premier global destination for high-intensity sports and entertainment in the heart of Florida.",
-    image: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bbe144?auto=format&fit=crop&w=1200&q=80'
+    image: 'https://images.unsplash.com/photo-1540749303346-5b0aa034ef82?auto=format&fit=crop&w=1200&q=80'
   },
   {
     id: 's7',
@@ -386,7 +386,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'Canada',
     capacity: '30,000',
     description: "Canada's national soccer stadium, set for major expansion to host the world's elite.",
-    image: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?auto=format&fit=crop&w=1200&q=80'
+    image: 'https://images.unsplash.com/photo-1550117462-a5ec08bf0ac5?auto=format&fit=crop&w=1200&q=80'
   },
   {
     id: 's9',
@@ -404,7 +404,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'USA',
     capacity: '68,500',
     description: 'A high-tech, eco-friendly masterpiece in the heart of Silicon Valley.',
-    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80'
+    image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80'
   },
   {
     id: 's11',
@@ -413,7 +413,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'USA',
     capacity: '72,220',
     description: 'The first facility in the NFL with a retractable roof, ideal for high-stakes international play.',
-    image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80'
+    image: 'https://images.unsplash.com/photo-1551958219-acbc608c6377?auto=format&fit=crop&w=1200&q=80'
   },
   {
     id: 's12',
@@ -433,7 +433,7 @@ export const MOCK_CITIES: City[] = [
     country: 'Mexico',
     description: 'A global metropolis with a rich football history, set to host the historic opening match at Estadio Azteca.',
     stadium: 'Estadio Azteca',
-    image: 'https://images.unsplash.com/photo-1512813583161-460ca4c6190f?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1540749303346-5b0aa034ef82?auto=format&fit=crop&w=1200&q=80',
     highlights: ['Opening Match Venue', 'Historic Altitude', 'Football Capital']
   },
   {
@@ -442,7 +442,7 @@ export const MOCK_CITIES: City[] = [
     country: 'USA',
     description: 'The entertainment capital of the world, featuring the cutting-edge SoFi Stadium in Inglewood.',
     stadium: 'SoFi Stadium',
-    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1550117462-a5ec08bf0ac5?auto=format&fit=crop&w=1200&q=80',
     highlights: ['Hollywood Entertainment', 'Coastal Weather', 'Luxury Suites']
   },
   {
@@ -451,7 +451,7 @@ export const MOCK_CITIES: City[] = [
     country: 'Canada',
     description: "Canada's largest city and cultural hub, bringing a diverse global audience to BMO Field.",
     stadium: 'BMO Field',
-    image: 'https://images.unsplash.com/photo-1517090504586-fde19ea6066f?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1518091043644-c1d445ebb751?auto=format&fit=crop&w=1200&q=80',
     highlights: ['Multicultural Hub', 'Lakeshore Scenery', 'Expanded Stadium']
   },
   {
@@ -460,7 +460,7 @@ export const MOCK_CITIES: City[] = [
     country: 'USA',
     description: 'The world stage for the Grand Final 2026, where history will be made at MetLife Stadium.',
     stadium: 'MetLife Stadium',
-    image: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1529900948638-07f85863d50b?auto=format&fit=crop&w=1200&q=80',
     highlights: ['Final Match Venue', 'Skyline Views', 'Global Transit Hub']
   },
   {
@@ -469,7 +469,7 @@ export const MOCK_CITIES: City[] = [
     country: 'Canada',
     description: 'Stunning natural beauty meets urban sophistication at the foot of BC Place.',
     stadium: 'BC Place',
-    image: 'https://images.unsplash.com/photo-1559511260-66a654ae982a?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80',
     highlights: ['Mountain Scenery', 'Retractable Roof', 'West Coast Vibe']
   },
   {
@@ -478,7 +478,7 @@ export const MOCK_CITIES: City[] = [
     country: 'Mexico',
     description: 'The birthplace of tequila and mariachi, offering a vibrant cultural experience at Estadio Akron.',
     stadium: 'Estadio Akron',
-    image: 'https://images.unsplash.com/photo-1620215904535-43a992525167?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1551290464-672935272332?auto=format&fit=crop&w=1200&q=80',
     highlights: ['Cultural Traditions', 'Modern Architecture', 'Passionate Support']
   }
 ];

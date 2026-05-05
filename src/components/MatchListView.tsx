@@ -48,9 +48,10 @@ export default function MatchListView({ onEventClick }: MatchListViewProps) {
           >
           <div className="absolute inset-0 grayscale group-hover:grayscale-0 transition-all duration-1000 opacity-60">
             <img 
-              src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=2000&q=80" 
+              src="https://images.unsplash.com/photo-1540749303346-5b0aa034ef82?auto=format&fit=crop&w=2000&q=80" 
               className="w-full h-full object-cover"
-              alt=""
+              alt="Stadium"
+              loading="lazy"
             />
           </div>
           <div className="absolute inset-0 bg-linear-to-r from-black via-black/40 to-transparent" />
@@ -103,9 +104,9 @@ export default function MatchListView({ onEventClick }: MatchListViewProps) {
                       whileHover={{ y: -5 }}
                       className="min-w-[200px] group cursor-pointer"
                     >
-                      <div className="aspect-square relative overflow-hidden rounded-full border-2 border-white/5 mb-4 p-1 group-hover:border-accent transition-all duration-500">
+                      <div className="aspect-square relative overflow-hidden rounded-full border-2 border-white/5 mb-4 p-1 group-hover:border-accent transition-all duration-500 bg-secondary">
                          <div className="h-full w-full rounded-full overflow-hidden grayscale group-hover:grayscale-0 transition-all opacity-60 group-hover:opacity-100">
-                            <img src={match.image} className="w-full h-full object-cover" alt="" />
+                            <img src={match.image} className="w-full h-full object-cover" alt="" loading="lazy" />
                          </div>
                       </div>
                       <h4 className="text-[12px] font-black text-white uppercase italic tracking-tight text-center group-hover:text-accent transition-colors truncate">
@@ -180,9 +181,9 @@ export default function MatchListView({ onEventClick }: MatchListViewProps) {
                </div>
                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {[
-                    { title: "Everything you need to know about the format", tag: "Tournament", img: "https://images.unsplash.com/photo-1431324155629-1a6eda1eed29?auto=format&fit=crop&w=800&q=80" },
-                    { title: "Host City Travel Guide: Transport venues", tag: "Logistics", img: "https://images.unsplash.com/photo-1502481851512-e9e2529bbbf9?auto=format&fit=crop&w=800&q=80" },
-                    { title: "Fan ID & Security protocol stadium entry", tag: "Security", img: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=800&q=80" }
+                    { title: "Everything you need to know about the format", tag: "Tournament", img: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80" },
+                    { title: "Host City Travel Guide: Transport venues", tag: "Logistics", img: "https://images.unsplash.com/photo-1540749303346-5b0aa034ef82?auto=format&fit=crop&w=800&q=80" },
+                    { title: "Fan ID & Security protocol stadium entry", tag: "Security", img: "https://images.unsplash.com/photo-1550117462-a5ec08bf0ac5?auto=format&fit=crop&w=800&q=80" }
                   ].map((guide, i) => (
                     <div key={i} className="group cursor-pointer">
                        <div className="aspect-[4/3] relative overflow-hidden rounded-xs border border-white/5 mb-4">
@@ -257,11 +258,11 @@ export default function MatchListView({ onEventClick }: MatchListViewProps) {
          </div>
          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
             {[
-              { name: "New York", img: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=800&q=80" },
-              { name: "Los Angeles", img: "https://images.unsplash.com/photo-1534430480872-3498386e7a56?auto=format&fit=crop&w=800&q=80" },
-              { name: "Las Vegas", img: "https://images.unsplash.com/photo-1605833559746-6d16ff33bf01?auto=format&fit=crop&w=800&q=80" },
-              { name: "Chicago", img: "https://images.unsplash.com/photo-1494522855154-9297ac14b55f?auto=format&fit=crop&w=800&q=80" },
-              { name: "Atlanta", img: "https://images.unsplash.com/photo-1540206395-6880f9493eae?auto=format&fit=crop&w=800&q=80" }
+              { name: "New York", img: "https://images.unsplash.com/photo-1529900948638-07f85863d50b?auto=format&fit=crop&w=800&q=80" },
+              { name: "Los Angeles", img: "https://images.unsplash.com/photo-1551958219-acbc608c6377?auto=format&fit=crop&w=800&q=80" },
+              { name: "Las Vegas", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80" },
+              { name: "Chicago", img: "https://images.unsplash.com/photo-1550117462-a5ec08bf0ac5?auto=format&fit=crop&w=800&q=80" },
+              { name: "Atlanta", img: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80" }
             ].map((city, k) => (
               <div key={k} className="group cursor-pointer">
                  <div className="aspect-[4/3] rounded overflow-hidden mb-3 border border-white/10 grayscale group-hover:grayscale-0 transition-all duration-500">
