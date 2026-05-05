@@ -34,19 +34,6 @@ export default function FilterSidebar({ onNavigate }: FilterSidebarProps) {
             </div>
 
             <div className="pt-8 border-t border-white/5">
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-4 italic">Price Ceiling</p>
-              <div className="h-1 bg-secondary rounded-full relative">
-                <div className="absolute inset-y-0 left-0 right-1/4 bg-accent rounded-full" />
-                <div className="absolute top-1/2 -mt-2 left-0 w-4 h-4 bg-white rounded-full shadow-xl cursor-pointer ring-4 ring-accent/20" />
-                <div className="absolute top-1/2 -mt-2 right-1/4 w-4 h-4 bg-white rounded-full shadow-xl cursor-pointer ring-4 ring-accent/20" />
-              </div>
-              <div className="flex justify-between mt-4">
-                <span className="text-[11px] font-black text-white italic">$200</span>
-                <span className="text-[11px] font-black text-white italic">$5000+</span>
-              </div>
-            </div>
-
-            <div className="pt-8 border-t border-white/5">
                <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-4 italic">Tournament Insights</p>
                <div className="space-y-4">
                   <div className="flex items-start gap-2">

@@ -93,12 +93,12 @@ export default function CheckoutDrawer({ event, onClose }: CheckoutDrawerProps) 
                         </div>
                       </div>
                       <div className="text-right">
-                        <span className={`block text-xl font-black italic transition-colors ${
+                        <span className={`block text-[10px] font-black italic transition-colors ${
                           selectedTicketId === ticket.id || (!selectedTicketId && ticket.id === 't1') ? 'text-accent' : 'text-white'
                         }`}>
-                          {formatCurrency(ticket.price)}
+                          AVAILABLE
                         </span>
-                        <span className="text-[9px] text-slate-500 uppercase font-black italic">Per Seat</span>
+                        <span className="text-[8px] text-slate-500 uppercase font-black italic whitespace-nowrap">Official Verified</span>
                       </div>
                     </div>
                   </button>
@@ -106,27 +106,15 @@ export default function CheckoutDrawer({ event, onClose }: CheckoutDrawerProps) 
               </div>
             </div>
 
-            <div className="bg-secondary p-8 rounded-sm border border-white/5 mb-10">
-               <div className="flex justify-between text-[11px] font-black uppercase text-slate-500 mb-4 italic">
-                  <span>Match Rate</span>
-                  <span>{formatCurrency(breakdown.basePrice)}</span>
-               </div>
-               <div className="flex justify-between text-[11px] font-black uppercase text-slate-500 mb-4 italic">
-                  <span>Service Protocol</span>
-                  <span>{formatCurrency(breakdown.serviceFee)}</span>
-               </div>
-               <div className="flex justify-between text-[11px] font-black uppercase text-slate-500 mb-8 italic">
-                  <span>Tactical Fees</span>
-                  <span>{formatCurrency(breakdown.tax)}</span>
-               </div>
-               <div className="pt-6 border-t border-white/10 flex justify-between items-center text-3xl font-black italic text-white uppercase">
-                  <span>Total Due</span>
-                  <span className="text-accent underline decoration-white/10 underline-offset-8">{formatCurrency(breakdown.total)}</span>
-               </div>
+            <div className="bg-secondary p-8 rounded-sm border border-white/5 mb-10 text-center">
+               <p className="text-xl font-black italic text-accent uppercase tracking-tighter mb-2">Secure Your Access</p>
+               <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest leading-relaxed italic">
+                  Complete the verification process to finalize your selection for this official matchup.
+               </p>
             </div>
 
             <button className="w-full bg-accent py-5 text-lg font-black text-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-2xl flex items-center justify-center gap-4 italic group">
-              Confirm Access <ChevronRight size={24} className="group-hover:translate-x-2 transition-transform" />
+              Confirm Selection <ChevronRight size={24} className="group-hover:translate-x-2 transition-transform" />
             </button>
             
             <div className="mt-10 flex items-center justify-center gap-8 opacity-40 grayscale">

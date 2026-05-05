@@ -1,71 +1,293 @@
-import { Event, Ticket, Stadium, City } from './types';
+import { Event, Ticket, Stadium, City, Team } from './types';
+
+export const MOCK_TEAMS: Team[] = [
+  {
+    id: 'usa',
+    name: 'United States',
+    description: 'USA at the FIFA World Cup: Team profile and history',
+    image: 'https://images.unsplash.com/photo-1552667466-07770ae110d0?auto=format&fit=crop&w=800&q=80',
+    group: 'D',
+    ranking: 11,
+    flagCode: 'us'
+  },
+  {
+    id: 'canada',
+    name: 'Canada',
+    description: 'Canada at the FIFA World Cup: Team profile and history',
+    image: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=800&q=80',
+    group: 'B',
+    ranking: 45,
+    flagCode: 'ca'
+  },
+  {
+    id: 'mexico',
+    name: 'Mexico',
+    description: 'Mexico at the FIFA World Cup: Team profile and history',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
+    group: 'A',
+    ranking: 15,
+    flagCode: 'mx'
+  },
+  {
+    id: 'brazil',
+    name: 'Brazil',
+    description: 'Brazil at the FIFA World Cup: Team profile and history',
+    image: 'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?auto=format&fit=crop&w=800&q=80',
+    group: 'C',
+    ranking: 5,
+    flagCode: 'br'
+  },
+  {
+    id: 'argentina',
+    name: 'Argentina',
+    description: 'Argentina at the FIFA World Cup: Team profile and history',
+    image: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80',
+    group: 'J',
+    ranking: 1,
+    flagCode: 'ar'
+  },
+  {
+    id: 'japan',
+    name: 'Japan',
+    description: 'Japan at the FIFA World Cup: Team profile and history',
+    image: 'https://images.unsplash.com/photo-1551290464-672935272332?auto=format&fit=crop&w=800&q=80',
+    group: 'F',
+    ranking: 18,
+    flagCode: 'jp'
+  },
+  {
+    id: 'iran',
+    name: 'IR Iran',
+    description: 'IR Iran at the FIFA World Cup: Team profile and history',
+    image: 'https://images.unsplash.com/photo-1575361204480-aadea25e6e68?auto=format&fit=crop&w=800&q=80',
+    group: 'G',
+    ranking: 20,
+    flagCode: 'ir'
+  },
+  {
+    id: 'colombia',
+    name: 'Colombia',
+    description: 'Colombia at the FIFA World Cup: Team profile and history',
+    image: 'https://images.unsplash.com/photo-1518091043644-c1d445ebb751?auto=format&fit=crop&w=800&q=80',
+    group: 'K',
+    ranking: 12,
+    flagCode: 'co'
+  },
+  {
+    id: 'korea',
+    name: 'Korea Republic',
+    description: 'Korea Republic at the FIFA World Cup: Team profile and history',
+    image: 'https://images.unsplash.com/photo-1550117462-a5ec08bf0ac5?auto=format&fit=crop&w=800&q=80',
+    group: 'A',
+    ranking: 22,
+    flagCode: 'kr'
+  }
+];
 
 export const MOCK_EVENTS: Event[] = [
   {
     id: '1',
-    name: 'Opening Match: Mexico vs. Argentina',
-    venue: 'Estadio Azteca',
+    name: 'Mexico vs. South Africa',
+    venue: 'Mexico City Stadium',
     location: 'Mexico City, MX',
     date: '2026-06-11',
-    time: '5:00 PM',
+    time: '20:00',
     startingPrice: 450,
     category: 'Sports',
-    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1540749303346-5b0aa034ef82?auto=format&fit=crop&w=1200&q=80',
+    details: {
+      rankings: { home: 15, away: 59 },
+      historical: { lastMatch: 'Mexico 1-1 South Africa (2010)', headToHead: 'Mex: 2 wins, SA: 1 win, 1 draw' },
+      weatherForecast: '22°C, Sunny'
+    }
   },
   {
     id: '2',
-    name: 'USA vs. Jordan',
-    venue: 'SoFi Stadium',
-    location: 'Los Angeles, CA',
+    name: 'Korea Republic vs. Czechia',
+    venue: 'Guadalajara Stadium',
+    location: 'Guadalajara, MX',
     date: '2026-06-12',
-    time: '8:00 PM',
+    time: '03:00',
     startingPrice: 320,
     category: 'Sports',
-    image: 'https://images.unsplash.com/photo-1551958219-acbc608c6377?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1550117462-a5ec08bf0ac5?auto=format&fit=crop&w=1200&q=80',
+    details: {
+      rankings: { home: 22, away: 36 },
+      historical: { lastMatch: 'Czechia 1-2 Korea Republic (2016)', headToHead: 'Korea: 1 win' },
+      weatherForecast: '28°C, Clear'
+    }
   },
   {
     id: '3',
-    name: 'Canada vs. France',
-    venue: 'BMO Field',
+    name: 'Canada vs. Bosnia and Herzegovina',
+    venue: 'Toronto Stadium',
     location: 'Toronto, ON',
-    date: '2026-06-13',
-    time: '6:00 PM',
+    date: '2026-06-12',
+    time: '20:00',
     startingPrice: 280,
     category: 'Sports',
     image: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80',
+    details: {
+      rankings: { home: 45, away: 74 },
+      historical: { lastMatch: 'First Competitive Meeting', headToHead: 'No previous matches' },
+      weatherForecast: '18°C, Partly Cloudy'
+    }
   },
   {
     id: '4',
-    name: 'England vs. Curaçao',
-    venue: 'MetLife Stadium',
-    location: 'East Rutherford, NJ',
-    date: '2026-06-15',
-    time: '7:30 PM',
-    startingPrice: 250,
+    name: 'USA vs. Paraguay',
+    venue: 'Los Angeles Stadium',
+    location: 'Los Angeles, CA',
+    date: '2026-06-13',
+    time: '02:00',
+    startingPrice: 350,
     category: 'Sports',
-    image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1551958219-acbc608c6377?auto=format&fit=crop&w=1200&q=80',
+    details: {
+      rankings: { home: 11, away: 56 },
+      historical: { lastMatch: 'USA 1-0 Paraguay (2018)', headToHead: 'USA: 4 wins, Par: 2 wins' },
+      weatherForecast: '21°C, Sunny'
+    }
   },
   {
     id: '5',
-    name: 'Portugal vs. Cape Verde',
-    venue: 'Gillette Stadium',
-    location: 'Foxborough, MA',
-    date: '2026-06-17',
-    time: '8:00 PM',
-    startingPrice: 220,
+    name: 'Qatar vs. Switzerland',
+    venue: 'San Francisco Bay Area Stadium',
+    location: 'Santa Clara, CA',
+    date: '2026-06-13',
+    time: '20:00',
+    startingPrice: 210,
     category: 'Sports',
     image: 'https://images.unsplash.com/photo-1511886929837-354d827aae26?auto=format&fit=crop&w=1200&q=80',
+    details: {
+      rankings: { home: 34, away: 19 },
+      historical: { lastMatch: 'Switzerland 0-1 Qatar (2018)', headToHead: 'Qatar: 1 win' },
+      weatherForecast: '19°C, Breezy'
+    }
   },
   {
     id: '6',
-    name: 'Japan vs. Brazil',
-    venue: 'BC Place',
-    location: 'Vancouver, BC',
-    date: '2026-06-18',
-    time: '6:00 PM',
-    startingPrice: 380,
+    name: 'Brazil vs. Morocco',
+    venue: 'New York/New Jersey Stadium',
+    location: 'East Rutherford, NJ',
+    date: '2026-06-13',
+    time: '23:00',
+    startingPrice: 420,
     category: 'Sports',
     image: 'https://images.unsplash.com/photo-1431324155629-1a6eda1eed2d?auto=format&fit=crop&w=1200&q=80',
+    details: {
+      rankings: { home: 5, away: 13 },
+      historical: { lastMatch: 'Morocco 2-1 Brazil (2023)', headToHead: 'Brazil: 2 wins, Mor: 1 win' },
+      weatherForecast: '22°C, Clear'
+    }
+  },
+  {
+    id: '7',
+    name: 'Haiti vs. Scotland',
+    venue: 'Boston Stadium',
+    location: 'Boston, MA',
+    date: '2026-06-14',
+    time: '02:00',
+    startingPrice: 190,
+    category: 'Sports',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80',
+    details: {
+      rankings: { home: 90, away: 39 },
+      historical: { lastMatch: 'First Meeting', headToHead: 'No previous matches' },
+      weatherForecast: '20°C, Clear'
+    }
+  },
+  {
+    id: '8',
+    name: 'Australia vs. Türkiye',
+    venue: 'BC Place Vancouver',
+    location: 'Vancouver, BC',
+    date: '2026-06-14',
+    time: '05:00',
+    startingPrice: 260,
+    category: 'Sports',
+    image: 'https://images.unsplash.com/photo-1529900948638-07f85863d50b?auto=format&fit=crop&w=1200&q=80',
+    details: {
+      rankings: { home: 24, away: 40 },
+      historical: { lastMatch: 'Australia 1-1 Türkiye (2004)', headToHead: 'Tur: 1 win, 1 draw' },
+    }
+  },
+  {
+    id: '9',
+    name: 'Germany vs. Curaçao',
+    venue: 'Houston Stadium',
+    location: 'Houston, TX',
+    date: '2026-06-14',
+    time: '18:00',
+    startingPrice: 380,
+    category: 'Sports',
+    image: 'https://images.unsplash.com/photo-1551290464-672935272332?auto=format&fit=crop&w=1200&q=80',
+    details: {
+      rankings: { home: 16, away: 86 },
+      historical: { lastMatch: 'Never Played', headToHead: 'First Matchup' },
+    }
+  },
+  {
+    id: '10',
+    name: 'Netherlands vs. Japan',
+    venue: 'Dallas Stadium',
+    location: 'Arlington, TX',
+    date: '2026-06-14',
+    time: '21:00',
+    startingPrice: 340,
+    category: 'Sports',
+    image: 'https://images.unsplash.com/photo-1518091043644-c1d445bcc97a?auto=format&fit=crop&w=1200&q=80',
+    details: {
+      rankings: { home: 7, away: 18 },
+      historical: { lastMatch: 'Netherlands 2-2 Japan (2013)', headToHead: 'Ned: 2 wins, 1 draw' },
+      weatherForecast: '30°C, Hot'
+    }
+  },
+  {
+    id: '11',
+    name: 'Spain vs. Saudi Arabia',
+    venue: 'Atlanta Stadium',
+    location: 'Atlanta, GA',
+    date: '2026-06-15',
+    time: '17:00',
+    startingPrice: 310,
+    category: 'Sports',
+    image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80',
+    details: {
+      rankings: { home: 8, away: 53 },
+      historical: { lastMatch: 'Spain 1-0 Saudi Arabia (2012)', headToHead: 'Spain: 3 wins' },
+      weatherForecast: '26°C, Humid'
+    }
+  },
+  {
+    id: '12',
+    name: 'Belgium vs. Egypt',
+    venue: 'Seattle Stadium',
+    location: 'Seattle, WA',
+    date: '2026-06-15',
+    time: '20:00',
+    startingPrice: 290,
+    category: 'Sports',
+    image: 'https://images.unsplash.com/photo-1511886929837-354d827aae26?auto=format&fit=crop&w=1200&q=80',
+    details: {
+      rankings: { home: 3, away: 36 },
+      historical: { lastMatch: 'Egypt 2-1 Belgium (2022)', headToHead: 'Bel: 2 wins, Egy: 3 wins' },
+    }
+  },
+  {
+    id: '13',
+    name: 'Saudi Arabia vs. Uruguay',
+    venue: 'Miami Stadium',
+    location: 'Miami, FL',
+    date: '2026-06-15',
+    time: '23:00',
+    startingPrice: 330,
+    category: 'Sports',
+    image: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80',
+    details: {
+      rankings: { home: 53, away: 11 },
+      historical: { lastMatch: 'Uruguay 1-0 Saudi Arabia (2018)', headToHead: 'Uru: 1 win, 2 draws' },
+    }
   }
 ];
 

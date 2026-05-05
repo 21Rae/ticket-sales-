@@ -1,3 +1,15 @@
+export interface EventDetail {
+  rankings: {
+    home: number;
+    away: number;
+  };
+  historical: {
+    lastMatch: string;
+    headToHead: string;
+  };
+  weatherForecast?: string;
+}
+
 export interface Event {
   id: string;
   name: string;
@@ -8,6 +20,7 @@ export interface Event {
   startingPrice: number;
   category: 'Concerts' | 'Sports' | 'Theater' | 'Comedy';
   image: string;
+  details?: EventDetail;
 }
 
 export interface Ticket {
@@ -43,4 +56,20 @@ export interface City {
   stadium: string;
   image: string;
   highlights: string[];
+}
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+}
+
+export interface Team {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  group: string;
+  ranking: number;
+  flagCode: string;
 }
