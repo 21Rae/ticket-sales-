@@ -57,6 +57,7 @@ export default function CheckoutDrawer({ event, onClose }: CheckoutDrawerProps) 
                 src={event.image} 
                 alt={event.name}
                 className="h-48 w-full object-cover opacity-50 grayscale hover:grayscale-0 transition-all duration-700"
+                referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
               <div className="absolute bottom-6 left-6 flex flex-col gap-2">

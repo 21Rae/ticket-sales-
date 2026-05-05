@@ -38,6 +38,7 @@ export default function CitiesList() {
                 src={city.image} 
                 alt={city.name}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-60 group-hover:opacity-100"
+                referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-black/0 via-black/40 to-secondary hidden md:block" />
               <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-md px-3 py-1 border border-white/10 rounded-sm">

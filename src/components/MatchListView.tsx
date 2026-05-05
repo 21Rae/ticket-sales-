@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { TrendingUp, ShieldCheck, Sparkles, ChevronRight, Info, Calendar } from 'lucide-react';
 import EventCard from './EventCard';
@@ -12,8 +12,11 @@ interface MatchListViewProps {
 }
 
 export default function MatchListView({ onEventClick }: MatchListViewProps) {
-  const trendingMatches = MOCK_EVENTS.slice(0, 5);
+  const [events, setEvents] = useState<Event[]>(MOCK_EVENTS);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const trendingMatches = events.slice(0, 5);
 
   return (
     <motion.div
@@ -32,8 +35,8 @@ export default function MatchListView({ onEventClick }: MatchListViewProps) {
                 <Sparkles size={12} />
                 Official 2026 Resale Marketplace
              </div>
-             <h1 className="text-4xl md:text-7xl font-black text-white italic uppercase tracking-tighter text-center max-w-4xl leading-none">
-                Experience the <span className="text-accent underline decoration-white/10 underline-offset-8">Greatest</span> Show on Earth.
+             <h1 className="text-3xl md:text-7xl font-black text-white italic uppercase tracking-tighter text-center max-w-4xl leading-none">
+                Experience the <span className="text-accent underline decoration-white/10 underline-offset-8 md:underline-offset-[12px]">Greatest</span> Show on Earth.
              </h1>
           </div>
           <SearchBar />
@@ -41,10 +44,10 @@ export default function MatchListView({ onEventClick }: MatchListViewProps) {
       </div>
 
       {/* Featured Banner Section */}
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-6 md:py-12">
           <div 
             onClick={() => navigate('/matches')}
-            className="relative group cursor-pointer overflow-hidden rounded-sm border border-white/10 bg-secondary aspect-[21/9] flex items-center"
+            className="relative group cursor-pointer overflow-hidden rounded-sm border border-white/10 bg-secondary aspect-square md:aspect-[21/9] flex items-center"
           >
           <div className="absolute inset-0 grayscale group-hover:grayscale-0 transition-all duration-1000 opacity-60">
             <img 
@@ -52,23 +55,24 @@ export default function MatchListView({ onEventClick }: MatchListViewProps) {
               className="w-full h-full object-cover"
               alt="Stadium"
               loading="lazy"
+              referrerPolicy="no-referrer"
             />
           </div>
-          <div className="absolute inset-0 bg-linear-to-r from-black via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-b md:bg-linear-to-r from-black via-black/40 to-transparent" />
           
-          <div className="relative p-8 lg:p-20 flex flex-col justify-center h-full max-w-2xl z-10">
+          <div className="relative p-8 lg:p-20 flex flex-col justify-center items-center md:items-start text-center md:text-left h-full w-full md:max-w-2xl z-10">
             <div className="flex items-center gap-2 text-accent mb-4">
-               <div className="h-1 w-12 bg-accent" />
+               <div className="h-1 w-12 bg-accent hidden md:block" />
                <span className="text-[10px] font-black uppercase tracking-widest italic">Live Nation Presents</span>
             </div>
             <h2 className="text-4xl lg:text-8xl font-black text-white italic uppercase tracking-tighter mb-6 leading-[0.85]">
-              Matchday <br />
+              Matchday <br className="hidden md:block" />
               <span className="text-accent underline decoration-white/10 underline-offset-8">Tickets</span>
             </h2>
             <p className="text-slate-300 font-bold uppercase tracking-widest text-sm mb-10 max-w-md hidden md:block">
               Group stage drops are live. Secure your seat for the opening ceremonies in Mexico City and Toronto.
             </p>
-            <button className="h-14 px-10 bg-white text-black font-black uppercase tracking-widest text-[11px] hover:bg-accent transition-all italic self-start shadow-2xl">
+            <button className="h-14 px-10 bg-white text-black font-black uppercase tracking-widest text-[11px] hover:bg-accent transition-all italic shadow-2xl">
               Browse Matches
             </button>
           </div>
@@ -106,7 +110,7 @@ export default function MatchListView({ onEventClick }: MatchListViewProps) {
                     >
                       <div className="aspect-square relative overflow-hidden rounded-full border-2 border-white/5 mb-4 p-1 group-hover:border-accent transition-all duration-500 bg-secondary">
                          <div className="h-full w-full rounded-full overflow-hidden grayscale group-hover:grayscale-0 transition-all opacity-60 group-hover:opacity-100">
-                            <img src={match.image} className="w-full h-full object-cover" alt="" loading="lazy" />
+                            <img src={match.image} className="w-full h-full object-cover" alt="" loading="lazy" referrerPolicy="no-referrer" />
                          </div>
                       </div>
                       <h4 className="text-[12px] font-black text-white uppercase italic tracking-tight text-center group-hover:text-accent transition-colors truncate">
@@ -127,14 +131,14 @@ export default function MatchListView({ onEventClick }: MatchListViewProps) {
                   </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {MOCK_EVENTS.slice(0, 3).map((event) => (
+                {events.slice(0, 3).map((event) => (
                   <div 
                     key={event.id} 
                     onClick={() => onEventClick(event)}
                     className="bg-secondary/50 border border-white/5 rounded-sm overflow-hidden group cursor-pointer"
                   >
                      <div className="aspect-video relative overflow-hidden">
-                        <img src={event.image} className="w-full h-full object-cover grayscale opacity-30 group-hover:opacity-60 group-hover:scale-110 transition-all duration-700" alt="" />
+                        <img src={event.image} className="w-full h-full object-cover grayscale opacity-30 group-hover:opacity-60 group-hover:scale-110 transition-all duration-700" alt="" referrerPolicy="no-referrer" />
                         <div className="absolute top-4 left-4 px-2 py-1 bg-accent text-black text-[8px] font-black uppercase italic rounded-xs">Presale Open</div>
                      </div>
                      <div className="p-6">
@@ -160,7 +164,7 @@ export default function MatchListView({ onEventClick }: MatchListViewProps) {
                   <Link to="/matches" className="text-[10px] font-black text-slate-500 hover:text-white uppercase italic tracking-widest border-b border-white/10 pb-1">View All Matches</Link>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {MOCK_EVENTS.map((event) => (
+                {events.map((event) => (
                   <div key={event.id}>
                     <EventCard 
                       event={event} 
@@ -187,7 +191,7 @@ export default function MatchListView({ onEventClick }: MatchListViewProps) {
                   ].map((guide, i) => (
                     <div key={i} className="group cursor-pointer">
                        <div className="aspect-[4/3] relative overflow-hidden rounded-xs border border-white/5 mb-4">
-                          <img src={guide.img} className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" alt="" />
+                          <img src={guide.img} className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" alt="" referrerPolicy="no-referrer" />
                           <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent" />
                           <div className="absolute bottom-4 left-4">
                              <span className="text-[8px] font-black text-accent uppercase tracking-[0.2em] italic bg-black/50 px-2 py-0.5 rounded-sm">Guide</span>
@@ -266,7 +270,7 @@ export default function MatchListView({ onEventClick }: MatchListViewProps) {
             ].map((city, k) => (
               <div key={k} className="group cursor-pointer">
                  <div className="aspect-[4/3] rounded overflow-hidden mb-3 border border-white/10 grayscale group-hover:grayscale-0 transition-all duration-500">
-                    <img src={city.img} className="w-full h-full object-cover transition-transform group-hover:scale-110" alt="" />
+                    <img src={city.img} className="w-full h-full object-cover transition-transform group-hover:scale-110" alt="" referrerPolicy="no-referrer" />
                  </div>
                  <p className="text-[11px] font-black text-white italic uppercase text-center group-hover:text-accent transition-colors">{city.name}</p>
               </div>

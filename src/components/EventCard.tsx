@@ -33,6 +33,7 @@ export default function EventCard({ event, onClick }: EventCardProps) {
           src={event.image} 
           alt={event.name}
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-80"
+          referrerPolicy="no-referrer"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/20 to-transparent" />
         

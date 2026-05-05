@@ -1,9 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { MapPin, Users, Info } from 'lucide-react';
 import { MOCK_STADIUMS } from '../constants';
+import { supabaseService } from '../services/supabaseService';
+import { Stadium } from '../types';
 
 export default function StadiumsList() {
+  const [stadiums, setStadiums] = useState<Stadium[]>(MOCK_STADIUMS);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStadiums = async () => {
+      try {
+        const data = await supabaseService.getStadiums();
+        if (data && data.length > 0) {
+          setStadiums(data);
+        }
+      } catch (err) {
+        console.error('Error fetching stadiums from Supabase:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStadiums();
+  }, []);
+
   return (
     <div className="container mx-auto px-4 py-20">
       <div className="mb-16 text-center">
@@ -25,7 +47,7 @@ export default function StadiumsList() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {MOCK_STADIUMS.map((stadium, index) => (
+        {stadiums.map((stadium, index) => (
           <motion.div
             key={stadium.id}
             initial={{ opacity: 0, y: 20 }}
@@ -38,6 +60,7 @@ export default function StadiumsList() {
                 src={stadium.image} 
                 alt={stadium.name}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale hover:grayscale-0"
+                referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
               <div className="absolute top-4 right-4 bg-accent p-2 rounded shadow-xl rotate-3 group-hover:rotate-0 transition-transform">

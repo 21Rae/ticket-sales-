@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 
 export default function SearchBar() {
   return (
-    <div className="relative z-10 mx-auto -mt-10 max-w-5xl px-4">
+    <div className="relative z-10 mx-auto mt-6 md:-mt-10 max-w-5xl px-4">
       <motion.div 
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}

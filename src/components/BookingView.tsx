@@ -8,7 +8,7 @@ import { MOCK_EVENTS } from '../constants';
 export default function BookingView() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { event, selectedPrice } = location.state || {};
+  const { event, selectedPrice, section, categoryName } = location.state || {};
 
   if (!event) {
     return (
@@ -36,7 +36,7 @@ export default function BookingView() {
               >
                 <div className="flex items-center gap-8 w-full md:w-auto">
                   <div className="h-20 w-28 bg-black rounded-sm overflow-hidden shrink-0 border border-white/5">
-                    <img src={m.image} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" alt="" />
+                    <img src={m.image} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" alt="" referrerPolicy="no-referrer" />
                   </div>
                   <div>
                     <div className="flex items-center gap-3 mb-2">
@@ -74,8 +74,8 @@ export default function BookingView() {
     );
   }
 
-  const serviceFee = selectedPrice * 0.1;
-  const total = selectedPrice + serviceFee;
+  const bookingServiceFee = selectedPrice * 0.1;
+  const total = selectedPrice + bookingServiceFee;
 
   return (
     <div className="container mx-auto px-4 py-20 max-w-4xl">
@@ -150,11 +150,12 @@ export default function BookingView() {
             <div className="space-y-6 mb-8">
               <div className="flex gap-4">
                 <div className="h-12 w-12 bg-black border border-white/5 rounded flex items-center justify-center text-accent">
-                   <Calendar size={20} />
+                   <Ticket size={20} />
                 </div>
                 <div>
-                  <p className="text-[8px] font-black text-slate-600 uppercase tracking-widest mb-1">{formatDate(event.date)}</p>
-                  <p className="text-[11px] font-black text-white italic uppercase">{event.name}</p>
+                  <p className="text-[8px] font-black text-slate-600 uppercase tracking-widest mb-1">Selected Seating</p>
+                  <p className="text-[11px] font-black text-white italic uppercase">{categoryName || 'Standard Seat'}</p>
+                  <p className="text-[9px] text-accent font-black uppercase tracking-widest">Section {section || 'TBD'}</p>
                 </div>
               </div>
 
@@ -171,13 +172,17 @@ export default function BookingView() {
             </div>
 
             <div className="border-t border-white/5 pt-6 space-y-4">
-              <div className="flex justify-between text-[10px] font-black uppercase tracking-widest text-slate-500 italic">
-                <span>Access Profile</span>
-                <span>Verified Fan</span>
+              <div className="flex justify-between text-[11px] font-black uppercase tracking-widest text-slate-400 italic">
+                <span>Base Ticket</span>
+                <span className="text-white">{formatCurrency(selectedPrice)}</span>
               </div>
-              <div className="flex justify-between text-[10px] font-black uppercase tracking-widest text-slate-500 italic">
-                <span>Status</span>
-                <span className="text-accent underline decoration-white/10 underline-offset-4">Available</span>
+              <div className="flex justify-between text-[11px] font-black uppercase tracking-widest text-slate-400 italic">
+                <span>Service Fee (10%)</span>
+                <span className="text-white">{formatCurrency(bookingServiceFee)}</span>
+              </div>
+              <div className="flex justify-between text-[13px] font-black uppercase tracking-widest text-accent italic pt-4 border-t border-white/5">
+                <span>Total Amount</span>
+                <span>{formatCurrency(total)}</span>
               </div>
             </div>
           </motion.div>

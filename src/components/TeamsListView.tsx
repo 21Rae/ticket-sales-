@@ -1,11 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { MOCK_TEAMS } from '../constants';
 import { ChevronLeft, ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { supabaseService } from '../services/supabaseService';
+import { Team } from '../types';
 
 export default function TeamsListView() {
+  const [teams, setTeams] = useState<Team[]>(MOCK_TEAMS);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchTeams = async () => {
+      try {
+        const data = await supabaseService.getTeams();
+        if (data && data.length > 0) {
+          setTeams(data);
+        }
+      } catch (err) {
+        console.error('Error fetching teams from Supabase:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTeams();
+  }, []);
 
   return (
     <motion.div
@@ -32,7 +53,7 @@ export default function TeamsListView() {
 
       {/* Teams Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-        {MOCK_TEAMS.map((team, index) => (
+        {teams.map((team, index) => (
           <motion.div
             key={team.id}
             initial={{ opacity: 0, y: 10 }}
@@ -46,6 +67,7 @@ export default function TeamsListView() {
                 src={team.image} 
                 alt={team.name}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                referrerPolicy="no-referrer"
               />
               
               {/* Specialized Overlay from Screenshot */}
@@ -59,6 +81,7 @@ export default function TeamsListView() {
                             src={`https://flagcdn.com/w40/${team.flagCode}.png`} 
                             alt="" 
                             className="h-3 w-4.5 object-cover rounded-xs"
+                            referrerPolicy="no-referrer"
                           />
                        </div>
                        <div className="space-y-1">
@@ -95,6 +118,7 @@ export default function TeamsListView() {
                   src={`https://flagcdn.com/w40/${team.flagCode}.png`} 
                   alt="" 
                   className="h-3 w-4.5 object-cover rounded-xs"
+                  referrerPolicy="no-referrer"
                 />
                 <p className="text-[11px] font-bold text-sky-400 uppercase tracking-tight transition-colors">
                   {team.name}

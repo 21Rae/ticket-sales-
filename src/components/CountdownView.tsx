@@ -36,40 +36,45 @@ export default function CountdownView() {
   return (
     <div className="min-h-screen bg-black text-white font-sans overflow-x-hidden">
       {/* Blue Header Section */}
-      <div className="bg-[#214dc4] px-4 md:px-12 py-4 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div className="flex items-center gap-5">
-           <div className="h-12 w-10 bg-white rounded-sm flex items-center justify-center p-1">
-             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/2026_FIFA_World_Cup_Logo.svg/1200px-2026_FIFA_World_Cup_Logo.svg.png" className="w-full" alt="FIFA" />
+      <div className="bg-[#214dc4] px-4 md:px-12 py-8 md:py-4 flex flex-col md:flex-row justify-between items-center gap-8 md:gap-6">
+        <div className="flex flex-col md:flex-row items-center gap-4 md:gap-5 text-center md:text-left">
+           <div className="h-20 w-16 bg-white rounded-sm flex flex-col items-center justify-center p-2 shadow-2xl skew-x-[-5deg]">
+             <img 
+               src="https://images.weserv.nl/?url=https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/2026_FIFA_World_Cup_Logo.svg/1200px-2026_FIFA_World_Cup_Logo.svg.png" 
+               alt="FIFA 26" 
+               className="w-full h-auto object-contain"
+               referrerPolicy="no-referrer"
+             />
            </div>
            <div>
-             <h1 className="text-xl md:text-2xl font-black uppercase tracking-tight leading-none italic">FIFA World Cup 2026™</h1>
-             <p className="text-[11px] font-bold text-white/80 uppercase tracking-widest mt-1">11 June - 19 July 2026</p>
+             <h1 className="text-2xl md:text-2xl font-black uppercase tracking-tight leading-none italic">FIFA World Cup 2026™</h1>
+             <p className="text-xs font-bold text-white/80 uppercase tracking-widest mt-2 md:mt-1">11 June - 19 July 2026</p>
            </div>
         </div>
 
-        <div className="flex items-center gap-8 md:gap-12">
-          <div className="flex gap-4 md:gap-8">
+        <div className="flex flex-col items-center gap-6 md:flex-row md:gap-8 lg:gap-12 w-full md:w-auto">
+          <div className="flex gap-6 md:gap-8">
             <div className="text-center">
-              <p className="text-2xl md:text-4xl font-black italic">{timeLeft.days}</p>
-              <p className="text-[9px] uppercase font-bold text-white/70 tracking-widest">days</p>
+              <p className="text-3xl md:text-4xl font-black italic">{timeLeft.days}</p>
+              <p className="text-[10px] uppercase font-bold text-white/70 tracking-widest">days</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl md:text-4xl font-black italic">{timeLeft.hours}</p>
-              <p className="text-[9px] uppercase font-bold text-white/70 tracking-widest">hours</p>
+              <p className="text-3xl md:text-4xl font-black italic">{timeLeft.hours}</p>
+              <p className="text-[10px] uppercase font-bold text-white/70 tracking-widest">hours</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl md:text-4xl font-black italic">{timeLeft.minutes}</p>
-              <p className="text-[9px] uppercase font-bold text-white/70 tracking-widest">mins</p>
+              <p className="text-3xl md:text-4xl font-black italic">{timeLeft.minutes}</p>
+              <p className="text-[10px] uppercase font-bold text-white/70 tracking-widest">mins</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl md:text-4xl font-black italic">{timeLeft.seconds}</p>
-              <p className="text-[9px] uppercase font-bold text-white/70 tracking-widest">secs</p>
+              <p className="text-3xl md:text-4xl font-black italic">{timeLeft.seconds}</p>
+              <p className="text-[10px] uppercase font-bold text-white/70 tracking-widest">secs</p>
             </div>
           </div>
           
           <button 
             onClick={() => navigate('/matches')}
-            className="bg-black text-white px-6 py-3 rounded-full text-xs font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all cursor-pointer whitespace-nowrap"
+            className="w-full md:w-auto bg-black text-white px-8 py-4 md:py-3 rounded-full text-[11px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all cursor-pointer whitespace-nowrap shadow-xl"
           >
             View matches
           </button>
@@ -79,9 +84,9 @@ export default function CountdownView() {
       {/* Hero Content Section */}
       <div className="flex flex-col lg:flex-row h-full">
         {/* Left Side Content */}
-        <div className="lg:w-[50%] p-8 md:p-20 flex flex-col justify-center">
+        <div className="lg:w-[50%] p-8 md:p-20 flex flex-col justify-center items-center lg:items-start text-center lg:text-left">
           <p className="text-xs font-bold uppercase tracking-widest text-[#eeeeee] mb-6">Need to know</p>
-          <h2 className="text-4xl md:text-6xl font-black uppercase italic leading-[0.9] tracking-tighter mb-8">
+          <h2 className="text-3xl md:text-6xl font-black uppercase italic leading-[0.9] tracking-tighter mb-8">
             View the FIFA World Cup 2026 match schedule
           </h2>
           <p className="text-[#999999] text-base md:text-xl font-medium leading-relaxed max-w-xl mb-12">
@@ -99,6 +104,7 @@ export default function CountdownView() {
               src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80" 
               className="w-full rounded-sm opacity-60 grayscale hover:grayscale-0 transition-all duration-1000" 
               alt="Stadium" 
+              referrerPolicy="no-referrer"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
             
@@ -142,7 +148,7 @@ export default function CountdownView() {
                 <p className="text-[10px] font-bold uppercase tracking-widest text-[#999999] mb-1">Next Up</p>
                 <p className="text-sm font-black uppercase italic text-white mb-6">FIFA World Cup™</p>
             <div className="relative aspect-[3/4] overflow-hidden rounded-sm group">
-              <img src="https://images.unsplash.com/photo-1540749303346-5b0aa034ef82?auto=format&fit=crop&w=800&q=80" className="h-full w-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110" alt="Stadium" />
+              <img src="https://images.unsplash.com/photo-1540749303346-5b0aa034ef82?auto=format&fit=crop&w=800&q=80" className="h-full w-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110" alt="Stadium" referrerPolicy="no-referrer" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
               <div className="absolute bottom-4 left-4 right-4">
                  <p className="text-xl font-black text-white italic uppercase tracking-tighter">Kings of the Game</p>
