@@ -83,37 +83,42 @@ export default function SeatSelectionView() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F0F2F5] text-slate-900 p-0 font-sans selection:bg-red-500 selection:text-white">
+    <div className="min-h-screen bg-primary text-white p-0 font-sans selection:bg-accent selection:text-black">
       {/* Background Texture Overlay */}
-      <div className="fixed inset-0 pointer-events-none opacity-[0.03] overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/p6.png')]" />
+      <div className="fixed inset-0 pointer-events-none opacity-[0.05] overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-matter.png')]" />
       </div>
 
       <div className="max-w-[1600px] mx-auto p-4 lg:p-12 relative z-10">
         
         {/* Header Branding */}
-        <div className="flex items-start justify-between mb-16">
-          <div className="flex gap-6">
-             <div className="h-24 w-20 flex flex-col items-center justify-center shrink-0">
-                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c5/FIFA_World_Cup_2026_Logo.svg/1200px-FIFA_World_Cup_2026_Logo.svg.png" alt="FIFA" className="h-16" />
-                <div className="h-0.5 w-full bg-red-600 mt-2" />
-                <span className="text-[12px] font-black tracking-[0.3em] mt-1 text-slate-900">2026</span>
+        <div className="flex items-start justify-between mb-16 border-b border-white/5 pb-8">
+          <div className="flex gap-6 items-center">
+             <div className="flex h-16 w-16 items-center justify-center rounded bg-accent text-black font-black italic text-3xl shadow-[0_0_30px_rgba(204,255,0,0.2)] shrink-0">
+                TH
              </div>
              <div>
-                <h1 className="text-4xl lg:text-5xl font-black italic uppercase tracking-tighter text-[#1A237E] leading-none mb-1">
-                  FIFA WORLD CUP
-                </h1>
-                <h2 className="text-3xl lg:text-4xl font-black italic uppercase tracking-tighter text-[#1A237E] leading-none opacity-80 decoration-red-600 underline underline-offset-4 decoration-4">
-                  TICKET BOOKING
+                <div className="flex items-center gap-2 mb-1">
+                   <h1 className="text-3xl lg:text-5xl font-black italic uppercase tracking-tighter text-white leading-none">
+                     Ticket<span className="text-accent underline decoration-white/20">Hub</span>
+                   </h1>
+                   <div className="h-8 w-[2px] bg-white/20 mx-2 hidden lg:block" />
+                   <div className="hidden lg:flex items-center gap-2 uppercase text-[10px] font-black tracking-[0.3em] text-slate-500 italic">
+                      <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c5/FIFA_World_Cup_2026_Logo.svg/1200px-FIFA_World_Cup_2026_Logo.svg.png" alt="FIFA" className="h-6 opacity-50 grayscale hover:grayscale-0 transition-all cursor-help" />
+                      <span>Official Fan Portal</span>
+                   </div>
+                </div>
+                <h2 className="text-xl lg:text-2xl font-black italic uppercase tracking-tighter text-white/40 leading-none">
+                  Seat Selection & Visualization
                 </h2>
              </div>
           </div>
           <button 
             onClick={() => navigate('/matches')}
-            className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#1A237E] hover:opacity-70 transition-opacity italic"
+            className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-accent hover:text-white transition-colors italic border border-accent/20 px-4 py-2 rounded-sm"
           >
             <ChevronLeft size={16} />
-            Back to Stadiums
+            Explore More Matches
           </button>
         </div>
 
@@ -123,41 +128,41 @@ export default function SeatSelectionView() {
           <div className="lg:col-span-8 flex flex-col items-center">
             
             <div className="w-full flex flex-col items-center">
-               <div className="text-center mb-8">
-                  <h3 className="text-[18px] font-black uppercase tracking-[0.4em] text-[#1A237E] italic leading-none">EAST STAND</h3>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mt-1">PREMIUM VIEW</p>
+               <div className="text-center mb-10">
+                  <h3 className="text-[18px] font-black uppercase tracking-[0.4em] text-accent italic leading-none">EAST STAND</h3>
+                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 mt-2">PREMIUM VIEW • SECURED PROTOCOL</p>
                </div>
 
                {/* Stadium Oval Bowl Representation */}
-               <div className="relative w-full max-w-[900px] aspect-[1.3/1] bg-white rounded-[150px] shadow-[0_20px_80px_rgba(0,0,0,0.1)] border border-slate-200 p-8 pt-12 flex items-center justify-center">
+               <div className="relative w-full max-w-[900px] aspect-[1.3/1] bg-secondary rounded-[150px] shadow-[0_40px_100px_rgba(0,0,0,0.5)] border border-white/5 p-8 pt-12 flex items-center justify-center">
                   
                   {/* The Oval Layers */}
-                  <div className="absolute inset-4 rounded-[140px] border border-slate-100 p-2">
+                  <div className="absolute inset-4 rounded-[140px] border border-white/5 p-2">
                      
                      <div className="w-full h-full relative overflow-hidden rounded-[130px]">
                         
                         {/* Outer Ring (400 Level) */}
-                        <div className="absolute inset-0 grid grid-cols-12 grid-rows-8 gap-0.5 opacity-80">
+                        <div className="absolute inset-0 grid grid-cols-12 grid-rows-8 gap-0.5 opacity-40">
                            {/* Simplified ring logic for visual match */}
                            {Array.from({ length: 96 }).map((_, i) => (
-                              <div key={i} className="bg-[#662D91] border border-white/10" />
+                              <div key={i} className="bg-slate-900 border border-white/5" />
                            ))}
                         </div>
 
                         {/* Mid Ring (200 Level) */}
-                        <div className="absolute inset-[15%] rounded-[90px] bg-white p-1 shadow-2xl z-10 overflow-hidden">
+                        <div className="absolute inset-[15%] rounded-[90px] bg-primary p-1 shadow-2xl z-10 overflow-hidden border border-white/5">
                            <div className="w-full h-full grid grid-cols-10 grid-rows-6 gap-0.5">
                               {Array.from({ length: 60 }).map((_, i) => (
-                                 <div key={i} className="bg-[#0097D7] border border-white/10" />
+                                 <div key={i} className="bg-slate-800 border border-white/5" />
                               ))}
                            </div>
                         </div>
 
                         {/* Inner Ring (100 Level) */}
-                        <div className="absolute inset-[28%] rounded-[60px] bg-white p-1 shadow-xl z-20 overflow-hidden border-2 border-white">
+                        <div className="absolute inset-[28%] rounded-[60px] bg-primary p-1 shadow-xl z-20 overflow-hidden border border-white/10">
                             <div className="w-full h-full grid grid-cols-8 grid-rows-5 gap-0.5">
                               {Array.from({ length: 40 }).map((_, i) => (
-                                 <div key={i} className="bg-[#FFD100] border border-white/10" />
+                                 <div key={i} className="bg-slate-700 border border-white/5" />
                               ))}
                            </div>
                         </div>
@@ -176,12 +181,12 @@ export default function SeatSelectionView() {
                               </div>
 
                               {/* Central Pitch */}
-                              <div className="flex-1 max-w-[500px] aspect-[1.5/1] bg-[#4DB848]/90 rounded-sm border-[4px] border-[#3E9E3A] relative shadow-inner mx-4">
-                                 <div className="absolute inset-4 border border-white/30" />
-                                 <div className="absolute left-1/2 top-0 bottom-0 w-px bg-white/30" />
-                                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full border border-white/30" />
-                                 <div className="absolute inset-0 flex items-center justify-center opacity-10 rotate-[-15deg] select-none pointer-events-none">
-                                    <span className="text-[60px] font-black italic tracking-tighter text-white">WORLD CUP</span>
+                              <div className="flex-1 max-w-[500px] aspect-[1.5/1] bg-emerald-600/20 rounded-sm border-[4px] border-emerald-500/30 relative shadow-inner mx-4">
+                                 <div className="absolute inset-4 border border-white/10" />
+                                 <div className="absolute left-1/2 top-0 bottom-0 w-px bg-white/10" />
+                                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full border border-white/10" />
+                                 <div className="absolute inset-0 flex items-center justify-center opacity-5 rotate-[-15deg] select-none pointer-events-none">
+                                    <span className="text-[60px] font-black italic tracking-tighter text-white">TICKETHUB</span>
                                  </div>
                                  {/* Interactive Inner Sections */}
                                  <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-[80%] h-8 grid grid-cols-6 gap-0.5">
@@ -209,24 +214,31 @@ export default function SeatSelectionView() {
 
                   {/* Compass/Labels */}
                   <div className="absolute -left-20 top-1/2 -translate-y-1/2 flex flex-col items-center">
-                    <span className="text-[12px] font-black uppercase tracking-[0.5em] text-slate-800 -rotate-90 origin-center whitespace-nowrap">NORTH STAND</span>
-                    <p className="text-[8px] font-black uppercase tracking-widest text-slate-400 -rotate-90 origin-center whitespace-nowrap mt-16">BEHIND THE GOAL</p>
+                    <span className="text-[12px] font-black uppercase tracking-[0.5em] text-white/60 -rotate-90 origin-center whitespace-nowrap">NORTH STAND</span>
+                    <p className="text-[8px] font-black uppercase tracking-widest text-slate-600 -rotate-90 origin-center whitespace-nowrap mt-16 italic">BEHIND THE GOAL</p>
                   </div>
                   <div className="absolute -right-20 top-1/2 -translate-y-1/2 flex flex-col items-center">
-                    <span className="text-[12px] font-black uppercase tracking-[0.5em] text-slate-800 rotate-90 origin-center whitespace-nowrap">SOUTH STAND</span>
-                    <p className="text-[8px] font-black uppercase tracking-widest text-slate-400 rotate-90 origin-center whitespace-nowrap mt-16">BEHIND THE GOAL</p>
+                    <span className="text-[12px] font-black uppercase tracking-[0.5em] text-white/60 rotate-90 origin-center whitespace-nowrap">SOUTH STAND</span>
+                    <p className="text-[8px] font-black uppercase tracking-widest text-slate-600 rotate-90 origin-center whitespace-nowrap mt-16 italic">BEHIND THE GOAL</p>
                   </div>
                </div>
 
-               <div className="mt-8 text-center">
-                  <h3 className="text-[18px] font-black uppercase tracking-[0.4em] text-[#1A237E] italic leading-none">WEST STAND</h3>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mt-1">MAIN STAND</p>
+               <div className="mt-10 text-center">
+                  <h3 className="text-[18px] font-black uppercase tracking-[0.4em] text-white/40 italic leading-none">WEST STAND</h3>
+                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-700 mt-2">MAIN ACCESS AREA</p>
                </div>
 
-               <div className="mt-16 flex flex-col items-center gap-2">
-                 <p className="text-[16px] font-black text-[#1A237E] uppercase italic tracking-tighter">All matches. All teams. One dream.</p>
-                 <p className="text-[12px] font-bold text-slate-500 uppercase tracking-widest leading-none">Be there for history.</p>
-                 <p className="text-[8px] text-slate-400 mt-4 max-w-sm text-center">Stadium layout & prices are for illustrative purposes only and may vary by venue and match.</p>
+               <div className="mt-20 flex flex-col items-center gap-2">
+                 <div className="flex items-center gap-6 mb-4">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c5/FIFA_World_Cup_2026_Logo.svg/1200px-FIFA_World_Cup_2026_Logo.svg.png" alt="FIFA" className="h-10 opacity-30" />
+                    <div className="h-10 w-[1px] bg-white/10" />
+                    <div className="flex h-10 w-10 items-center justify-center rounded bg-white text-black font-black italic text-xl opacity-30">TH</div>
+                 </div>
+                 <p className="text-[18px] font-black text-white uppercase italic tracking-tighter">Your Journey to History Starts Here</p>
+                 <p className="text-[11px] font-bold text-slate-500 uppercase tracking-[0.3em] leading-none">TICKETHUB PRE-SALE ENCRYPTION ENABLED</p>
+                 <p className="text-[8px] text-slate-700 mt-6 max-w-sm text-center uppercase tracking-widest">
+                   The TicketHub visualizer is an illustrative tool. Final seating location will be confirmed on your verified ticket credential.
+                 </p>
                </div>
             </div>
 
@@ -236,14 +248,14 @@ export default function SeatSelectionView() {
           <div className="lg:col-span-4 flex flex-col gap-8">
             
             {/* Category Table */}
-            <div className="bg-white rounded-sm border border-slate-200 overflow-hidden shadow-sm">
-               <div className="grid grid-cols-12 bg-slate-50/80 border-b border-slate-100 p-4">
+            <div className="bg-secondary rounded-sm border border-white/5 overflow-hidden shadow-2xl shadow-black">
+               <div className="grid grid-cols-12 bg-white/5 border-b border-white/5 p-4">
                   <div className="col-span-8 text-[11px] font-black uppercase tracking-widest text-slate-500">CATEGORY</div>
-                  <div className="col-span-4 text-[11px] font-black uppercase tracking-widest text-slate-500 text-right">PRICE (USD*)</div>
+                  <div className="col-span-4 text-[11px] font-black uppercase tracking-widest text-slate-500 text-right">USD*</div>
                </div>
-               <div className="divide-y divide-slate-50">
+               <div className="divide-y divide-white/[0.02]">
                   {CATEGORIES.map(cat => (
-                    <div key={cat.id} className="grid grid-cols-12 items-center p-3 hover:bg-slate-50 transition-colors group cursor-pointer">
+                    <div key={cat.id} className="grid grid-cols-12 items-center p-3 hover:bg-white/[0.03] transition-colors group cursor-pointer">
                        <div className="col-span-8 flex items-center gap-3">
                           <div className="h-10 w-24 flex flex-col items-center justify-center relative overflow-hidden rounded-xs shrink-0" style={{ backgroundColor: cat.color }}>
                              <span className="text-white text-[12px] font-black italic relative z-10">{cat.name}</span>
@@ -251,35 +263,37 @@ export default function SeatSelectionView() {
                              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity shadow-inner" />
                           </div>
                           <div>
-                             <p className="text-[12px] font-black text-slate-800 uppercase italic leading-none">{cat.name}</p>
+                             <p className="text-[12px] font-black text-white uppercase italic leading-none">{cat.name}</p>
                              <p className="text-[8px] font-bold text-slate-500 uppercase tracking-[0.2em] mt-1">{cat.subname}</p>
                           </div>
                        </div>
                        <div className="col-span-4 text-right">
-                          <span className="text-[18px] font-black text-slate-900">${cat.price}</span>
+                          <span className="text-[18px] font-black text-accent">${cat.price}</span>
                        </div>
                     </div>
                   ))}
                </div>
-               <div className="bg-slate-50 p-2 text-center border-t border-slate-100">
-                  <span className="text-[8px] font-bold text-slate-400 uppercase tracking-widest">*Prices are indicative and subject to change.</span>
+               <div className="bg-black/40 p-3 text-center border-t border-white/5">
+                  <span className="text-[8px] font-bold text-slate-600 uppercase tracking-widest leading-relaxed">
+                    *TICKETHUB INDICATIVE PRICING<br />SUBJECT TO DEMAND SCALABILITY
+                  </span>
                </div>
             </div>
 
             {/* Support Icons */}
-            <div className="grid grid-cols-1 gap-4 px-4 lg:px-0">
+            <div className="grid grid-cols-1 gap-5 px-4 lg:px-0">
                {[
-                 { icon: Ticket, label: 'OFFICIAL TICKETS', sub: '100% guaranteed' },
-                 { icon: ShieldCheck, label: 'SECURE BOOKING', sub: 'Safe & encrypted' },
-                 { icon: Sparkles, label: 'BEST SEATS', sub: 'Great views, prime locations' },
-                 { icon: Headphones, label: '24/7 SUPPORT', sub: "We're here to help" },
+                 { icon: Ticket, label: 'VERIFIED TICKETS', sub: 'Hub Integrity Protocol' },
+                 { icon: ShieldCheck, label: 'END-TO-END SECURE', sub: '256-bit encryption' },
+                 { icon: Sparkles, label: 'PRIME SELECTION', sub: 'Exclusive seat clusters' },
+                 { icon: Headphones, label: 'GLOBAL SUPPORT', sub: "Fan assistance 24/7" },
                ].map((item, i) => (
                  <div key={i} className="flex items-center gap-4 group">
-                    <div className="h-12 w-12 rounded-full border border-slate-200 flex items-center justify-center text-[#1A237E] group-hover:bg-[#1A237E] group-hover:text-white transition-all transform group-hover:scale-110 shrink-0">
+                    <div className="h-12 w-12 rounded bg-white/5 border border-white/10 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-black transition-all transform group-hover:scale-110 shrink-0">
                        <item.icon size={20} />
                     </div>
                     <div>
-                       <h4 className="text-[11px] font-black text-slate-800 uppercase tracking-widest leading-none">{item.label}</h4>
+                       <h4 className="text-[11px] font-black text-white uppercase tracking-widest leading-none">{item.label}</h4>
                        <p className="text-[9px] font-bold text-slate-500 uppercase tracking-tighter mt-1">{item.sub}</p>
                     </div>
                  </div>
@@ -287,25 +301,25 @@ export default function SeatSelectionView() {
             </div>
 
             {/* Call to Action Box */}
-            <div className="bg-white border-2 border-[#1A237E] p-6 rounded-sm relative overflow-hidden group hover:bg-[#1A237E] transition-all cursor-pointer shadow-xl mx-4 lg:mx-0">
+            <div className="bg-accent p-6 rounded-sm relative overflow-hidden group hover:bg-white transition-all cursor-pointer shadow-[0_20px_50px_rgba(204,255,0,0.1)] mx-4 lg:mx-0">
                <div className="relative z-10 flex items-center gap-4">
-                  <div className="h-12 w-12 rounded bg-slate-50 flex items-center justify-center text-[#1A237E] shrink-0">
+                  <div className="h-12 w-12 rounded bg-black flex items-center justify-center text-accent shrink-0">
                     <Ticket size={24} />
                   </div>
                   <div>
-                    <h3 className="text-[14px] font-black text-[#1A237E] uppercase italic leading-none group-hover:text-white transition-colors">BOOK EARLY!</h3>
-                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-tighter mt-2 group-hover:text-slate-300 transition-colors">The best seats sell out fast. Don't miss the action!</p>
+                    <h3 className="text-[14px] font-black text-black uppercase italic leading-none">STADIUM DATA LOADED</h3>
+                    <p className="text-[10px] font-bold text-black/60 uppercase tracking-tighter mt-2">Demand is currently HIGH for this sector. Initiate booking sequence.</p>
                   </div>
                </div>
-               <div className="absolute top-0 right-0 w-24 h-full bg-[#1A237E]/5 -skew-x-12 translate-x-12 group-hover:bg-white/5 transition-colors" />
+               <div className="absolute top-0 right-0 w-24 h-full bg-black/5 -skew-x-12 translate-x-12" />
             </div>
 
             {/* Bottom Branding */}
-            <div className="mt-8 flex items-center gap-4 px-4 lg:px-0">
-               <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c5/FIFA_World_Cup_2026_Logo.svg/1200px-FIFA_World_Cup_2026_Logo.svg.png" alt="FIFA" className="h-20 shrink-0" />
-               <div className="border-l border-slate-200 pl-4 py-2">
-                  <p className="text-[18px] font-black text-[#1A237E] uppercase italic leading-none">FIFA WORLD CUP</p>
-                  <p className="text-[18px] font-black text-[#1A237E] uppercase italic leading-none opacity-40">2026</p>
+            <div className="mt-8 flex items-center gap-4 px-4 lg:px-0 border-t border-white/5 pt-8">
+               <div className="flex h-12 w-12 items-center justify-center rounded bg-accent text-black font-black italic text-xl">TH</div>
+               <div>
+                  <p className="text-[14px] font-black text-white uppercase italic leading-none">TICKETHUB OFFICIAL</p>
+                  <p className="text-[14px] font-black text-accent uppercase italic leading-none opacity-40 tracking-widest">2026 PROTOCOL</p>
                </div>
             </div>
 
@@ -314,19 +328,20 @@ export default function SeatSelectionView() {
       </div>
 
       {/* Compass Visual (Bottom Left) */}
-      <div className="fixed bottom-12 left-12 opacity-20 pointer-events-none hidden 2xl:block">
-         <Compass size={120} className="text-[#1A237E] animate-[spin_60s_linear_infinite]" strokeWidth={1} />
+      <div className="fixed bottom-12 left-12 opacity-10 pointer-events-none hidden 2xl:block">
+         <Compass size={120} className="text-accent animate-[spin_60s_linear_infinite]" strokeWidth={1} />
          <div className="absolute inset-0 flex items-center justify-center">
             <div className="flex flex-col items-center">
-               <span className="text-[10px] font-black text-[#1A237E] mb-8">N</span>
+               <span className="text-[10px] font-black text-accent mb-8">N</span>
                <div className="flex gap-8">
-                  <span className="text-[10px] font-black text-[#1A237E]">W</span>
-                  <span className="text-[10px] font-black text-[#1A237E]">E</span>
+                  <span className="text-[10px] font-black text-accent">W</span>
+                  <span className="text-[10px] font-black text-accent">E</span>
                </div>
-               <span className="text-[10px] font-black text-[#1A237E] mt-8">S</span>
+               <span className="text-[10px] font-black text-accent mt-8">S</span>
             </div>
          </div>
       </div>
     </div>
   );
+
 }

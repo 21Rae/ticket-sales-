@@ -94,7 +94,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '20:00',
     startingPrice: 450,
     category: 'Sports',
-    image: 'https://images.unsplash.com/photo-1546750547-759089771198?auto=format&fit=crop&w=1200&q=80', // Azteca
+    image: 'https://static01.nyt.com/images/2010/06/12/sports/12soccer-cnd4/12soccer-cnd4-articleLarge-v3.jpg?quality=75&auto=webp', // Opening match historic moment
     details: {
       rankings: { home: 15, away: 59 },
       historical: { lastMatch: 'Mexico 1-1 South Africa (2010)', headToHead: 'Mex: 2 wins, SA: 1 win, 1 draw' },
@@ -110,7 +110,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '03:00',
     startingPrice: 320,
     category: 'Sports',
-    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80', // Akron
+    image: 'https://historicalsoccer.com/img/blog/202604/Korea-Republic-vs-Czechia.jpg', // Akron Match Historic View
     details: {
       rankings: { home: 22, away: 36 },
       historical: { lastMatch: 'Czechia 1-2 Korea Republic (2016)', headToHead: 'Korea: 1 win' },
@@ -126,7 +126,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '20:00',
     startingPrice: 280,
     category: 'Sports',
-    image: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=1200&q=80', // BMO
+    image: 'https://cdn.readeverything.co/wp-content/uploads/sites/118/2026/03/big-preiew-match-up-1200-x-600-px-4-746x372.png', // Reliable working stadium image
     details: {
       rankings: { home: 45, away: 74 },
       historical: { lastMatch: 'First Competitive Meeting', headToHead: 'No previous matches' },
@@ -142,7 +142,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '02:00',
     startingPrice: 350,
     category: 'Sports',
-    image: 'https://images.unsplash.com/photo-1606013610996-03c00327f277?auto=format&fit=crop&w=1200&q=80', // SoFi
+    image: 'https://images.mlssoccer.com/image/private/t_editorial_landscape_12_desktop_2x/f_auto/mls/xctqwt25u6dfn7qxgopf.jpg', // High end stadium
     details: {
       rankings: { home: 11, away: 56 },
       historical: { lastMatch: 'USA 1-0 Paraguay (2018)', headToHead: 'USA: 4 wins, Par: 2 wins' },
@@ -158,7 +158,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '20:00',
     startingPrice: 210,
     category: 'Sports',
-    image: 'https://images.unsplash.com/photo-1459865264687-595d652de67e?auto=format&fit=crop&w=1200&q=80', // Levi's
+    image: 'https://www.aljazeera.com/wp-content/uploads/2022/12/2022-12-02T201120Z_257406537_UP1EIC21K2UWJ_RTRMADP_3_SOCCER-WORLDCUP-SRB-SWI-REPORT.jpg?resize=770%2C513&quality=80', // Levi's style
     details: {
       rankings: { home: 34, away: 19 },
       historical: { lastMatch: 'Switzerland 0-1 Qatar (2018)', headToHead: 'Qatar: 1 win' },
@@ -174,7 +174,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '23:00',
     startingPrice: 420,
     category: 'Sports',
-    image: 'https://images.unsplash.com/photo-1563299796-1709eeda2749?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://assets.goal.com/images/v3/bltee8845482aefb881/vinicisu.jpg?auto=webp&format=pjpg&width=1920&quality=60',
     details: {
       rankings: { home: 5, away: 13 },
       historical: { lastMatch: 'Morocco 2-1 Brazil (2023)', headToHead: 'Brazil: 2 wins, Mor: 1 win' },
@@ -190,7 +190,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '02:00',
     startingPrice: 190,
     category: 'Sports',
-    image: 'https://images.unsplash.com/photo-1563299796-1709eeda2749?auto=format&fit=crop&w=1200&q=80', // Gillette
+    image: 'https://www.thescottishsun.co.uk/wp-content/uploads/sites/2/2026/04/keeps-eye-ball-concacaf-gold-1073302091.jpg?resize=1536,1024&quality=90&strip=all', // Gillette
     details: {
       rankings: { home: 90, away: 39 },
       historical: { lastMatch: 'First Meeting', headToHead: 'No previous matches' },
@@ -206,7 +206,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '05:00',
     startingPrice: 260,
     category: 'Sports',
-    image: 'https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=1200&q=80', // BC Place
+    image: 'https://imgresizer.eurosport.com/unsafe/1200x0/filters:format(webp)/origin-imgresizer.eurosport.com/2022/11/22/3495144.jpg', // BC Place
     details: {
       rankings: { home: 24, away: 40 },
       historical: { lastMatch: 'Australia 1-1 Türkiye (2004)', headToHead: 'Tur: 1 win, 1 draw' },
@@ -221,7 +221,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '18:00',
     startingPrice: 380,
     category: 'Sports',
-    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80', // NRG
+    image: 'https://platform.bavarianfootballworks.com/wp-content/uploads/sites/24/2025/12/gettyimages-2246639987.jpg?quality=90&strip=all&crop=0%2C0.023809523809518%2C100%2C99.952380952381&w=1080', // NRG
     details: {
       rankings: { home: 16, away: 86 },
       historical: { lastMatch: 'Never Played', headToHead: 'First Matchup' },
@@ -236,7 +236,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '21:00',
     startingPrice: 340,
     category: 'Sports',
-    image: 'https://images.unsplash.com/photo-1540749303346-5b0aa034ef82?auto=format&fit=crop&w=1200&q=80', // AT&T
+    image: 'https://static01.nyt.com/images/2010/06/19/sports/19wcup-soccer/19wcup-soccer-blogSpan.jpg', // AT&T
     details: {
       rankings: { home: 7, away: 18 },
       historical: { lastMatch: 'Netherlands 2-2 Japan (2013)', headToHead: 'Ned: 2 wins, 1 draw' },
@@ -252,7 +252,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '17:00',
     startingPrice: 310,
     category: 'Sports',
-    image: 'https://images.unsplash.com/photo-1541744354670-8126cc135431?auto=format&fit=crop&w=1200&q=80', // Atlanta
+    image: 'https://justanothermadridista.wordpress.com/wp-content/uploads/2010/05/spain-3-2-saudi-arabia-2.jpg', // Atlanta
     details: {
       rankings: { home: 8, away: 53 },
       historical: { lastMatch: 'Spain 1-0 Saudi Arabia (2012)', headToHead: 'Spain: 3 wins' },
@@ -268,7 +268,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '20:00',
     startingPrice: 290,
     category: 'Sports',
-    image: 'https://images.unsplash.com/photo-1511886929837-354d827aae26?auto=format&fit=crop&w=1200&q=80', // Seattle
+    image: 'https://web-cdnprod.aa.com.tr/uploads/Contents/2022/11/18/thumbs_b_c_72b86043ba9ab3b5124ac2979ccef2fa.jpg?v=213341', // Seattle
     details: {
       rankings: { home: 3, away: 36 },
       historical: { lastMatch: 'Egypt 2-1 Belgium (2022)', headToHead: 'Bel: 2 wins, Egy: 3 wins' },
@@ -283,7 +283,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '23:00',
     startingPrice: 330,
     category: 'Sports',
-    image: 'https://images.unsplash.com/photo-1628120300661-eb83a45391a2?auto=format&fit=crop&w=1200&q=80', // Miami
+    image: 'https://ichef.bbci.co.uk/images/ic/640x360/p06bn5ng.jpg', // Miami
     details: {
       rankings: { home: 53, away: 11 },
       historical: { lastMatch: 'Uruguay 1-0 Saudi Arabia (2018)', headToHead: 'Uru: 1 win, 2 draws' },
@@ -323,7 +323,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'USA',
     capacity: '82,500',
     description: 'The standard-bearer for large-scale multi-purpose stadiums, set to host the Grand Final.',
-    image: 'https://images.unsplash.com/photo-1563299796-1709eeda2749?auto=format&fit=crop&w=1200&q=80'
+    image: 'https://www.metlifestadium.com/assets/img/MetLifeStadium_SC3-cf83778790.JPG'
   },
   {
     id: 's2',
@@ -332,7 +332,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'USA',
     capacity: '70,000',
     description: 'A revolutionary indoor-outdoor design and the most expensive stadium ever built.',
-    image: 'https://images.unsplash.com/photo-1606013610996-03c00327f277?auto=format&fit=crop&w=1200&q=80'
+    image: 'https://www.brightview.com/sites/default/files/styles/hero/public/2025-03/Concacaf%20-%20hero_0.jpg.webp?itok=ukUL7Kse'
   },
   {
     id: 's3',
@@ -341,7 +341,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'Mexico',
     capacity: '87,523',
     description: 'The historic "Cathedral of Football," hosting its third World Cup opening match.',
-    image: 'https://images.unsplash.com/photo-1546750547-759089771198?auto=format&fit=crop&w=1200&q=80'
+    image: 'https://cdn.mos.cms.futurecdn.net/ik5egrU7wqe7S4YC8XcBmf-970-80.jpg.webp'
   },
   {
     id: 's4',
@@ -350,7 +350,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'USA',
     capacity: '80,000',
     description: 'The largest retractable roof stadium in the world, known for its massive center-hung scoreboard.',
-    image: 'https://images.unsplash.com/photo-1540749303346-5b0aa034ef82?auto=format&fit=crop&w=1200&q=80'
+    image: 'https://media.wfaa.com/assets/WFAA/images/b31f3114-7f67-4948-b301-c3db08ef4b76/b31f3114-7f67-4948-b301-c3db08ef4b76_1920x1080.jpg'
   },
   {
     id: 's5',
@@ -359,7 +359,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'Canada',
     capacity: '54,500',
     description: "The crown jewel of Canada's west coast sports scene with its retractable roof and harbor views.",
-    image: 'https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=1200&q=80'
+    image: 'https://images-dh-production-baselayer.dailyhive.com/uploads/2017/04/bc-place-stadium-northern-lights-false-creek.jpg?format=auto&width=988'
   },
   {
     id: 's6',
@@ -368,7 +368,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'USA',
     capacity: '64,767',
     description: "A premier global destination for high-intensity sports and entertainment in the heart of Florida.",
-    image: 'https://images.unsplash.com/photo-1628120300661-eb83a45391a2?auto=format&fit=crop&w=1200&q=80'
+    image: 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/21/60/15/f2/caption.jpg?w=1400&h=800&s=1'
   },
   {
     id: 's7',
@@ -377,7 +377,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'USA',
     capacity: '71,000',
     description: 'Architecturally stunning with its "pinwheel" retractable roof and halo video board.',
-    image: 'https://images.unsplash.com/photo-1541744354670-8126cc135431?auto=format&fit=crop&w=1200&q=80'
+    image: 'https://www.architectmagazine.com/wp-content/uploads/sites/5/2015/mercedesbenzstadium-hok-exterior1.jpg?resize=768,512'
   },
   {
     id: 's8',
@@ -386,7 +386,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'Canada',
     capacity: '30,000',
     description: "Canada's national soccer stadium, set for major expansion to host the world's elite.",
-    image: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=1200&q=80'
+    image: 'https://www.pcl.com/content/dam/pcl-projects/project-main-photos/BMO%20Field%20Expansion%20MAIN.jpg'
   },
   {
     id: 's9',
@@ -395,7 +395,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'USA',
     capacity: '69,000',
     description: "Famous for its deafening atmosphere and unique 'V' shape, offering panoramic skyline views.",
-    image: 'https://images.unsplash.com/photo-1511886929837-354d827aae26?auto=format&fit=crop&w=1200&q=80'
+    image: 'https://image-tc.galaxy.tf/wijpeg-3d6w2zwma5sc1bffx13ca6ccp/lumen-field_wide.jpg?crop=0%2C0%2C1920%2C1080&width=1280'
   },
   {
     id: 's10',
@@ -404,7 +404,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'USA',
     capacity: '68,500',
     description: 'A high-tech, eco-friendly masterpiece in the heart of Silicon Valley.',
-    image: 'https://images.unsplash.com/photo-1459865264687-595d652de67e?auto=format&fit=crop&w=1200&q=80'
+    image: 'https://static.pollstar.com/wp-content/uploads/2025/08/49ersBig_TL42902-2048x1365.jpg'
   },
   {
     id: 's11',
@@ -413,7 +413,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'USA',
     capacity: '72,220',
     description: 'The first facility in the NFL with a retractable roof, ideal for high-stakes international play.',
-    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80'
+    image: 'https://aviewfrommyseat.com/wallpaper/anonymous-20250731222144-58.jpg'
   },
   {
     id: 's12',
@@ -422,7 +422,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'USA',
     capacity: '67,594',
     description: 'An energy-efficient stadium known for its passionate fans and clear sightlines.',
-    image: 'https://images.unsplash.com/photo-1540749303346-5b0aa034ef82?auto=format&fit=crop&w=1200&q=80'
+    image: 'https://thebusinessdownload.com/wp-content/uploads/2021/10/image-35.png'
   }
 ];
 
@@ -433,7 +433,7 @@ export const MOCK_CITIES: City[] = [
     country: 'Mexico',
     description: 'A global metropolis with a rich football history, set to host the historic opening match at Estadio Azteca.',
     stadium: 'Estadio Azteca',
-    image: 'https://images.unsplash.com/photo-1546750547-759089771198?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://hips.hearstapps.com/hmg-prod/images/mexico-citys-downtown-at-twilight-royalty-free-image-1718218501.jpg?crop=0.668xw:1.00xh;0.167xw,0&resize=1120:*',
     highlights: ['Opening Match Venue', 'Historic Altitude', 'Football Capital']
   },
   {
@@ -442,7 +442,7 @@ export const MOCK_CITIES: City[] = [
     country: 'USA',
     description: 'The entertainment capital of the world, featuring the cutting-edge SoFi Stadium in Inglewood.',
     stadium: 'SoFi Stadium',
-    image: 'https://images.unsplash.com/photo-1606013610996-03c00327f277?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.trvl-media.com/place/178280/a52925ff-8159-46db-8203-2c466dda9df5.jpg?impolicy=fcrop&w=1040&h=580&q=mediumHigh',
     highlights: ['Hollywood Entertainment', 'Coastal Weather', 'Luxury Suites']
   },
   {
@@ -451,7 +451,7 @@ export const MOCK_CITIES: City[] = [
     country: 'Canada',
     description: "Canada's largest city and cultural hub, bringing a diverse global audience to BMO Field.",
     stadium: 'BMO Field',
-    image: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.trvl-media.com/place/178314/5eeee25f-78d5-4b85-a17c-f8cce9d6def8.jpg?impolicy=fcrop&w=1040&h=580&q=mediumHigh',
     highlights: ['Multicultural Hub', 'Lakeshore Scenery', 'Expanded Stadium']
   },
   {
@@ -460,7 +460,7 @@ export const MOCK_CITIES: City[] = [
     country: 'USA',
     description: 'The world stage for the Grand Final 2026, where history will be made at MetLife Stadium.',
     stadium: 'MetLife Stadium',
-    image: 'https://images.unsplash.com/photo-1563299796-1709eeda2749?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://s.yimg.com/lo/mysterio/api/F4932485AE0147D7837B81A508A91D117EA7399B2C63370E1CE892977E947EA7/subgraphmysterio/resizefill_w976_h732;quality_80;format_webp/https:%2F%2Fmedia.zenfs.com%2Fen%2Faol_asbury_park_press_115%2Fa46b04883b39db38bf3f1260864e4613',
     highlights: ['Final Match Venue', 'Skyline Views', 'Global Transit Hub']
   },
   {
@@ -469,7 +469,7 @@ export const MOCK_CITIES: City[] = [
     country: 'Canada',
     description: 'Stunning natural beauty meets urban sophistication at the foot of BC Place.',
     stadium: 'BC Place',
-    image: 'https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://www.destinationbc.ca/content/uploads/2023/09/VCM-Destination-Development-Strategy-Implementation-Guide_Aug2023_vs3_FINAL-1.pdf',
     highlights: ['Mountain Scenery', 'Retractable Roof', 'West Coast Vibe']
   },
   {
@@ -478,7 +478,7 @@ export const MOCK_CITIES: City[] = [
     country: 'Mexico',
     description: 'The birthplace of tequila and mariachi, offering a vibrant cultural experience at Estadio Akron.',
     stadium: 'Estadio Akron',
-    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://www.outlooktravelmag.com/media/Guadalajara-Main-jpg-1536x884.webp',
     highlights: ['Cultural Traditions', 'Modern Architecture', 'Passionate Support']
   }
 ];

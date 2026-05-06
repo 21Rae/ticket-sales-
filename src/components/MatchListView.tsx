@@ -49,9 +49,9 @@ export default function MatchListView({ onEventClick }: MatchListViewProps) {
             onClick={() => navigate('/matches')}
             className="relative group cursor-pointer overflow-hidden rounded-sm border border-white/10 bg-secondary aspect-square md:aspect-[21/9] flex items-center"
           >
-          <div className="absolute inset-0 grayscale group-hover:grayscale-0 transition-all duration-1000 opacity-60">
+          <div className="absolute inset-0 grayscale group-hover:grayscale-0 transition-all duration-1000 opacity-40">
             <img 
-              src="https://images.unsplash.com/photo-1540749303346-5b0aa034ef82?auto=format&fit=crop&w=2000&q=80" 
+              src="https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=2000&q=80" 
               className="w-full h-full object-cover"
               alt="Stadium"
               loading="lazy"
