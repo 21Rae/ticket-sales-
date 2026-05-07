@@ -1,283 +1,269 @@
-import React, { useEffect, useState } from 'react';
-import { motion } from 'motion/react';
-import { TrendingUp, ShieldCheck, Sparkles, ChevronRight, Info, Calendar } from 'lucide-react';
-import EventCard from './EventCard';
-import SearchBar from './SearchBar';
-import { MOCK_EVENTS } from '../constants';
+import React, { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { 
+  Search, Filter, MapPin, Calendar, ArrowRight, ShieldCheck, 
+  Sparkles, ChevronRight, Info, Star, TrendingUp, Grid, List as ListIcon,
+  X, HelpCircle, Ticket
+} from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { MOCK_EVENTS, MOCK_CITIES } from '../constants';
 import { Event } from '../types';
-import { Link, useNavigate } from 'react-router-dom';
 
-interface MatchListViewProps {
-  onEventClick: (event: Event) => void;
-}
+export const MatchListView: React.FC = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCity, setSelectedCity] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-export default function MatchListView({ onEventClick }: MatchListViewProps) {
-  const [events, setEvents] = useState<Event[]>(MOCK_EVENTS);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-
-  const trendingMatches = events.slice(0, 5);
+  const filteredMatches = useMemo(() => {
+    return MOCK_EVENTS.filter(match => {
+      const matchesSearch = match.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                           match.location.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCity = selectedCity === 'All' || match.location.includes(selectedCity);
+      const matchesCategory = selectedCategory === 'All' || match.category === selectedCategory;
+      return matchesSearch && matchesCity && matchesCategory;
+    });
+  }, [searchQuery, selectedCity, selectedCategory]);
 
   return (
-    <motion.div
-      key="match-list-view"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      className="pb-20"
-    >
-      {/* Search Header Area */}
-      <div className="bg-black pt-12 pb-16 border-b border-white/5">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col items-center mb-12">
-             <div className="inline-flex items-center gap-2 px-3 py-1 bg-accent/10 border border-accent/20 rounded text-[10px] font-black text-accent uppercase tracking-widest italic mb-6">
-                <Sparkles size={12} />
-                Official 2026 Resale Marketplace
-             </div>
-             <h1 className="text-3xl md:text-7xl font-black text-white italic uppercase tracking-tighter text-center max-w-4xl leading-none">
-                Experience the <span className="text-accent underline decoration-white/10 underline-offset-8 md:underline-offset-[12px]">Greatest</span> Show on Earth.
-             </h1>
-          </div>
-          <SearchBar />
+    <div className="bg-black min-h-screen pt-24 pb-20">
+      {/* Search Header */}
+      <div className="max-w-7xl mx-auto px-4 mb-12">
+        <div className="text-center mb-10">
+          <p className="text-accent font-black uppercase tracking-[0.3em] text-[10px] mb-2 italic flex items-center justify-center gap-2">
+            <Sparkles size={12} /> Schedule & Tickets <Sparkles size={12} />
+          </p>
+          <h1 className="text-5xl md:text-7xl font-black text-white italic uppercase tracking-tighter leading-none transform -skew-x-12">
+            SECURE YOUR <span className="text-accent">LEGACY</span>
+          </h1>
         </div>
-      </div>
 
-      {/* Featured Banner Section */}
-      <div className="container mx-auto px-4 py-6 md:py-12">
-          <div 
-            onClick={() => navigate('/matches')}
-            className="relative group cursor-pointer overflow-hidden rounded-sm border border-white/10 bg-secondary aspect-square md:aspect-[21/9] flex items-center"
-          >
-          <div className="absolute inset-0 grayscale group-hover:grayscale-0 transition-all duration-1000 opacity-40">
-            <img 
-              src="https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=2000&q=80" 
-              className="w-full h-full object-cover"
-              alt="Stadium"
-              loading="lazy"
-              referrerPolicy="no-referrer"
+        <div className="bg-white/5 border border-white/10 p-2 rounded-sm flex flex-col md:flex-row gap-2">
+          <div className="flex-1 relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" size={20} />
+            <input 
+              type="text" 
+              placeholder="SEARCH BY TEAM, CITY OR VENUE..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-transparent p-4 pl-12 text-white font-black uppercase tracking-widest text-xs focus:outline-none placeholder:text-white/20"
             />
           </div>
-          <div className="absolute inset-0 bg-linear-to-b md:bg-linear-to-r from-black via-black/40 to-transparent" />
-          
-          <div className="relative p-8 lg:p-20 flex flex-col justify-center items-center md:items-start text-center md:text-left h-full w-full md:max-w-2xl z-10">
-            <div className="flex items-center gap-2 text-accent mb-4">
-               <div className="h-1 w-12 bg-accent hidden md:block" />
-               <span className="text-[10px] font-black uppercase tracking-widest italic">Live Nation Presents</span>
-            </div>
-            <h2 className="text-4xl lg:text-8xl font-black text-white italic uppercase tracking-tighter mb-6 leading-[0.85]">
-              Matchday <br className="hidden md:block" />
-              <span className="text-accent underline decoration-white/10 underline-offset-8">Tickets</span>
-            </h2>
-            <p className="text-slate-300 font-bold uppercase tracking-widest text-sm mb-10 max-w-md hidden md:block">
-              Group stage drops are live. Secure your seat for the opening ceremonies in Mexico City and Toronto.
-            </p>
-            <button className="h-14 px-10 bg-white text-black font-black uppercase tracking-widest text-[11px] hover:bg-accent transition-all italic shadow-2xl">
-              Browse Matches
+          <div className="flex gap-2">
+            <button 
+              onClick={() => setIsFilterOpen(!isFilterOpen)}
+              className="flex items-center space-x-2 px-6 py-4 border border-white/10 text-white font-black uppercase tracking-widest text-[10px] hover:bg-white/5 transition-all"
+            >
+              <Filter size={14} />
+              <span>Filters</span>
             </button>
+            <div className="hidden sm:flex border border-white/10 p-1">
+              <button 
+                onClick={() => setViewMode('grid')}
+                className={`p-2 transition-all ${viewMode === 'grid' ? 'bg-accent text-black' : 'text-white/40 hover:text-white'}`}
+              >
+                <Grid size={18} />
+              </button>
+              <button 
+                onClick={() => setViewMode('list')}
+                className={`p-2 transition-all ${viewMode === 'list' ? 'bg-accent text-black' : 'text-white/40 hover:text-white'}`}
+              >
+                <ListIcon size={18} />
+              </button>
+            </div>
           </div>
+        </div>
+        
+        {/* Quick Filters */}
+        <div className="mt-4 flex flex-wrap gap-2">
+          {['All', ...MOCK_CITIES.map(c => c.name)].map(city => (
+            <button
+              key={city}
+              onClick={() => setSelectedCity(city)}
+              className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border transition-all ${
+                selectedCity === city 
+                  ? 'bg-white border-white text-black' 
+                  : 'bg-transparent border-white/10 text-white/40 hover:border-white/40'
+              }`}
+            >
+              {city}
+            </button>
+          ))}
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-12">
-        <div className="flex flex-col lg:flex-row gap-12">
-          {/* Main Content Area */}
-          <div className="lg:w-[72%]">
-            
-            {/* Trending Section */}
-            <section className="mb-20">
-               <div className="flex items-center justify-between mb-8 border-b-2 border-white/5 pb-4">
-                  <div className="flex items-center gap-3">
-                     <TrendingUp className="text-accent" size={20} />
-                     <h3 className="text-xl font-black text-white italic uppercase tracking-tighter">Trending Searches</h3>
-                  </div>
-                  <div className="flex gap-2">
-                    <button className="h-8 w-8 rounded-full border border-white/10 flex items-center justify-center text-slate-500 hover:text-white transition-colors">
-                      <ChevronRight size={16} className="rotate-180" />
-                    </button>
-                    <button className="h-8 w-8 rounded-full border border-white/10 flex items-center justify-center text-slate-500 hover:text-white transition-colors">
-                      <ChevronRight size={16} />
-                    </button>
-                  </div>
-               </div>
-               
-               <div className="flex gap-6 overflow-x-auto pb-6 no-scrollbar">
-                  {trendingMatches.map((match) => (
-                    <motion.div 
-                      key={match.id}
-                      whileHover={{ y: -5 }}
-                      className="min-w-[200px] group cursor-pointer"
-                    >
-                      <div className="aspect-square relative overflow-hidden rounded-full border-2 border-white/5 mb-4 p-1 group-hover:border-accent transition-all duration-500 bg-secondary">
-                         <div className="h-full w-full rounded-full overflow-hidden grayscale group-hover:grayscale-0 transition-all opacity-60 group-hover:opacity-100">
-                            <img src={match.image} className="w-full h-full object-cover" alt="" loading="lazy" referrerPolicy="no-referrer" />
-                         </div>
-                      </div>
-                      <h4 className="text-[12px] font-black text-white uppercase italic tracking-tight text-center group-hover:text-accent transition-colors truncate">
-                        {match.name.split(' vs ')[0]}
-                      </h4>
-                      <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-1 text-center italic">National Team</p>
-                    </motion.div>
-                  ))}
-               </div>
-            </section>
-
-            {/* Sponsored Presale Area */}
-            <section className="mb-20">
-              <div className="flex items-center justify-between mb-8 border-b-2 border-white/5 pb-4">
-                  <div className="flex items-center gap-3">
-                     <ShieldCheck className="text-accent" size={20} />
-                     <h3 className="text-xl font-black text-white italic uppercase tracking-tighter">Sponsored Presales</h3>
-                  </div>
+      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Left: Filter Sidebar (Mobile Overlay) */}
+        <AnimatePresence>
+          {isFilterOpen && (
+            <motion.div 
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              className="lg:col-span-3 space-y-8 h-fit lg:sticky lg:top-32"
+            >
+              <div className="flex justify-between items-center mb-6 lg:hidden">
+                <h3 className="text-white font-black uppercase italic tracking-tighter">Refine Search</h3>
+                <button onClick={() => setIsFilterOpen(false)} className="text-white"><X size={24} /></button>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {events.slice(0, 3).map((event) => (
-                  <div 
-                    key={event.id} 
-                    onClick={() => onEventClick(event)}
-                    className="bg-secondary/50 border border-white/5 rounded-sm overflow-hidden group cursor-pointer"
-                  >
-                     <div className="aspect-video relative overflow-hidden">
-                        <img src={event.image} className="w-full h-full object-cover grayscale opacity-30 group-hover:opacity-60 group-hover:scale-110 transition-all duration-700" alt="" referrerPolicy="no-referrer" />
-                        <div className="absolute top-4 left-4 px-2 py-1 bg-accent text-black text-[8px] font-black uppercase italic rounded-xs">Presale Open</div>
-                     </div>
-                     <div className="p-6">
-                        <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">{event.date}</p>
-                        <h4 className="text-[13px] font-black text-white italic uppercase mb-4 leading-tight">{event.name}</h4>
-                        <div className="flex items-center justify-between">
-                           <span className="text-[10px] font-bold text-accent italic">Citi® Priority Access</span>
-                           <ChevronRight size={14} className="text-slate-600" />
+
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-[10px] font-black text-accent uppercase tracking-widest mb-4 italic">Competition Phase</h4>
+                  <div className="space-y-2">
+                    {['Group Stage', 'Round of 32', 'Knockouts', 'Grand Final'].map(item => (
+                      <label key={item} className="flex items-center group cursor-pointer">
+                        <div className="w-4 h-4 border border-white/20 rounded-sm mr-3 group-hover:border-accent flex items-center justify-center transition-colors">
+                          <div className="w-2 h-2 bg-accent opacity-0 group-hover:opacity-100 rounded-sm transition-opacity" />
                         </div>
-                     </div>
+                        <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest group-hover:text-white transition-colors">{item}</span>
+                      </label>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </section>
+                </div>
 
-            {/* Official Match Inventory */}
-            <section className="mb-20">
-              <div className="flex items-center justify-between mb-8 border-b-2 border-white/5 pb-4">
-                  <div className="flex items-center gap-3">
-                     <Calendar className="text-accent" size={20} />
-                     <h3 className="text-xl font-black text-white italic uppercase tracking-tighter">Official Inventory</h3>
+                <div>
+                  <h4 className="text-[10px] font-black text-accent uppercase tracking-widest mb-4 italic">Price Range</h4>
+                  <div className="space-y-4">
+                    <div className="h-[2px] bg-white/10 relative">
+                      <div className="absolute left-0 right-1/4 h-full bg-accent" />
+                      <div className="absolute left-[75%] top-1/2 -translate-y-1/2 w-3 h-3 bg-white border-2 border-black rounded-full" />
+                    </div>
+                    <div className="flex justify-between text-[10px] font-black text-white italic">
+                      <span>$50</span>
+                      <span>$500+</span>
+                    </div>
                   </div>
-                  <Link to="/matches" className="text-[10px] font-black text-slate-500 hover:text-white uppercase italic tracking-widest border-b border-white/10 pb-1">View All Matches</Link>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {events.map((event) => (
-                  <div key={event.id}>
-                    <EventCard 
-                      event={event} 
-                      onClick={onEventClick} 
-                    />
-                  </div>
-                ))}
-              </div>
-            </section>
+                </div>
 
-            {/* Entertainment Guides (Guides Section) */}
-            <section>
-               <div className="flex items-center justify-between mb-8 border-b-2 border-white/5 pb-4">
-                  <div className="flex items-center gap-3">
-                     <Info className="text-accent" size={20} />
-                     <h3 className="text-xl font-black text-white italic uppercase tracking-tighter">Entertainment Guides</h3>
-                  </div>
-               </div>
-               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {[
-                    { title: "Everything you need to know about the format", tag: "Tournament", img: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80" },
-                    { title: "Host City Travel Guide: Transport venues", tag: "Logistics", img: "https://images.unsplash.com/photo-1540749303346-5b0aa034ef82?auto=format&fit=crop&w=800&q=80" },
-                    { title: "Fan ID & Security protocol stadium entry", tag: "Security", img: "https://images.unsplash.com/photo-1550117462-a5ec08bf0ac5?auto=format&fit=crop&w=800&q=80" }
-                  ].map((guide, i) => (
-                    <div key={i} className="group cursor-pointer">
-                       <div className="aspect-[4/3] relative overflow-hidden rounded-xs border border-white/5 mb-4">
-                          <img src={guide.img} className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" alt="" referrerPolicy="no-referrer" />
-                          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent" />
-                          <div className="absolute bottom-4 left-4">
-                             <span className="text-[8px] font-black text-accent uppercase tracking-[0.2em] italic bg-black/50 px-2 py-0.5 rounded-sm">Guide</span>
+                <div className="p-6 bg-accent rounded-sm">
+                  <h4 className="text-black font-black uppercase italic text-sm mb-2">Member Support</h4>
+                  <p className="text-black/60 text-[10px] font-bold leading-relaxed mb-4 uppercase">Direct access to ticketing officials for priority members only.</p>
+                  <button className="w-full bg-black text-white p-3 text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all">Learn More</button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Main Content Area */}
+        <div className={`${isFilterOpen ? 'lg:col-span-9' : 'lg:col-span-12'}`}>
+          {filteredMatches.length === 0 ? (
+            <div className="py-20 text-center border border-white/5 bg-white/[0.02]">
+              <Search className="text-white/20 mx-auto mb-6" size={48} />
+              <h3 className="text-2xl font-black text-white italic uppercase tracking-tighter mb-4">No results found</h3>
+              <p className="text-white/40 text-xs font-bold uppercase tracking-widest mb-8 max-w-xs mx-auto">We couldn't find any matches for your current search criteria. Try broadening your terms.</p>
+              <button 
+                onClick={() => { setSearchQuery(''); setSelectedCity('All'); }}
+                className="px-8 py-3 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-accent transition-colors"
+              >
+                Clear All Filters
+              </button>
+            </div>
+          ) : (
+            <div className={viewMode === 'grid' ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" : "space-y-4"}>
+              {filteredMatches.map((match, idx) => (
+                <motion.div
+                  key={match.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.05 }}
+                  className={viewMode === 'grid' ? "" : "group p-4 bg-white/5 border border-white/10 hover:border-accent transition-colors flex flex-col md:flex-row items-center gap-6"}
+                >
+                  {viewMode === 'grid' ? (
+                    <div className="group bg-white/5 border border-white/10 overflow-hidden hover:border-accent transition-all duration-300 flex flex-col h-full">
+                      <div className="relative aspect-video overflow-hidden">
+                        <img 
+                          src={match.image} 
+                          alt={match.name} 
+                          className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" 
+                        />
+                        <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-md px-3 py-1 rounded-sm border border-white/10">
+                          <span className="text-[10px] font-black text-accent uppercase tracking-widest italic">{match.date.split('-')[1]}/{match.date.split('-')[2]}</span>
+                        </div>
+                      </div>
+                      <div className="p-6 flex-1 flex flex-col">
+                        <div className="flex items-center space-x-2 mb-3">
+                          <MapPin size={10} className="text-accent" />
+                          <span className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em]">{match.location}</span>
+                        </div>
+                        <h3 className="text-xl font-black text-white italic uppercase tracking-tighter leading-none mb-4 group-hover:text-accent transition-colors">{match.name}</h3>
+                        
+                        <div className="mt-auto space-y-4">
+                          <div className="flex justify-between items-end border-b border-white/5 pb-4">
+                            <div>
+                              <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest mb-1 italic">Starts from</p>
+                              <p className="text-2xl font-black text-white tracking-tighter">${match.startingPrice}</p>
+                            </div>
+                            <Link to={`/matches/${match.id}`} className="flex items-center space-x-2 text-[10px] font-black text-white/60 uppercase tracking-widest hover:text-accent transition-colors">
+                              <span>Details</span>
+                              <ChevronRight size={14} />
+                            </Link>
+                          </div>
+                          
+                          <Link 
+                            to={`/matches/${match.id}/tickets`}
+                            className="block w-full text-center py-4 bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-accent hover:text-black hover:border-accent transition-all"
+                          >
+                            Get Tickets
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex-1 flex flex-col md:flex-row items-center gap-6 w-full">
+                       <div className="w-full md:w-48 aspect-video md:aspect-square overflow-hidden bg-white/5">
+                        <img src={match.image} alt={match.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all opacity-50 group-hover:opacity-100" />
+                       </div>
+                       <div className="flex-1">
+                          <div className="flex items-center space-x-3 mb-2">
+                             <div className="text-center min-w-[50px] bg-white/10 p-2 rounded-sm">
+                               <p className="text-[8px] font-black text-white/40 uppercase leading-none mb-1">{match.date.split('-')[1]}</p>
+                               <p className="text-lg font-black text-white italic leading-none">{match.date.split('-')[2]}</p>
+                             </div>
+                             <div>
+                                <h3 className="text-xl font-black text-white italic uppercase tracking-tighter leading-none mb-1 group-hover:text-accent transition-colors">{match.name}</h3>
+                                <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest flex items-center gap-2">
+                                  <MapPin size={10} /> {match.venue}, {match.location}
+                                </p>
+                             </div>
                           </div>
                        </div>
-                       <h4 className="text-[14px] font-black text-white uppercase italic leading-tight group-hover:text-accent transition-colors mb-2">{guide.title}</h4>
-                       <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest italic group-hover:text-white transition-colors">Read Full Guide &rarr;</p>
-                    </div>
-                  ))}
-               </div>
-            </section>
-
-          </div>
-
-          {/* Sidebar */}
-          <div className="lg:w-[28%] space-y-12">
-            <div className="p-10 bg-secondary border border-white/10 rounded-xs relative overflow-hidden group">
-               <div className="absolute top-0 right-0 p-4 opacity-5 rotate-12 group-hover:opacity-10 transition-opacity">
-                  <ShieldCheck size={140} />
-               </div>
-               <h3 className="text-sm font-black text-white italic uppercase mb-4 relative z-10">Safe-Seating</h3>
-               <p className="text-[10px] text-slate-500 font-bold uppercase leading-relaxed mb-8 relative z-10 italic">
-                  Every ticket is 100% verified. Guaranteed entry or your money back. We are the official primary ticketing partner of the 2026 World Cup legacy program.
-               </p>
-               <button className="w-full h-14 bg-white text-black font-black text-[10px] uppercase tracking-widest hover:bg-accent transition-all relative z-10 italic">
-                  Learn Our Protocol
-               </button>
-            </div>
-
-            <div className="bg-black p-8 border border-white/5 rounded-xs">
-               <h3 className="text-xs font-black text-white italic uppercase mb-8 tracking-widest border-l-4 border-accent pl-4">Host City Status</h3>
-               <div className="space-y-8">
-                  {['Los Angeles', 'Mexico City', 'New Jersey', 'Toronto', 'Miami'].map((city, j) => (
-                    <div key={j} className="flex gap-4 group cursor-pointer">
-                       <div className="h-12 w-12 shrink-0 bg-white/5 border border-white/10 rounded-full flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-black transition-all duration-300">
-                          <span className="text-[10px] font-black italic">{j+1}</span>
-                       </div>
-                       <div>
-                          <p className="text-[11px] font-black text-white uppercase italic group-hover:text-accent transition-colors">{city}</p>
-                          <p className="text-[8px] font-bold text-slate-600 uppercase tracking-widest mt-1">Status: Demand High</p>
+                       <div className="flex flex-col items-end gap-3 w-full md:w-auto">
+                          <div className="text-right">
+                             <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest italic mb-1 italic">Starts from</p>
+                             <p className="text-2xl font-black text-white tracking-tighter">${match.startingPrice}</p>
+                          </div>
+                          <Link to={`/matches/${match.id}/tickets`} className="px-8 py-3 bg-accent text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all transform hover:scale-105">
+                             Select Seats
+                          </Link>
                        </div>
                     </div>
-                  ))}
-               </div>
+                  )}
+                </motion.div>
+              ))}
             </div>
-
-            <div className="bg-linear-to-br from-accent/20 to-black p-8 border border-accent/20 rounded-xs">
-               <div className="h-12 w-12 bg-accent text-black rounded-lg flex items-center justify-center mb-6 shadow-2xl">
-                  <Sparkles size={24} />
-               </div>
-               <h3 className="text-lg font-black text-white italic uppercase mb-4 leading-tight">Fan ID Pre-Registration</h3>
-               <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-relaxed mb-6 italic">
-                  Skip the lines. Apply for your World Cup Fan ID today and get early access to knockout round drops.
-               </p>
-               <button className="text-[10px] font-black text-accent uppercase tracking-widest border-b-2 border-accent pb-1 hover:text-white hover:border-white transition-all italic">
-                 Register Protocol &rarr;
-               </button>
-            </div>
-          </div>
+          )}
         </div>
       </div>
 
-      {/* Popular Cities Thumbnail Section (Platform Bottom) */}
-      <div className="container mx-auto px-4 mt-20 pt-20 border-t border-white/5">
-         <div className="flex items-center justify-between mb-12">
-            <h3 className="text-xl font-black text-white italic uppercase tracking-tighter">Popular Host Cities</h3>
-            <Link to="/cities" className="text-[10px] font-black text-slate-500 hover:text-white uppercase italic tracking-widest">Explore Geography</Link>
-         </div>
-         <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
-            {[
-              { name: "New York", img: "https://images.unsplash.com/photo-1529900948638-07f85863d50b?auto=format&fit=crop&w=800&q=80" },
-              { name: "Los Angeles", img: "https://images.unsplash.com/photo-1551958219-acbc608c6377?auto=format&fit=crop&w=800&q=80" },
-              { name: "Las Vegas", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80" },
-              { name: "Chicago", img: "https://images.unsplash.com/photo-1550117462-a5ec08bf0ac5?auto=format&fit=crop&w=800&q=80" },
-              { name: "Atlanta", img: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80" }
-            ].map((city, k) => (
-              <div key={k} className="group cursor-pointer">
-                 <div className="aspect-[4/3] rounded overflow-hidden mb-3 border border-white/10 grayscale group-hover:grayscale-0 transition-all duration-500">
-                    <img src={city.img} className="w-full h-full object-cover transition-transform group-hover:scale-110" alt="" referrerPolicy="no-referrer" />
-                 </div>
-                 <p className="text-[11px] font-black text-white italic uppercase text-center group-hover:text-accent transition-colors">{city.name}</p>
-              </div>
+      {/* Recommended Section */}
+      <div className="max-w-7xl mx-auto px-4 mt-32">
+        <div className="flex items-center space-x-4 mb-12">
+            <TrendingUp className="text-accent" size={24} />
+            <h3 className="text-3xl font-black text-white italic uppercase tracking-tighter">Trending Searches</h3>
+            <div className="flex-1 h-[1px] bg-white/10" />
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {['Opening Match Tickets', 'Finals VIP Hospitality', 'USA vs Mexico Matches', 'Toronto Group Games'].map(item => (
+                <button key={item} className="p-4 bg-white/5 border border-white/5 text-[10px] font-black text-white/40 uppercase tracking-widest hover:border-accent/40 hover:text-white transition-all text-left flex justify-between items-center group">
+                    <span>{item}</span>
+                    <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity translate-x-2 group-hover:translate-x-0 group-hover:text-accent duration-300" />
+                </button>
             ))}
-         </div>
+        </div>
       </div>
-    </motion.div>
+    </div>
   );
-}
-
+};

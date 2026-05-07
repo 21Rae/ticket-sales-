@@ -1,4 +1,4 @@
-import { Event, Ticket, Stadium, City, Team } from './types';
+import { Event, Ticket, Stadium, City, Team, TicketCategory, Testimonial } from './types';
 
 export const MOCK_TEAMS: Team[] = [
   {
@@ -426,6 +426,54 @@ export const MOCK_STADIUMS: Stadium[] = [
   }
 ];
 
+export const TICKET_CATEGORIES: TicketCategory[] = [
+  {
+    id: 'vip',
+    name: 'VIP Hospitality',
+    description: 'Premium lounge access, gourmet dining, and best field views.',
+    basePrice: 1200
+  },
+  {
+    id: 'premium',
+    name: 'Premium Select',
+    description: 'Lower bowl seating with excellent sightlines and priority entry.',
+    basePrice: 650
+  },
+  {
+    id: 'standard',
+    name: 'Standard Admission',
+    description: 'Great atmosphere with clear views of the action.',
+    basePrice: 280
+  }
+];
+
+export const TESTIMONIALS: Testimonial[] = [
+  {
+    id: '1',
+    name: 'Sarah Jenkins',
+    role: 'Football Fan',
+    text: 'The best booking experience I’ve had. Secure and very easy to use!',
+    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80',
+    rating: 5
+  },
+  {
+    id: '2',
+    name: 'Marco Rossi',
+    role: 'Season Ticket Holder',
+    text: 'Got my tickets for the final in minutes. The seat map is super helpful.',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80',
+    rating: 5
+  },
+  {
+    id: '3',
+    name: 'Elena Silva',
+    role: 'Travel Enthusiast',
+    text: 'Highly recommended for international fans. Transparent pricing and great support.',
+    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&q=80',
+    rating: 4
+  }
+];
+
 export const MOCK_CITIES: City[] = [
   {
     id: 'c1',
@@ -433,7 +481,7 @@ export const MOCK_CITIES: City[] = [
     country: 'Mexico',
     description: 'A global metropolis with a rich football history, set to host the historic opening match at Estadio Azteca.',
     stadium: 'Estadio Azteca',
-    image: 'https://hips.hearstapps.com/hmg-prod/images/mexico-citys-downtown-at-twilight-royalty-free-image-1718218501.jpg?crop=0.668xw:1.00xh;0.167xw,0&resize=1120:*',
+    image: 'https://hips.hearstapps.com/hmg-prod/images/mexico-citys-downtown-at-twilight-royalty-free-image-1718218501.jpg',
     highlights: ['Opening Match Venue', 'Historic Altitude', 'Football Capital']
   },
   {
@@ -442,7 +490,7 @@ export const MOCK_CITIES: City[] = [
     country: 'USA',
     description: 'The entertainment capital of the world, featuring the cutting-edge SoFi Stadium in Inglewood.',
     stadium: 'SoFi Stadium',
-    image: 'https://images.trvl-media.com/place/178280/a52925ff-8159-46db-8203-2c466dda9df5.jpg?impolicy=fcrop&w=1040&h=580&q=mediumHigh',
+    image: 'https://images.trvl-media.com/place/178280/a52925ff-8159-46db-8203-2c466dda9df5.jpg',
     highlights: ['Hollywood Entertainment', 'Coastal Weather', 'Luxury Suites']
   },
   {
@@ -451,7 +499,7 @@ export const MOCK_CITIES: City[] = [
     country: 'Canada',
     description: "Canada's largest city and cultural hub, bringing a diverse global audience to BMO Field.",
     stadium: 'BMO Field',
-    image: 'https://images.trvl-media.com/place/178314/5eeee25f-78d5-4b85-a17c-f8cce9d6def8.jpg?impolicy=fcrop&w=1040&h=580&q=mediumHigh',
+    image: 'https://images.trvl-media.com/place/178314/5eeee25f-78d5-4b85-a17c-f8cce9d6def8.jpg',
     highlights: ['Multicultural Hub', 'Lakeshore Scenery', 'Expanded Stadium']
   },
   {
@@ -460,25 +508,22 @@ export const MOCK_CITIES: City[] = [
     country: 'USA',
     description: 'The world stage for the Grand Final 2026, where history will be made at MetLife Stadium.',
     stadium: 'MetLife Stadium',
-    image: 'https://s.yimg.com/lo/mysterio/api/F4932485AE0147D7837B81A508A91D117EA7399B2C63370E1CE892977E947EA7/subgraphmysterio/resizefill_w976_h732;quality_80;format_webp/https:%2F%2Fmedia.zenfs.com%2Fen%2Faol_asbury_park_press_115%2Fa46b04883b39db38bf3f1260864e4613',
+    image: 'https://media.zenfs.com/en/aol_asbury_park_press_115/a46b04883b39db38bf3f1260864e4613',
     highlights: ['Final Match Venue', 'Skyline Views', 'Global Transit Hub']
+  }
+];
+
+export const FAQ_ITEMS = [
+  {
+    question: 'When do tickets go on sale?',
+    answer: 'Phase 1 tickets are currently available for purchase for all group stage matches.'
   },
   {
-    id: 'c5',
-    name: 'Vancouver',
-    country: 'Canada',
-    description: 'Stunning natural beauty meets urban sophistication at the foot of BC Place.',
-    stadium: 'BC Place',
-    image: 'https://www.destinationbc.ca/content/uploads/2023/09/VCM-Destination-Development-Strategy-Implementation-Guide_Aug2023_vs3_FINAL-1.pdf',
-    highlights: ['Mountain Scenery', 'Retractable Roof', 'West Coast Vibe']
+    question: 'How do I receive my tickets?',
+    answer: 'Once confirmed, your e-tickets will be available for download in your dashboard and sent via email.'
   },
   {
-    id: 'c6',
-    name: 'Guadalajara',
-    country: 'Mexico',
-    description: 'The birthplace of tequila and mariachi, offering a vibrant cultural experience at Estadio Akron.',
-    stadium: 'Estadio Akron',
-    image: 'https://www.outlooktravelmag.com/media/Guadalajara-Main-jpg-1536x884.webp',
-    highlights: ['Cultural Traditions', 'Modern Architecture', 'Passionate Support']
+    question: 'What is the refund policy?',
+    answer: 'Tickets are non-refundable but can be resold through our official fan-to-fan marketplace.'
   }
 ];
