@@ -1,21 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   LayoutDashboard, Ticket, Heart, CreditCard, Settings, LogOut, 
   Search, Bell, Filter, Grid, List as ListIcon, Calendar, MapPin,
   ChevronRight, Download, Share2, Clock, CheckCircle, Smartphone,
-  MessageSquare, HelpCircle, ShieldCheck, Star, Trophy
+  MessageSquare, HelpCircle, ShieldCheck, Star, X
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useBookings } from '../lib/BookingContext';
 import { MOCK_EVENTS, TICKET_CATEGORIES } from '../constants';
+import { Logo } from './Logo';
+import { OptimizedImage } from './OptimizedImage';
 
 export const UserDashboard: React.FC = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, updateProfile } = useAuth();
   const { bookings } = useBookings();
   const [activeTab, setActiveTab] = useState('overview');
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [displayName, setDisplayName] = useState(user?.name || '');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user?.name) {
+      setDisplayName(user.name);
+    }
+  }, [user?.name]);
+
+  const handleUpdateProfile = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user || isUpdating) return;
+
+    setIsUpdating(true);
+    setUpdateSuccess(false);
+
+    try {
+      await updateProfile({ name: displayName });
+      setUpdateSuccess(true);
+      setTimeout(() => setUpdateSuccess(false), 3000);
+    } catch (error) {
+      console.error('Update failed:', error);
+    } finally {
+      setIsUpdating(false);
+    }
+  };
 
   if (!user) {
     navigate('/login');
@@ -31,7 +60,12 @@ export const UserDashboard: React.FC = () => {
       <aside className="w-full md:w-64 bg-[#0a0a0a] border-r border-white/5 py-8 flex flex-col pt-24">
         <div className="px-6 mb-10">
           <div className="flex items-center space-x-3 mb-2">
-            <img src={user.avatar} alt={user.name} className="w-10 h-10 rounded-full border-2 border-accent" />
+            <OptimizedImage 
+              src={user.avatar} 
+              alt={user.name} 
+              className="w-10 h-10 rounded-full border-2 border-accent" 
+              containerClassName="w-10 h-10 rounded-full"
+            />
             <div>
               <p className="text-sm font-bold text-white uppercase truncate">{user.name}</p>
               <p className="text-[10px] font-medium text-white/40 truncate">{user.email}</p>
@@ -107,7 +141,7 @@ export const UserDashboard: React.FC = () => {
                       <div className={`p-2 bg-white/5 rounded-sm ${stat.color}`}>
                         <stat.icon size={20} />
                       </div>
-                      <span className="text-xs font-bold text-white/20 uppercase">Real-time</span>
+                      <span className="text-[8px] font-bold text-white/20 uppercase tracking-widest">Live Updates</span>
                     </div>
                     <p className="text-3xl font-black text-white mb-1 tracking-tighter">{stat.value}</p>
                     <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest">{stat.label}</p>
@@ -123,12 +157,12 @@ export const UserDashboard: React.FC = () => {
                     <div className="flex flex-col md:flex-row justify-between items-center gap-6">
                       <div className="flex items-center space-x-6">
                         <div className="w-16 h-16 bg-white/10 rounded-sm flex items-center justify-center font-black text-2xl italic group-hover:bg-black group-hover:text-accent">
-                          {MOCK_EVENTS.find(e => e.id === upcomingBookings[0].eventId)?.date.split('-')[2]}
+                          {MOCK_EVENTS.find(e => e.id === upcomingBookings[0].eventId)?.date?.split('-')?.[2] || '--'}
                         </div>
                         <div>
                           <p className="text-[10px] font-black uppercase tracking-widest mb-1 opacity-60">NEXT MATCH</p>
                           <h3 className="text-3xl font-black italic uppercase tracking-tighter leading-none">
-                            {MOCK_EVENTS.find(e => e.id === upcomingBookings[0].eventId)?.name}
+                            {MOCK_EVENTS.find(e => e.id === upcomingBookings[0].eventId)?.name || 'Match Details Unavailable'}
                           </h3>
                         </div>
                       </div>
@@ -199,15 +233,16 @@ export const UserDashboard: React.FC = () => {
                         <div className="p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                           <div className="flex items-center space-x-4">
                             <div className="text-center bg-white/10 p-3 rounded-sm min-w-[70px]">
-                              <p className="text-[10px] font-black text-white/40 uppercase leading-none mb-1">{event?.date.split('-')[1]}</p>
-                              <p className="text-2xl font-black text-white italic leading-none">{event?.date.split('-')[2]}</p>
+                              <p className="text-[10px] font-black text-white/40 uppercase leading-none mb-1">{event?.date?.split('-')?.[1] || '--'}</p>
+                              <p className="text-2xl font-black text-white italic leading-none">{event?.date?.split('-')?.[2] || '--'}</p>
                             </div>
                             <div>
                               <div className="flex items-center space-x-2 mb-1">
                                 <span className={`text-[10px] font-black px-2 py-0.5 rounded-sm uppercase tracking-widest ${
-                                  booking.status === 'confirmed' ? 'bg-green-500 text-black' : 'bg-red-500 text-white'
+                                  booking.status === 'confirmed' ? 'bg-green-500 text-black' : 
+                                  booking.status === 'pending' ? 'bg-accent text-white' : 'bg-red-500 text-white'
                                 }`}>
-                                  {booking.status}
+                                  {booking.status === 'pending' ? 'Pending verification' : booking.status}
                                 </span>
                                 <span className="text-[10px] font-black text-white/20 uppercase tracking-widest">#{booking.id}</span>
                               </div>
@@ -235,14 +270,25 @@ export const UserDashboard: React.FC = () => {
                           </div>
                         </div>
                         
-                        {/* Status bar */}
                         <div className="px-6 py-3 bg-white/[0.02] border-t border-white/5 flex items-center justify-between text-[10px] font-black uppercase tracking-widest">
                           <div className="flex items-center space-x-4">
-                            <div className="flex items-center gap-1 text-green-400">
-                              <CheckCircle size={12} />
-                              <span>Paid</span>
-                            </div>
-                            <div className="flex items-center gap-1 text-accent">
+                            {booking.status === 'confirmed' ? (
+                              <div className="flex items-center gap-1 text-green-400">
+                                <CheckCircle size={12} />
+                                <span>Paid</span>
+                              </div>
+                            ) : booking.status === 'pending' ? (
+                              <div className="flex items-center gap-1 text-accent">
+                                <Clock size={12} />
+                                <span>Awaiting Verification</span>
+                              </div>
+                            ) : (
+                              <div className="flex items-center gap-1 text-red-400">
+                                <X size={12} />
+                                <span>Unverified</span>
+                              </div>
+                            )}
+                            <div className="flex items-center gap-1 text-white/40">
                               <ShieldCheck size={12} />
                               <span>Verified Original</span>
                             </div>
@@ -269,8 +315,8 @@ export const UserDashboard: React.FC = () => {
             >
               <div className="p-6 border-b border-white/5 bg-accent text-black flex justify-between items-center">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
-                    <Trophy className="text-accent" size={20} />
+                  <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center overflow-hidden">
+                    <Logo showText={false} />
                   </div>
                   <div>
                     <h3 className="text-sm font-black uppercase tracking-tighter">Support Assistant</h3>
@@ -286,7 +332,7 @@ export const UserDashboard: React.FC = () => {
               <div className="flex-1 p-6 overflow-y-auto space-y-4">
                 <div className="flex items-start max-w-[80%]">
                   <div className="bg-white/10 p-4 rounded-sm text-xs font-medium text-white/80 leading-relaxed italic border border-white/5">
-                    Hello {user.name.split(' ')[0]}! Welcome to FIFA World Cup 2026™ Support. How can we help you prepare for the greatest sporting event on earth?
+                    Hello {user.name.split(' ')[0]}! Welcome to Ticketdome Support. How can we help you prepare for the greatest sporting event on earth?
                   </div>
                 </div>
                 {/* Simulated message bubbles */}
@@ -324,17 +370,36 @@ export const UserDashboard: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                   <div className="space-y-6">
                     <h3 className="text-xs font-black text-accent uppercase tracking-[0.2em] italic">Personal Information</h3>
-                    <div className="space-y-4">
+                    <form onSubmit={handleUpdateProfile} className="space-y-4">
                       <div>
                         <label className="block text-[10px] font-black text-white/40 uppercase tracking-widest mb-2">Display Name</label>
-                        <input type="text" defaultValue={user.name} className="w-full bg-white/5 border border-white/10 p-3 text-sm text-white font-medium focus:border-accent outline-none" />
+                        <input 
+                          type="text" 
+                          value={displayName} 
+                          onChange={(e) => setDisplayName(e.target.value)}
+                          className="w-full bg-white/5 border border-white/10 p-3 text-sm text-white font-medium focus:border-accent outline-none" 
+                        />
                       </div>
                       <div>
                         <label className="block text-[10px] font-black text-white/40 uppercase tracking-widest mb-2">Email Address</label>
                         <input type="email" defaultValue={user.email} className="w-full bg-white/5 border border-white/10 p-3 text-sm text-white font-medium outline-none opacity-50" readOnly />
                       </div>
-                      <button className="px-6 py-3 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-accent transition-colors">Update Profile</button>
-                    </div>
+                      <div className="flex items-center gap-4">
+                        <button 
+                          type="submit"
+                          disabled={isUpdating}
+                          className="px-6 py-3 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-accent transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          {isUpdating ? 'Updating...' : 'Update Profile'}
+                        </button>
+                        {updateSuccess && (
+                          <span className="text-[10px] font-bold text-green-400 uppercase tracking-widest flex items-center gap-1">
+                            <CheckCircle size={12} />
+                            Saved Successfully
+                          </span>
+                        )}
+                      </div>
+                    </form>
                   </div>
 
                   <div className="space-y-6">

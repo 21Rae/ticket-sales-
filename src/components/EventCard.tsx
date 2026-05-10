@@ -3,6 +3,7 @@ import { MapPin, Calendar, Star, Sparkles, TrendingUp, TrendingDown, ChevronDown
 import { motion, AnimatePresence } from 'motion/react';
 import { Event } from '../types';
 import { formatCurrency, formatDate } from '../lib/utils';
+import { OptimizedImage } from './OptimizedImage';
 
 interface EventCardProps {
   event: Event;
@@ -29,11 +30,11 @@ export default function EventCard({ event, onClick }: EventCardProps) {
       className="group cursor-pointer overflow-hidden rounded bg-card border border-white/5 transition-all hover:border-accent/30 flex flex-col h-fit"
     >
       <div className="relative h-48 bg-secondary overflow-hidden">
-        <img 
+        <OptimizedImage 
           src={event.image} 
           alt={event.name}
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-80"
-          referrerPolicy="no-referrer"
+          containerClassName="h-full w-full"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/20 to-transparent" />
         

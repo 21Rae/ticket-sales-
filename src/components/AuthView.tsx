@@ -1,33 +1,38 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Mail, Lock, User, Sparkles, ShieldCheck } from 'lucide-react';
-import { User as UserType } from '../types';
+import { useAuth } from '../lib/AuthContext';
 
 interface AuthViewProps {
-  onLogin: (user: UserType) => void;
   onClose: () => void;
 }
 
-export default function AuthView({ onLogin, onClose }: AuthViewProps) {
+export default function AuthView({ onClose }: AuthViewProps) {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const { login, signUp } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Pre-validating fields
     if (!email || !password || (!isLogin && !name)) return;
 
-    // Simulate authentication
-    const mockUser: UserType = {
-      id: Math.random().toString(36).substr(2, 9),
-      email,
-      name: isLogin ? email.split('@')[0] : name,
-    };
-    
-    // In a real app, this would verify with a backend
-    onLogin(mockUser);
+    setIsLoading(true);
+    try {
+      if (isLogin) {
+        await login(email, password);
+      } else {
+        await signUp(email, password, name);
+      }
+      onClose();
+    } catch (error: any) {
+      console.error(error);
+      alert(error.message || 'Authentication failed');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -112,10 +117,17 @@ export default function AuthView({ onLogin, onClose }: AuthViewProps) {
 
             <button 
               type="submit"
-              className="w-full bg-white text-black h-12 font-black uppercase tracking-widest text-[10px] hover:bg-accent transition-all italic flex items-center justify-center gap-2 active:scale-95 group shadow-xl mt-3"
+              disabled={isLoading}
+              className="w-full bg-white text-black h-12 font-black uppercase tracking-widest text-[10px] hover:bg-accent transition-all italic flex items-center justify-center gap-2 active:scale-95 group shadow-xl mt-3 disabled:opacity-50"
             >
-              {isLogin ? 'Access Match' : 'Register Now'}
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              {isLoading ? (
+                <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <>
+                  {isLogin ? 'Access Match' : 'Register Now'}
+                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                </>
+              )}
             </button>
           </form>
 

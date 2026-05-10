@@ -26,7 +26,7 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       ...bookingData,
       id: `BK-${Math.random().toString(36).substr(2, 6).toUpperCase()}`,
       createdAt: new Date().toISOString(),
-      status: 'confirmed'
+      status: 'pending'
     };
     const updatedBookings = [newBooking, ...bookings];
     setBookings(updatedBookings);

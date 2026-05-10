@@ -67,10 +67,10 @@ export default function Header({ user, onAuthClick, onLogout, onNavigate }: Head
               className="flex items-center gap-3 lg:gap-4 cursor-pointer hover:opacity-80 transition-opacity"
             >
               <div className="flex h-10 w-10 items-center justify-center rounded bg-accent text-black font-black italic text-xl shadow-[0_0_15px_rgba(207,255,0,0.3)] shrink-0">
-                TH
+                TD
               </div>
               <span className="font-display text-xl lg:text-2xl font-black tracking-tighter text-white italic uppercase hidden sm:block whitespace-nowrap">
-                Ticket<span className="text-accent underline decoration-white/20">Hub</span>
+                Ticket<span className="text-accent underline decoration-white/20">dome</span>
               </span>
             </Link>
           </div>
@@ -136,10 +136,10 @@ export default function Header({ user, onAuthClick, onLogout, onNavigate }: Head
                 <div className="flex h-20 items-center justify-between px-4 border-b border-white/10 shrink-0 bg-black">
                   <div className="flex items-center gap-4">
                     <div className="flex h-10 w-10 items-center justify-center rounded bg-accent text-black font-black italic text-xl">
-                      TH
+                      TD
                     </div>
                     <span className="font-display text-xl font-black tracking-tighter text-white italic uppercase whitespace-nowrap">
-                      Ticket<span className="text-accent">Hub</span>
+                      Ticket<span className="text-accent">dome</span>
                     </span>
                   </div>
                   <button 

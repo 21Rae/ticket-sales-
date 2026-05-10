@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Search, Filter, MapPin, Calendar, ArrowRight, ShieldCheck, 
@@ -6,25 +6,75 @@ import {
   X, HelpCircle, Ticket
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { MOCK_EVENTS, MOCK_CITIES } from '../constants';
+import { MOCK_EVENTS, MOCK_CITIES, MOCK_TEAMS } from '../constants';
 import { Event } from '../types';
+import { OptimizedImage } from './OptimizedImage';
+import { supabaseService } from '../services/supabaseService';
+import { getSupabase } from '../lib/supabase';
 
 export const MatchListView: React.FC = () => {
+  const [matches, setMatches] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCity, setSelectedCity] = useState('All');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
+  useEffect(() => {
+    const fetchMatches = async () => {
+      try {
+        const data = await supabaseService.getEvents();
+        if (data && data.length > 0) {
+          setMatches(data);
+        } else {
+          setMatches(MOCK_EVENTS);
+        }
+      } catch (err) {
+        console.error('Error fetching matches:', err);
+        setMatches(MOCK_EVENTS);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMatches();
+
+    const supabase = getSupabase();
+    if (supabase) {
+      const channel = supabase
+        .channel('matches-changes')
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'matches' },
+          () => fetchMatches()
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    }
+  }, []);
+
   const filteredMatches = useMemo(() => {
-    return MOCK_EVENTS.filter(match => {
-      const matchesSearch = match.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           match.location.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesCity = selectedCity === 'All' || match.location.includes(selectedCity);
+    return matches.filter(match => {
+      const searchStr = searchQuery.toLowerCase();
+      const matchesSearch = (match.name?.toLowerCase() || '').includes(searchStr) ||
+                           (match.location?.toLowerCase() || '').includes(searchStr);
+      const matchesCity = selectedCity === 'All' || (match.location || '').includes(selectedCity);
       const matchesCategory = selectedCategory === 'All' || match.category === selectedCategory;
       return matchesSearch && matchesCity && matchesCategory;
     });
-  }, [searchQuery, selectedCity, selectedCategory]);
+  }, [matches, searchQuery, selectedCity, selectedCategory]);
+
+  const getTeamFlag = (teamName: string) => {
+    if (!teamName) return 'https://flagcdn.com/w40/un.png';
+    const team = MOCK_TEAMS.find(t => teamName.includes(t.name));
+    if (team) return `https://flagcdn.com/w40/${team.flagCode.toLowerCase()}.png`;
+    return 'https://flagcdn.com/w40/un.png';
+  };
 
   return (
     <div className="bg-black min-h-screen pt-24 pb-20">
@@ -34,9 +84,14 @@ export const MatchListView: React.FC = () => {
           <p className="text-accent font-black uppercase tracking-[0.3em] text-[10px] mb-2 italic flex items-center justify-center gap-2">
             <Sparkles size={12} /> Schedule & Tickets <Sparkles size={12} />
           </p>
-          <h1 className="text-5xl md:text-7xl font-black text-white italic uppercase tracking-tighter leading-none transform -skew-x-12">
+          <h1 className="text-5xl md:text-7xl font-black text-white italic uppercase tracking-tighter leading-none transform -skew-x-12 mb-6">
             SECURE YOUR <span className="text-accent">LEGACY</span>
           </h1>
+          {error && (
+            <div className="max-w-xl mx-auto p-4 bg-amber-500/10 border border-amber-500/20 rounded-lg text-amber-500 text-[10px] font-bold uppercase tracking-widest leading-relaxed">
+              {error}
+            </div>
+          )}
         </div>
 
         <div className="bg-white/5 border border-white/10 p-2 rounded-sm flex flex-col md:flex-row gap-2">
@@ -123,19 +178,7 @@ export const MatchListView: React.FC = () => {
                   </div>
                 </div>
 
-                <div>
-                  <h4 className="text-[10px] font-black text-accent uppercase tracking-widest mb-4 italic">Price Range</h4>
-                  <div className="space-y-4">
-                    <div className="h-[2px] bg-white/10 relative">
-                      <div className="absolute left-0 right-1/4 h-full bg-accent" />
-                      <div className="absolute left-[75%] top-1/2 -translate-y-1/2 w-3 h-3 bg-white border-2 border-black rounded-full" />
-                    </div>
-                    <div className="flex justify-between text-[10px] font-black text-white italic">
-                      <span>$50</span>
-                      <span>$500+</span>
-                    </div>
-                  </div>
-                </div>
+
 
                 <div className="p-6 bg-accent rounded-sm">
                   <h4 className="text-black font-black uppercase italic text-sm mb-2">Member Support</h4>
@@ -174,13 +217,30 @@ export const MatchListView: React.FC = () => {
                   {viewMode === 'grid' ? (
                     <div className="group bg-white/5 border border-white/10 overflow-hidden hover:border-accent transition-all duration-300 flex flex-col h-full">
                       <div className="relative aspect-video overflow-hidden">
-                        <img 
+                        <OptimizedImage 
                           src={match.image} 
                           alt={match.name} 
                           className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" 
+                          containerClassName="w-full h-full"
                         />
-                        <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-md px-3 py-1 rounded-sm border border-white/10">
-                          <span className="text-[10px] font-black text-accent uppercase tracking-widest italic">{match.date.split('-')[1]}/{match.date.split('-')[2]}</span>
+                        <div className="absolute top-4 left-4 flex gap-1 items-center bg-black/40 backdrop-blur-md px-2 py-1 border border-white/10 rounded-xs">
+                          <OptimizedImage 
+                            src={getTeamFlag((match.name || '').split(' vs. ')[0])} 
+                            alt="" 
+                            className="w-3.5 h-2.5 object-cover rounded-xs"
+                            containerClassName="w-3.5 h-2.5"
+                          />
+                          <span className="text-[8px] font-black text-white/40 italic">VS</span>
+                          <OptimizedImage 
+                            src={getTeamFlag((match.name || '').split(' vs. ')[1])} 
+                            alt="" 
+                            className="w-3.5 h-2.5 object-cover rounded-xs"
+                            containerClassName="w-3.5 h-2.5"
+                          />
+                        </div>
+                        <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-md px-3 py-1 rounded-sm border border-white/10 text-center">
+                          <span className="block text-[8px] font-black text-white/40 uppercase leading-none">JUNE</span>
+                          <span className="text-[14px] font-black text-accent uppercase tracking-widest italic leading-none">{(match.date || '').split('-')[2] || '--'}</span>
                         </div>
                       </div>
                       <div className="p-6 flex-1 flex flex-col">
@@ -193,8 +253,6 @@ export const MatchListView: React.FC = () => {
                         <div className="mt-auto space-y-4">
                           <div className="flex justify-between items-end border-b border-white/5 pb-4">
                             <div>
-                              <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest mb-1 italic">Starts from</p>
-                              <p className="text-2xl font-black text-white tracking-tighter">${match.startingPrice}</p>
                             </div>
                             <Link to={`/matches/${match.id}`} className="flex items-center space-x-2 text-[10px] font-black text-white/60 uppercase tracking-widest hover:text-accent transition-colors">
                               <span>Details</span>
@@ -213,14 +271,34 @@ export const MatchListView: React.FC = () => {
                     </div>
                   ) : (
                     <div className="flex-1 flex flex-col md:flex-row items-center gap-6 w-full">
-                       <div className="w-full md:w-48 aspect-video md:aspect-square overflow-hidden bg-white/5">
-                        <img src={match.image} alt={match.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all opacity-50 group-hover:opacity-100" />
+                       <div className="w-full md:w-48 aspect-video md:aspect-square overflow-hidden bg-white/5 relative">
+                        <OptimizedImage 
+                          src={match.image} 
+                          alt={match.name} 
+                          className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all opacity-50 group-hover:opacity-100" 
+                          containerClassName="w-full h-full"
+                        />
+                        <div className="absolute bottom-2 left-2 flex gap-1 items-center bg-black/60 backdrop-blur-md px-2 py-1 border border-white/5 rounded-xs scale-90 origin-bottom-left">
+                          <OptimizedImage 
+                            src={getTeamFlag((match.name || '').split(' vs. ')[0])} 
+                            alt="" 
+                            className="w-3.5 h-2.5 object-cover rounded-xs"
+                            containerClassName="w-3.5 h-2.5"
+                          />
+                          <span className="text-[6px] font-black text-white/40 italic">VS</span>
+                          <OptimizedImage 
+                            src={getTeamFlag((match.name || '').split(' vs. ')[1])} 
+                            alt="" 
+                            className="w-3.5 h-2.5 object-cover rounded-xs"
+                            containerClassName="w-3.5 h-2.5"
+                          />
+                        </div>
                        </div>
                        <div className="flex-1">
                           <div className="flex items-center space-x-3 mb-2">
                              <div className="text-center min-w-[50px] bg-white/10 p-2 rounded-sm">
-                               <p className="text-[8px] font-black text-white/40 uppercase leading-none mb-1">{match.date.split('-')[1]}</p>
-                               <p className="text-lg font-black text-white italic leading-none">{match.date.split('-')[2]}</p>
+                               <p className="text-[8px] font-black text-white/40 uppercase leading-none mb-1">{(match.date || '').split('-')[1] || '--'}</p>
+                               <p className="text-lg font-black text-white italic leading-none">{(match.date || '').split('-')[2] || '--'}</p>
                              </div>
                              <div>
                                 <h3 className="text-xl font-black text-white italic uppercase tracking-tighter leading-none mb-1 group-hover:text-accent transition-colors">{match.name}</h3>
@@ -231,10 +309,6 @@ export const MatchListView: React.FC = () => {
                           </div>
                        </div>
                        <div className="flex flex-col items-end gap-3 w-full md:w-auto">
-                          <div className="text-right">
-                             <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest italic mb-1 italic">Starts from</p>
-                             <p className="text-2xl font-black text-white tracking-tighter">${match.startingPrice}</p>
-                          </div>
                           <Link to={`/matches/${match.id}/tickets`} className="px-8 py-3 bg-accent text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all transform hover:scale-105">
                              Select Seats
                           </Link>

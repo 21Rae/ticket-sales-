@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { Trophy, Mail, Lock, User, ArrowRight, Github, Sparkles } from 'lucide-react';
+import { Mail, Lock, User, ArrowRight, Github, Sparkles } from 'lucide-react';
 import { useAuth } from '../lib/AuthContext';
+import { Logo } from './Logo';
 
 export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -16,12 +17,11 @@ export const LoginPage: React.FC = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      // For demo, the email name is the first part of email
-      const name = email.split('@')[0];
-      await login(email, name);
+      await login(email, password);
       navigate('/dashboard');
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      alert(error.message || 'Login failed');
     } finally {
       setIsLoading(false);
     }
@@ -40,13 +40,7 @@ export const LoginPage: React.FC = () => {
       >
         <div className="text-center mb-10">
           <Link to="/" className="inline-flex items-center space-x-2 group mb-6">
-            <div className="w-12 h-12 bg-accent rounded-sm flex items-center justify-center transform group-hover:rotate-12 transition-transform">
-              <Trophy className="text-black" size={28} />
-            </div>
-            <div className="text-left">
-              <span className="text-2xl font-black text-white italic tracking-tighter uppercase leading-none block">FIFA</span>
-              <span className="text-[10px] font-bold text-accent uppercase tracking-[0.2em] block leading-none">Access Control</span>
-            </div>
+            <Logo className="mx-auto" />
           </Link>
           <h2 className="text-4xl font-black text-white italic uppercase tracking-tighter">Welcome Back</h2>
           <p className="text-white/40 text-xs font-bold uppercase tracking-widest mt-2">Enter your credentials to access your tickets</p>
@@ -107,20 +101,6 @@ export const LoginPage: React.FC = () => {
               {!isLoading && <ArrowRight size={18} />}
             </button>
           </form>
-
-          <div className="mt-8 pt-8 border-t border-white/10">
-            <p className="text-center text-[10px] font-bold text-white/40 uppercase tracking-widest mb-6">Or continue with</p>
-            <div className="grid grid-cols-2 gap-4">
-              <button className="flex items-center justify-center space-x-2 bg-white/5 border border-white/10 p-3 hover:bg-white hover:text-black transition-all group">
-                <Github size={18} />
-                <span className="text-[10px] font-black uppercase tracking-widest">GitHub</span>
-              </button>
-              <button className="flex items-center justify-center space-x-2 bg-white/5 border border-white/10 p-3 hover:bg-white hover:text-black transition-all group">
-                <Sparkles size={18} className="text-accent group-hover:text-black" />
-                <span className="text-[10px] font-black uppercase tracking-widest">Google</span>
-              </button>
-            </div>
-          </div>
         </div>
 
         <p className="text-center mt-8 text-[10px] font-bold text-white/40 uppercase tracking-widest">
@@ -136,17 +116,18 @@ export const SignupPage: React.FC = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
+  const { signUp } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await login(email, name);
+      await signUp(email, password, name);
       navigate('/verify-email');
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      alert(error.message || 'Signup failed');
     } finally {
       setIsLoading(false);
     }
@@ -161,13 +142,7 @@ export const SignupPage: React.FC = () => {
       >
         <div className="text-center mb-10">
           <Link to="/" className="inline-flex items-center space-x-2 group mb-6">
-            <div className="w-12 h-12 bg-accent rounded-sm flex items-center justify-center transform group-hover:rotate-12 transition-transform">
-              <Trophy className="text-black" size={28} />
-            </div>
-            <div className="text-left">
-              <span className="text-2xl font-black text-white italic tracking-tighter uppercase leading-none block">FIFA</span>
-              <span className="text-[10px] font-bold text-accent uppercase tracking-[0.2em] block leading-none">Registration</span>
-            </div>
+            <Logo className="mx-auto" />
           </Link>
           <h2 className="text-4xl font-black text-white italic uppercase tracking-tighter">Create Account</h2>
           <p className="text-white/40 text-xs font-bold uppercase tracking-widest mt-2">Join millions of fans across the continent</p>

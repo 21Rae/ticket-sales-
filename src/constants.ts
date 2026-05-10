@@ -1,11 +1,11 @@
-import { Event, Ticket, Stadium, City, Team, TicketCategory, Testimonial } from './types';
+import { Event, Ticket, Stadium, City, Team, TicketCategory, Testimonial, BlogPost } from './types';
 
 export const MOCK_TEAMS: Team[] = [
   {
     id: 'usa',
     name: 'United States',
     description: 'USA at the FIFA World Cup: Team profile and history',
-    image: 'https://images.unsplash.com/photo-1552667466-07770ae110d0?auto=format&fit=crop&w=800&q=80',
+    image: 'https://www.thesportsbank.net/wp-content/uploads/2022/09/USMNT-1-300x169.png',
     group: 'D',
     ranking: 11,
     flagCode: 'us'
@@ -81,6 +81,195 @@ export const MOCK_TEAMS: Team[] = [
     group: 'A',
     ranking: 22,
     flagCode: 'kr'
+  },
+  {
+    id: 'south-africa',
+    name: 'South Africa',
+    description: 'South Africa at the FIFA World Cup: Team profile and history',
+    image: 'https://images.unsplash.com/photo-1576483429314-ec207ca9000a?auto=format&fit=crop&w=800&q=80',
+    group: 'D',
+    ranking: 59,
+    flagCode: 'za'
+  },
+  {
+    id: 'poland',
+    name: 'Poland',
+    description: 'Poland national team profile',
+    image: 'https://images.unsplash.com/photo-1511267644861-c156930949ed?auto=format&fit=crop&w=800&q=80',
+    group: 'A',
+    ranking: 26,
+    flagCode: 'pl'
+  },
+  {
+    id: 'serbia',
+    name: 'Serbia',
+    description: 'Serbia national team profile',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
+    group: 'C',
+    ranking: 29,
+    flagCode: 'rs'
+  },
+  {
+    id: 'france',
+    name: 'France',
+    description: 'France national team profile',
+    image: 'https://images.unsplash.com/photo-1540749303346-5b0aa034ef82?auto=format&fit=crop&w=800&q=80',
+    group: 'B',
+    ranking: 2,
+    flagCode: 'fr'
+  },
+  {
+    id: 'australia',
+    name: 'Australia',
+    description: 'Australia national team profile',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
+    group: 'B',
+    ranking: 25,
+    flagCode: 'au'
+  },
+  {
+    id: 'england',
+    name: 'England',
+    description: 'England national team profile',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
+    group: 'B',
+    ranking: 4,
+    flagCode: 'gb-eng'
+  },
+  {
+    id: 'spain',
+    name: 'Spain',
+    description: 'Spain national team profile',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
+    group: 'E',
+    ranking: 10,
+    flagCode: 'es'
+  },
+  {
+    id: 'germany',
+    name: 'Germany',
+    description: 'Germany national team profile',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
+    group: 'E',
+    ranking: 14,
+    flagCode: 'de'
+  },
+  {
+    id: 'portugal',
+    name: 'Portugal',
+    description: 'Portugal national team profile',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
+    group: 'H',
+    ranking: 9,
+    flagCode: 'pt'
+  },
+  {
+    id: 'uruguay',
+    name: 'Uruguay',
+    description: 'Uruguay national team profile',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
+    group: 'H',
+    ranking: 16,
+    flagCode: 'uy'
+  },
+  {
+    id: 'ecuador',
+    name: 'Ecuador',
+    description: 'Ecuador national team profile',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
+    group: 'A',
+    ranking: 44,
+    flagCode: 'ec'
+  },
+  {
+    id: 'senegal',
+    name: 'Senegal',
+    description: 'Senegal national team profile',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
+    group: 'A',
+    ranking: 18,
+    flagCode: 'sn'
+  },
+  {
+    id: 'costa-rica',
+    name: 'Costa Rica',
+    description: 'Costa Rica national team profile',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
+    group: 'E',
+    ranking: 49,
+    flagCode: 'cr'
+  },
+  {
+    id: 'ghana',
+    name: 'Ghana',
+    description: 'Ghana national team profile',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
+    group: 'H',
+    ranking: 60,
+    flagCode: 'gh'
+  },
+  {
+    id: 'switzerland',
+    name: 'Switzerland',
+    description: 'Switzerland national team profile',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
+    group: 'G',
+    ranking: 12,
+    flagCode: 'ch'
+  },
+  {
+    id: 'qatar',
+    name: 'Qatar',
+    description: 'Qatar national team profile',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
+    group: 'A',
+    ranking: 58,
+    flagCode: 'qa'
+  },
+  {
+    id: 'tunisia',
+    name: 'Tunisia',
+    description: 'Tunisia national team profile',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
+    group: 'D',
+    ranking: 30,
+    flagCode: 'tn'
+  },
+  {
+    id: 'saudi-arabia',
+    name: 'Saudi Arabia',
+    description: 'Saudi Arabia national team profile',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
+    group: 'C',
+    ranking: 51,
+    flagCode: 'sa'
+  },
+  {
+    id: 'belgium',
+    name: 'Belgium',
+    description: 'Belgium national team profile',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
+    group: 'F',
+    ranking: 4,
+    flagCode: 'be'
+  },
+  {
+    id: 'morocco',
+    name: 'Morocco',
+    description: 'Morocco national team profile',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
+    group: 'F',
+    ranking: 13,
+    flagCode: 'ma'
+  },
+  {
+    id: 'croatia',
+    name: 'Croatia',
+    description: 'Croatia national team profile',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
+    group: 'F',
+    ranking: 7,
+    flagCode: 'hr'
   }
 ];
 
@@ -94,7 +283,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '20:00',
     startingPrice: 450,
     category: 'Sports',
-    image: 'https://static01.nyt.com/images/2010/06/12/sports/12soccer-cnd4/12soccer-cnd4-articleLarge-v3.jpg?quality=75&auto=webp', // Opening match historic moment
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80',
     details: {
       rankings: { home: 15, away: 59 },
       historical: { lastMatch: 'Mexico 1-1 South Africa (2010)', headToHead: 'Mex: 2 wins, SA: 1 win, 1 draw' },
@@ -110,7 +299,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '03:00',
     startingPrice: 320,
     category: 'Sports',
-    image: 'https://historicalsoccer.com/img/blog/202604/Korea-Republic-vs-Czechia.jpg', // Akron Match Historic View
+    image: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80',
     details: {
       rankings: { home: 22, away: 36 },
       historical: { lastMatch: 'Czechia 1-2 Korea Republic (2016)', headToHead: 'Korea: 1 win' },
@@ -126,7 +315,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '20:00',
     startingPrice: 280,
     category: 'Sports',
-    image: 'https://cdn.readeverything.co/wp-content/uploads/sites/118/2026/03/big-preiew-match-up-1200-x-600-px-4-746x372.png', // Reliable working stadium image
+    image: 'https://images.unsplash.com/photo-1540749176464-1af4d2661395?auto=format&fit=crop&w=1200&q=80',
     details: {
       rankings: { home: 45, away: 74 },
       historical: { lastMatch: 'First Competitive Meeting', headToHead: 'No previous matches' },
@@ -142,7 +331,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '02:00',
     startingPrice: 350,
     category: 'Sports',
-    image: 'https://images.mlssoccer.com/image/private/t_editorial_landscape_12_desktop_2x/f_auto/mls/xctqwt25u6dfn7qxgopf.jpg', // High end stadium
+    image: 'https://images.unsplash.com/photo-1551958219-acbc608c6377?auto=format&fit=crop&w=1200&q=80',
     details: {
       rankings: { home: 11, away: 56 },
       historical: { lastMatch: 'USA 1-0 Paraguay (2018)', headToHead: 'USA: 4 wins, Par: 2 wins' },
@@ -158,7 +347,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '20:00',
     startingPrice: 210,
     category: 'Sports',
-    image: 'https://www.aljazeera.com/wp-content/uploads/2022/12/2022-12-02T201120Z_257406537_UP1EIC21K2UWJ_RTRMADP_3_SOCCER-WORLDCUP-SRB-SWI-REPORT.jpg?resize=770%2C513&quality=80', // Levi's style
+    image: 'https://images.unsplash.com/photo-1575361204480-aadea25e6e68?auto=format&fit=crop&w=1200&q=80',
     details: {
       rankings: { home: 34, away: 19 },
       historical: { lastMatch: 'Switzerland 0-1 Qatar (2018)', headToHead: 'Qatar: 1 win' },
@@ -174,7 +363,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '23:00',
     startingPrice: 420,
     category: 'Sports',
-    image: 'https://assets.goal.com/images/v3/bltee8845482aefb881/vinicisu.jpg?auto=webp&format=pjpg&width=1920&quality=60',
+    image: 'https://images.unsplash.com/photo-1533965935398-76fa48cc1f37?auto=format&fit=crop&w=1200&q=80',
     details: {
       rankings: { home: 5, away: 13 },
       historical: { lastMatch: 'Morocco 2-1 Brazil (2023)', headToHead: 'Brazil: 2 wins, Mor: 1 win' },
@@ -190,7 +379,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '02:00',
     startingPrice: 190,
     category: 'Sports',
-    image: 'https://www.thescottishsun.co.uk/wp-content/uploads/sites/2/2026/04/keeps-eye-ball-concacaf-gold-1073302091.jpg?resize=1536,1024&quality=90&strip=all', // Gillette
+    image: 'https://images.unsplash.com/photo-1550117462-a5ec08bf0ac5?auto=format&fit=crop&w=1200&q=80',
     details: {
       rankings: { home: 90, away: 39 },
       historical: { lastMatch: 'First Meeting', headToHead: 'No previous matches' },
@@ -206,7 +395,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '05:00',
     startingPrice: 260,
     category: 'Sports',
-    image: 'https://imgresizer.eurosport.com/unsafe/1200x0/filters:format(webp)/origin-imgresizer.eurosport.com/2022/11/22/3495144.jpg', // BC Place
+    image: 'https://images.unsplash.com/photo-1529900664624-215109ec9ad4?auto=format&fit=crop&w=1200&q=80',
     details: {
       rankings: { home: 24, away: 40 },
       historical: { lastMatch: 'Australia 1-1 Türkiye (2004)', headToHead: 'Tur: 1 win, 1 draw' },
@@ -221,7 +410,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '18:00',
     startingPrice: 380,
     category: 'Sports',
-    image: 'https://platform.bavarianfootballworks.com/wp-content/uploads/sites/24/2025/12/gettyimages-2246639987.jpg?quality=90&strip=all&crop=0%2C0.023809523809518%2C100%2C99.952380952381&w=1080', // NRG
+    image: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?auto=format&fit=crop&w=1200&q=80',
     details: {
       rankings: { home: 16, away: 86 },
       historical: { lastMatch: 'Never Played', headToHead: 'First Matchup' },
@@ -236,7 +425,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '21:00',
     startingPrice: 340,
     category: 'Sports',
-    image: 'https://static01.nyt.com/images/2010/06/19/sports/19wcup-soccer/19wcup-soccer-blogSpan.jpg', // AT&T
+    image: 'https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=1200&q=80',
     details: {
       rankings: { home: 7, away: 18 },
       historical: { lastMatch: 'Netherlands 2-2 Japan (2013)', headToHead: 'Ned: 2 wins, 1 draw' },
@@ -252,7 +441,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '17:00',
     startingPrice: 310,
     category: 'Sports',
-    image: 'https://justanothermadridista.wordpress.com/wp-content/uploads/2010/05/spain-3-2-saudi-arabia-2.jpg', // Atlanta
+    image: 'https://images.unsplash.com/photo-1510051640316-cee39563ddab?auto=format&fit=crop&w=1200&q=80',
     details: {
       rankings: { home: 8, away: 53 },
       historical: { lastMatch: 'Spain 1-0 Saudi Arabia (2012)', headToHead: 'Spain: 3 wins' },
@@ -268,7 +457,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '20:00',
     startingPrice: 290,
     category: 'Sports',
-    image: 'https://web-cdnprod.aa.com.tr/uploads/Contents/2022/11/18/thumbs_b_c_72b86043ba9ab3b5124ac2979ccef2fa.jpg?v=213341', // Seattle
+    image: 'https://images.unsplash.com/photo-1556056504-5c7696c4c28d?auto=format&fit=crop&w=1200&q=80',
     details: {
       rankings: { home: 3, away: 36 },
       historical: { lastMatch: 'Egypt 2-1 Belgium (2022)', headToHead: 'Bel: 2 wins, Egy: 3 wins' },
@@ -283,7 +472,7 @@ export const MOCK_EVENTS: Event[] = [
     time: '23:00',
     startingPrice: 330,
     category: 'Sports',
-    image: 'https://ichef.bbci.co.uk/images/ic/640x360/p06bn5ng.jpg', // Miami
+    image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80',
     details: {
       rankings: { home: 53, away: 11 },
       historical: { lastMatch: 'Uruguay 1-0 Saudi Arabia (2018)', headToHead: 'Uru: 1 win, 2 draws' },
@@ -323,7 +512,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'USA',
     capacity: '82,500',
     description: 'The standard-bearer for large-scale multi-purpose stadiums, set to host the Grand Final.',
-    image: 'https://www.metlifestadium.com/assets/img/MetLifeStadium_SC3-cf83778790.JPG'
+    image: 'https://images.unsplash.com/photo-1577223625816-7546f13df25d?auto=format&fit=crop&w=1200&q=80'
   },
   {
     id: 's2',
@@ -332,7 +521,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'USA',
     capacity: '70,000',
     description: 'A revolutionary indoor-outdoor design and the most expensive stadium ever built.',
-    image: 'https://www.brightview.com/sites/default/files/styles/hero/public/2025-03/Concacaf%20-%20hero_0.jpg.webp?itok=ukUL7Kse'
+    image: 'https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&w=1200&q=80'
   },
   {
     id: 's3',
@@ -341,7 +530,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'Mexico',
     capacity: '87,523',
     description: 'The historic "Cathedral of Football," hosting its third World Cup opening match.',
-    image: 'https://cdn.mos.cms.futurecdn.net/ik5egrU7wqe7S4YC8XcBmf-970-80.jpg.webp'
+    image: 'https://images.unsplash.com/photo-1589487391730-58f20eb2c308?auto=format&fit=crop&w=1200&q=80'
   },
   {
     id: 's4',
@@ -350,7 +539,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'USA',
     capacity: '80,000',
     description: 'The largest retractable roof stadium in the world, known for its massive center-hung scoreboard.',
-    image: 'https://media.wfaa.com/assets/WFAA/images/b31f3114-7f67-4948-b301-c3db08ef4b76/b31f3114-7f67-4948-b301-c3db08ef4b76_1920x1080.jpg'
+    image: 'https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=1200&q=80'
   },
   {
     id: 's5',
@@ -359,7 +548,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'Canada',
     capacity: '54,500',
     description: "The crown jewel of Canada's west coast sports scene with its retractable roof and harbor views.",
-    image: 'https://images-dh-production-baselayer.dailyhive.com/uploads/2017/04/bc-place-stadium-northern-lights-false-creek.jpg?format=auto&width=988'
+    image: 'https://images.unsplash.com/photo-1540749176464-1af4d2661395?auto=format&fit=crop&w=1200&q=80'
   },
   {
     id: 's6',
@@ -368,7 +557,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'USA',
     capacity: '64,767',
     description: "A premier global destination for high-intensity sports and entertainment in the heart of Florida.",
-    image: 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/21/60/15/f2/caption.jpg?w=1400&h=800&s=1'
+    image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80'
   },
   {
     id: 's7',
@@ -377,7 +566,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'USA',
     capacity: '71,000',
     description: 'Architecturally stunning with its "pinwheel" retractable roof and halo video board.',
-    image: 'https://www.architectmagazine.com/wp-content/uploads/sites/5/2015/mercedesbenzstadium-hok-exterior1.jpg?resize=768,512'
+    image: 'https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a?auto=format&fit=crop&w=1200&q=80'
   },
   {
     id: 's8',
@@ -386,7 +575,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'Canada',
     capacity: '30,000',
     description: "Canada's national soccer stadium, set for major expansion to host the world's elite.",
-    image: 'https://www.pcl.com/content/dam/pcl-projects/project-main-photos/BMO%20Field%20Expansion%20MAIN.jpg'
+    image: 'https://images.unsplash.com/photo-1510051640316-cee39563ddab?auto=format&fit=crop&w=1200&q=80'
   },
   {
     id: 's9',
@@ -395,7 +584,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'USA',
     capacity: '69,000',
     description: "Famous for its deafening atmosphere and unique 'V' shape, offering panoramic skyline views.",
-    image: 'https://image-tc.galaxy.tf/wijpeg-3d6w2zwma5sc1bffx13ca6ccp/lumen-field_wide.jpg?crop=0%2C0%2C1920%2C1080&width=1280'
+    image: 'https://images.unsplash.com/photo-1556056504-5c7696c4c28d?auto=format&fit=crop&w=1200&q=80'
   },
   {
     id: 's10',
@@ -404,7 +593,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'USA',
     capacity: '68,500',
     description: 'A high-tech, eco-friendly masterpiece in the heart of Silicon Valley.',
-    image: 'https://static.pollstar.com/wp-content/uploads/2025/08/49ersBig_TL42902-2048x1365.jpg'
+    image: 'https://images.unsplash.com/photo-1470004914212-05527e49370b?auto=format&fit=crop&w=1200&q=80'
   },
   {
     id: 's11',
@@ -413,7 +602,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'USA',
     capacity: '72,220',
     description: 'The first facility in the NFL with a retractable roof, ideal for high-stakes international play.',
-    image: 'https://aviewfrommyseat.com/wallpaper/anonymous-20250731222144-58.jpg'
+    image: 'https://images.unsplash.com/photo-1521533845262-3864320c4134?auto=format&fit=crop&w=1200&q=80'
   },
   {
     id: 's12',
@@ -422,7 +611,7 @@ export const MOCK_STADIUMS: Stadium[] = [
     country: 'USA',
     capacity: '67,594',
     description: 'An energy-efficient stadium known for its passionate fans and clear sightlines.',
-    image: 'https://thebusinessdownload.com/wp-content/uploads/2021/10/image-35.png'
+    image: 'https://images.unsplash.com/photo-1566579090262-ec1094148044?auto=format&fit=crop&w=1200&q=80'
   }
 ];
 
@@ -481,7 +670,7 @@ export const MOCK_CITIES: City[] = [
     country: 'Mexico',
     description: 'A global metropolis with a rich football history, set to host the historic opening match at Estadio Azteca.',
     stadium: 'Estadio Azteca',
-    image: 'https://hips.hearstapps.com/hmg-prod/images/mexico-citys-downtown-at-twilight-royalty-free-image-1718218501.jpg',
+    image: 'https://images.unsplash.com/photo-1589487391730-58f20eb2c308?auto=format&fit=crop&w=1200&q=80',
     highlights: ['Opening Match Venue', 'Historic Altitude', 'Football Capital']
   },
   {
@@ -490,7 +679,7 @@ export const MOCK_CITIES: City[] = [
     country: 'USA',
     description: 'The entertainment capital of the world, featuring the cutting-edge SoFi Stadium in Inglewood.',
     stadium: 'SoFi Stadium',
-    image: 'https://images.trvl-media.com/place/178280/a52925ff-8159-46db-8203-2c466dda9df5.jpg',
+    image: 'https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&w=1200&q=80',
     highlights: ['Hollywood Entertainment', 'Coastal Weather', 'Luxury Suites']
   },
   {
@@ -499,7 +688,7 @@ export const MOCK_CITIES: City[] = [
     country: 'Canada',
     description: "Canada's largest city and cultural hub, bringing a diverse global audience to BMO Field.",
     stadium: 'BMO Field',
-    image: 'https://images.trvl-media.com/place/178314/5eeee25f-78d5-4b85-a17c-f8cce9d6def8.jpg',
+    image: 'https://images.unsplash.com/photo-1510051640316-cee39563ddab?auto=format&fit=crop&w=1200&q=80',
     highlights: ['Multicultural Hub', 'Lakeshore Scenery', 'Expanded Stadium']
   },
   {
@@ -508,7 +697,7 @@ export const MOCK_CITIES: City[] = [
     country: 'USA',
     description: 'The world stage for the Grand Final 2026, where history will be made at MetLife Stadium.',
     stadium: 'MetLife Stadium',
-    image: 'https://media.zenfs.com/en/aol_asbury_park_press_115/a46b04883b39db38bf3f1260864e4613',
+    image: 'https://images.unsplash.com/photo-1577223625816-7546f13df25d?auto=format&fit=crop&w=1200&q=80',
     highlights: ['Final Match Venue', 'Skyline Views', 'Global Transit Hub']
   }
 ];
@@ -525,5 +714,53 @@ export const FAQ_ITEMS = [
   {
     question: 'What is the refund policy?',
     answer: 'Tickets are non-refundable but can be resold through our official fan-to-fan marketplace.'
+  }
+];
+
+export const MOCK_BLOG_POSTS: BlogPost[] = [
+  {
+    id: '1',
+    title: 'The Road to 2026: North America Prepares',
+    excerpt: 'Explore how the three host nations are transforming their cities and stadiums for the biggest tournament in history.',
+    content: `The 2026 FIFA World Cup is set to be a milestone in sporting history. For the first time, 48 teams will compete across 16 host cities in Canada, Mexico, and the United States. 
+
+From the historic heights of Estadio Azteca in Mexico City to the cutting-edge technology of SoFi Stadium in Los Angeles, the scale of preparation is unprecedented. Infrastructure projects are underway in every host city, including expanded public transit, airport upgrades, and stadium renovations.
+
+This tournament isn't just about football; it's about a cultural exchange on a global scale. Fans from every corner of the planet will descend upon North America, creating a vibrant tapestry of traditions and passion.`,
+    author: 'Admin',
+    date: '2024-05-15',
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80',
+    category: 'Tournament News',
+    readTime: '5 min read'
+  },
+  {
+    id: '2',
+    title: 'Stadium Spotlight: MetLife Stadium',
+    excerpt: 'A deep dive into the venue selected to host the Grand Final in East Rutherford, New Jersey.',
+    content: `MetLife Stadium has been officially announced as the venue for the FIFA World Cup 2026 final. Located just outside New York City, this iconic stadium has a history of hosting major events, from Super Bowls to international friendlies.
+
+The stadium features a capacity of over 82,000, ensuring a thunderous atmosphere for the tournament's climax. Modifications are planned to bring the field up to FIFA's international standards, including a natural grass surface and improved sightlines for soccer fans.
+
+Getting there will be part of the adventure, with enhanced rail links from Manhattan and major New Jersey hubs being prioritized for the summer of 2026.`,
+    author: 'Sports Desk',
+    date: '2024-05-10',
+    image: 'https://images.unsplash.com/photo-1577223625816-7546f13df25d?auto=format&fit=crop&w=1200&q=80',
+    category: 'Stadiums',
+    readTime: '4 min read'
+  },
+  {
+    id: '3',
+    title: 'Fan Guide: Traveling between Host Cities',
+    excerpt: 'Everything you need to know about navigating the vast distances across Canada, Mexico, and the USA.',
+    content: `Crossing borders and time zones: the 2026 tournament presents a unique logistical challenge for visiting fans. Whether you're following your team from Toronto to Miami or Mexico City to Seattle, planning is key.
+
+Airlines are already preparing for increased demand, and special "Fan Flights" are expected to be announced closer to the event. For those looking for a scenic route, Amtrak and VIA Rail offer cross-country journeys, though these require significantly more time.
+
+Visa requirements are also a critical consideration. With three different countries' laws in play, fans are encouraged to check the official 'FIFA Fan Passport' guidelines for streamlined border crossings during the tournament window.`,
+    author: 'Travel News',
+    date: '2024-05-01',
+    image: 'https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=1200&q=80',
+    category: 'Fans & Travel',
+    readTime: '6 min read'
   }
 ];

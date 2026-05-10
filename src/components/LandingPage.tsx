@@ -1,21 +1,51 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Trophy, ArrowRight, Search, Ticket, CheckCircle, Star, Sparkles, Mail, Instagram, Twitter, Facebook } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { MOCK_EVENTS, TESTIMONIALS, FAQ_ITEMS } from '../constants';
+import { Logo } from './Logo';
+import { OptimizedImage } from './OptimizedImage';
+import { supabaseService } from '../services/supabaseService';
+import { Event } from '../types';
 
 export const LandingPage: React.FC = () => {
+  const [featuredMatches, setFeaturedMatches] = useState<Event[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      try {
+        const data = await supabaseService.getEvents();
+        if (data) {
+          if (data.length > 0) {
+            setFeaturedMatches(data.slice(0, 3));
+          } else {
+            setFeaturedMatches(MOCK_EVENTS.slice(0, 3));
+          }
+        } else {
+          setFeaturedMatches(MOCK_EVENTS.slice(0, 3));
+        }
+      } catch (err) {
+        console.error('Error fetching featured matches:', err);
+        setFeaturedMatches(MOCK_EVENTS.slice(0, 3));
+      }
+    };
+    fetchFeatured();
+  }, []);
+
   return (
     <div className="bg-black">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1540749176464-1af4d2661395?auto=format&fit=crop&w=2000&q=80" 
+        <div className="absolute inset-0 z-0 text-center">
+          <OptimizedImage 
+            src="https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?q=80&w=1323&auto=format&fit=crop&ixlib=rb-4.1.0" 
             alt="Stadium Background" 
-            className="w-full h-full object-cover opacity-50 contrast-125"
+            className="w-full h-full object-cover opacity-80"
+            containerClassName="w-full h-full"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30" />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
@@ -24,10 +54,7 @@ export const LandingPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="flex items-center justify-center space-x-2 mb-6">
-              <Sparkles className="text-accent" size={24} />
-              <span className="text-accent font-black uppercase tracking-[0.3em] text-sm italic">The World's Stage Awaits</span>
-            </div>
+
             <h1 className="text-7xl md:text-[10rem] font-black text-white italic leading-[0.8] uppercase tracking-tighter mb-8 transform -skew-x-12">
               UNITE THE <br /> <span className="text-accent">WORLD</span>
             </h1>
@@ -94,20 +121,20 @@ export const LandingPage: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {MOCK_EVENTS.slice(0, 3).map(event => (
+            {featuredMatches.map(event => (
               <Link key={event.id} to={`/matches/${event.id}`} className="group relative aspect-[4/5] overflow-hidden">
-                <img 
+                <OptimizedImage 
                   src={event.image} 
                   alt={event.name} 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale hover:grayscale-0 opacity-60 group-hover:opacity-100" 
+                  containerClassName="w-full h-full"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6">
                   <p className="text-[10px] font-black text-accent uppercase tracking-[0.2em] mb-1 italic">World Cup 26 - Group Stage</p>
                   <h3 className="text-2xl font-black text-white uppercase italic tracking-tighter leading-none">{event.name}</h3>
-                  <div className="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
+                  <div className="mt-4 pt-4 border-t border-white/10">
                     <span className="text-[10px] font-bold text-white/60 uppercase">{event.venue}</span>
-                    <span className="text-[10px] font-black text-white uppercase tracking-widest">${event.startingPrice}+</span>
                   </div>
                 </div>
               </Link>
@@ -131,7 +158,12 @@ export const LandingPage: React.FC = () => {
               <div key={t.id} className="p-8 bg-white/5 border border-white/10 rounded-sm">
                 <p className="text-white/60 italic leading-relaxed mb-8">"{t.text}"</p>
                 <div className="flex items-center space-x-4">
-                  <img src={t.avatar} alt={t.name} className="w-12 h-12 rounded-full border border-accent/20" />
+                  <OptimizedImage 
+                    src={t.avatar} 
+                    alt={t.name} 
+                    className="w-12 h-12 rounded-full border border-accent/20" 
+                    containerClassName="w-12 h-12 rounded-full"
+                  />
                   <div>
                     <h4 className="text-sm font-black text-white uppercase">{t.name}</h4>
                     <p className="text-[10px] font-bold text-accent uppercase tracking-widest italic">{t.role}</p>
@@ -167,13 +199,10 @@ export const LandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-12 mb-16">
           <div className="col-span-2">
             <Link to="/" className="flex items-center space-x-2 mb-6">
-              <div className="w-8 h-8 bg-white rounded-sm flex items-center justify-center">
-                <Trophy className="text-black" size={18} />
-              </div>
-              <span className="text-xl font-black text-white italic tracking-tighter uppercase leading-none">FIFA 2026</span>
+              <Logo />
             </Link>
             <p className="text-white/40 max-w-xs text-sm leading-relaxed mb-6">
-              Official ticketing platform for the FIFA World Cup 2026™. Experience the greatness of football across North America.
+              Ticketdome is the official ticketing platform for the FIFA World Cup 2026™. Experience the greatness of football across North America.
             </p>
             <div className="flex space-x-4">
               <Link to="#" className="w-10 h-10 border border-white/10 rounded-sm flex items-center justify-center text-white/40 hover:text-white hover:border-white transition-colors"><Twitter size={18} /></Link>
@@ -201,7 +230,7 @@ export const LandingPage: React.FC = () => {
           </div>
         </div>
         <div className="max-w-7xl mx-auto px-4 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest">© 2026 FIFA World Cup. All rights reserved.</p>
+          <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest">© 2026 Ticketdome. All rights reserved.</p>
           <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest italic flex items-center gap-2">
             Made for the Beautiful Game <Sparkles size={8} />
           </p>

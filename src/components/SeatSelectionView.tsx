@@ -95,16 +95,15 @@ export default function SeatSelectionView() {
         <div className="flex items-start justify-between mb-16 border-b border-white/5 pb-8">
           <div className="flex gap-6 items-center">
              <div className="flex h-16 w-16 items-center justify-center rounded bg-accent text-black font-black italic text-3xl shadow-[0_0_30px_rgba(204,255,0,0.2)] shrink-0">
-                TH
+                TD
              </div>
              <div>
                 <div className="flex items-center gap-2 mb-1">
                    <h1 className="text-3xl lg:text-5xl font-black italic uppercase tracking-tighter text-white leading-none">
-                     Ticket<span className="text-accent underline decoration-white/20">Hub</span>
+                     Ticket<span className="text-accent underline decoration-white/20">dome</span>
                    </h1>
                    <div className="h-8 w-[2px] bg-white/20 mx-2 hidden lg:block" />
                    <div className="hidden lg:flex items-center gap-2 uppercase text-[10px] font-black tracking-[0.3em] text-slate-500 italic">
-                      <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c5/FIFA_World_Cup_2026_Logo.svg/1200px-FIFA_World_Cup_2026_Logo.svg.png" alt="FIFA" className="h-6 opacity-50 grayscale hover:grayscale-0 transition-all cursor-help" />
                       <span>Official Fan Portal</span>
                    </div>
                 </div>
@@ -186,7 +185,7 @@ export default function SeatSelectionView() {
                                  <div className="absolute left-1/2 top-0 bottom-0 w-px bg-white/10" />
                                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full border border-white/10" />
                                  <div className="absolute inset-0 flex items-center justify-center opacity-5 rotate-[-15deg] select-none pointer-events-none">
-                                    <span className="text-[60px] font-black italic tracking-tighter text-white">TICKETHUB</span>
+                                    <span className="text-[60px] font-black italic tracking-tighter text-white">TICKETDOME</span>
                                  </div>
                                  {/* Interactive Inner Sections */}
                                  <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-[80%] h-8 grid grid-cols-6 gap-0.5">
@@ -228,16 +227,12 @@ export default function SeatSelectionView() {
                   <p className="text-[10px] font-black uppercase tracking-widest text-slate-700 mt-2">MAIN ACCESS AREA</p>
                </div>
 
-               <div className="mt-20 flex flex-col items-center gap-2">
-                 <div className="flex items-center gap-6 mb-4">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c5/FIFA_World_Cup_2026_Logo.svg/1200px-FIFA_World_Cup_2026_Logo.svg.png" alt="FIFA" className="h-10 opacity-30" />
-                    <div className="h-10 w-[1px] bg-white/10" />
-                    <div className="flex h-10 w-10 items-center justify-center rounded bg-white text-black font-black italic text-xl opacity-30">TH</div>
-                 </div>
+               <div className="mt-20 flex flex-col items-center gap-2 text-center">
+                 <div className="flex h-12 w-12 items-center justify-center rounded bg-accent text-black font-black italic text-xl mb-4">TD</div>
                  <p className="text-[18px] font-black text-white uppercase italic tracking-tighter">Your Journey to History Starts Here</p>
-                 <p className="text-[11px] font-bold text-slate-500 uppercase tracking-[0.3em] leading-none">TICKETHUB PRE-SALE ENCRYPTION ENABLED</p>
+                 <p className="text-[11px] font-bold text-slate-500 uppercase tracking-[0.3em] leading-none">TICKETDOME PRE-SALE ENCRYPTION ENABLED</p>
                  <p className="text-[8px] text-slate-700 mt-6 max-w-sm text-center uppercase tracking-widest">
-                   The TicketHub visualizer is an illustrative tool. Final seating location will be confirmed on your verified ticket credential.
+                   The Ticketdome visualizer is an illustrative tool. Final seating location will be confirmed on your verified ticket credential.
                  </p>
                </div>
             </div>
@@ -275,7 +270,7 @@ export default function SeatSelectionView() {
                </div>
                <div className="bg-black/40 p-3 text-center border-t border-white/5">
                   <span className="text-[8px] font-bold text-slate-600 uppercase tracking-widest leading-relaxed">
-                    *TICKETHUB INDICATIVE PRICING<br />SUBJECT TO DEMAND SCALABILITY
+                    *TICKETDOME INDICATIVE PRICING<br />SUBJECT TO DEMAND SCALABILITY
                   </span>
                </div>
             </div>
@@ -316,9 +311,9 @@ export default function SeatSelectionView() {
 
             {/* Bottom Branding */}
             <div className="mt-8 flex items-center gap-4 px-4 lg:px-0 border-t border-white/5 pt-8">
-               <div className="flex h-12 w-12 items-center justify-center rounded bg-accent text-black font-black italic text-xl">TH</div>
+               <div className="flex h-12 w-12 items-center justify-center rounded bg-accent text-black font-black italic text-xl">TD</div>
                <div>
-                  <p className="text-[14px] font-black text-white uppercase italic leading-none">TICKETHUB OFFICIAL</p>
+                  <p className="text-[14px] font-black text-white uppercase italic leading-none">TICKETDOME OFFICIAL</p>
                   <p className="text-[14px] font-black text-accent uppercase italic leading-none opacity-40 tracking-widest">2026 PROTOCOL</p>
                </div>
             </div>

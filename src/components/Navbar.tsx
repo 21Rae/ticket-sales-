@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
-import { Trophy, User, LogOut, Menu, X, Sparkles } from 'lucide-react';
+import { User, LogOut, Menu, X, Sparkles } from 'lucide-react';
 import { useAuth } from '../lib/AuthContext';
 import { motion, AnimatePresence } from 'motion/react';
+import { Logo } from './Logo';
+import { OptimizedImage } from './OptimizedImage';
 
 export const Navbar: React.FC = () => {
   const { user, logout } = useAuth();
@@ -27,13 +29,7 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <Link to="/" className="flex items-center space-x-2 group">
-            <div className="w-10 h-10 bg-accent rounded-sm flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300">
-              <Trophy className="text-black" size={24} strokeWidth={2.5} />
-            </div>
-            <div>
-              <span className="text-2xl font-black text-white italic tracking-tighter uppercase leading-none block">FIFA</span>
-              <span className="text-[10px] font-bold text-accent uppercase tracking-[0.2em] block leading-none">World Cup 2026</span>
-            </div>
+            <Logo />
           </Link>
 
           {/* Desktop Navigation */}
@@ -47,11 +43,22 @@ export const Navbar: React.FC = () => {
             <NavLink to="/cities" className={({ isActive }) => 
               `text-sm font-bold uppercase tracking-widest transition-colors ${isActive ? 'text-accent' : 'text-white/70 hover:text-white'}`
             }>Host Cities</NavLink>
+            <NavLink to="/teams" className={({ isActive }) => 
+              `text-sm font-bold uppercase tracking-widest transition-colors ${isActive ? 'text-accent' : 'text-white/70 hover:text-white'}`
+            }>Teams</NavLink>
+            <NavLink to="/blog" className={({ isActive }) => 
+              `text-sm font-bold uppercase tracking-widest transition-colors ${isActive ? 'text-accent' : 'text-white/70 hover:text-white'}`
+            }>News</NavLink>
             
             {user ? (
               <div className="flex items-center space-x-6 border-l border-white/10 pl-6">
                 <Link to="/dashboard" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
-                  <img src={user.avatar} alt={user.name} className="w-8 h-8 rounded-full border border-accent/30" />
+                  <OptimizedImage 
+                    src={user.avatar} 
+                    alt={user.name} 
+                    className="w-8 h-8 rounded-full border border-accent/30" 
+                    containerClassName="w-8 h-8 rounded-full"
+                  />
                   <span className="text-sm font-bold text-white uppercase tracking-wider">{user.name.split(' ')[0]}</span>
                 </Link>
                 <button onClick={logout} className="text-white/40 hover:text-white transition-colors">
@@ -88,6 +95,8 @@ export const Navbar: React.FC = () => {
               <Link to="/matches" className="block text-xl font-black text-white italic uppercase py-2">Matches</Link>
               <Link to="/stadiums" className="block text-xl font-black text-white italic uppercase py-2">Stadiums</Link>
               <Link to="/cities" className="block text-xl font-black text-white italic uppercase py-2">Host Cities</Link>
+              <Link to="/teams" className="block text-xl font-black text-white italic uppercase py-2">Teams</Link>
+              <Link to="/blog" className="block text-xl font-black text-white italic uppercase py-2">News</Link>
               <hr className="border-white/10" />
               {user ? (
                 <>

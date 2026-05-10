@@ -5,10 +5,13 @@ import { ChevronLeft, ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { supabaseService } from '../services/supabaseService';
 import { Team } from '../types';
+import { OptimizedImage } from './OptimizedImage';
+import { getSupabase } from '../lib/supabase';
 
 export default function TeamsListView() {
-  const [teams, setTeams] = useState<Team[]>(MOCK_TEAMS);
+  const [teams, setTeams] = useState<Team[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,15 +20,34 @@ export default function TeamsListView() {
         const data = await supabaseService.getTeams();
         if (data && data.length > 0) {
           setTeams(data);
+        } else {
+          setTeams(MOCK_TEAMS);
         }
       } catch (err) {
-        console.error('Error fetching teams from Supabase:', err);
+        console.error('Error fetching teams:', err);
+        setTeams(MOCK_TEAMS);
       } finally {
         setLoading(false);
       }
     };
 
     fetchTeams();
+
+    const supabase = getSupabase();
+    if (supabase) {
+      const channel = supabase
+        .channel('teams-changes')
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'teams' },
+          () => fetchTeams()
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    }
   }, []);
 
   return (
@@ -46,9 +68,14 @@ export default function TeamsListView() {
 
       {/* Header */}
       <div className="mb-12">
-        <h1 className="text-[52px] font-bold text-white tracking-tight leading-tight mb-8">
+        <h1 className="text-[52px] font-bold text-white tracking-tight leading-tight mb-4">
           Team profiles
         </h1>
+        {error && (
+          <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-lg text-amber-500 text-sm mb-4">
+            {error}
+          </div>
+        )}
       </div>
 
       {/* Teams Grid */}
@@ -63,11 +90,11 @@ export default function TeamsListView() {
           >
             {/* Card Image Container */}
             <div className="relative aspect-[16/9] overflow-hidden rounded-xs bg-slate-900 border border-white/5 mb-4 shadow-lg group-hover:shadow-accent/10 transition-all duration-300">
-              <img 
+              <OptimizedImage 
                 src={team.image} 
                 alt={team.name}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                referrerPolicy="no-referrer"
+                containerClassName="w-full h-full"
               />
               
               {/* Specialized Overlay from Screenshot */}
@@ -77,11 +104,12 @@ export default function TeamsListView() {
                     <div className="flex flex-col gap-1.5">
                        <div className="flex items-center justify-between">
                           <span className="text-[10px] font-black text-white/40 italic">GROUP {team.group}</span>
-                          <img 
-                            src={`https://flagcdn.com/w40/${team.flagCode}.png`} 
+                          <OptimizedImage 
+                            src={`https://flagcdn.com/w40/${team.flagCode.toLowerCase()}.png`} 
                             alt="" 
                             className="h-3 w-4.5 object-cover rounded-xs"
-                            referrerPolicy="no-referrer"
+                            containerClassName="h-3 w-4.5"
+                            fallbackSrc="https://flagcdn.com/w40/un.png"
                           />
                        </div>
                        <div className="space-y-1">
@@ -114,11 +142,12 @@ export default function TeamsListView() {
             {/* Content area */}
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <img 
-                  src={`https://flagcdn.com/w40/${team.flagCode}.png`} 
+                <OptimizedImage 
+                  src={`https://flagcdn.com/w40/${team.flagCode.toLowerCase()}.png`} 
                   alt="" 
                   className="h-3 w-4.5 object-cover rounded-xs"
-                  referrerPolicy="no-referrer"
+                  containerClassName="h-3 w-4.5"
+                  fallbackSrc="https://flagcdn.com/w40/un.png"
                 />
                 <p className="text-[11px] font-bold text-sky-400 uppercase tracking-tight transition-colors">
                   {team.name}

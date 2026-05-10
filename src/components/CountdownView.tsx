@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
+import { OptimizedImage } from './OptimizedImage';
 
 export default function CountdownView() {
   const navigate = useNavigate();
@@ -38,14 +39,9 @@ export default function CountdownView() {
       {/* Blue Header Section */}
       <div className="bg-[#214dc4] px-4 md:px-12 py-8 md:py-4 flex flex-col md:flex-row justify-between items-center gap-8 md:gap-6">
         <div className="flex flex-col md:flex-row items-center gap-4 md:gap-5 text-center md:text-left">
-           <div className="h-20 w-16 bg-white rounded-sm flex flex-col items-center justify-center p-2 shadow-2xl skew-x-[-5deg]">
-             <img 
-               src="https://images.weserv.nl/?url=https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/2026_FIFA_World_Cup_Logo.svg/1200px-2026_FIFA_World_Cup_Logo.svg.png" 
-               alt="FIFA 26" 
-               className="w-full h-auto object-contain"
-               referrerPolicy="no-referrer"
-             />
-           </div>
+            <div className="h-20 w-16 bg-white/5 border border-white/10 rounded-sm flex flex-col items-center justify-center p-2 shadow-2xl skew-x-[-5deg]">
+              <span className="text-white text-xl font-black italic">26</span>
+            </div>
            <div>
              <h1 className="text-2xl md:text-2xl font-black uppercase tracking-tight leading-none italic">FIFA World Cup 2026™</h1>
              <p className="text-xs font-bold text-white/80 uppercase tracking-widest mt-2 md:mt-1">11 June - 19 July 2026</p>
@@ -148,7 +144,12 @@ export default function CountdownView() {
                 <p className="text-[10px] font-bold uppercase tracking-widest text-[#999999] mb-1">Next Up</p>
                 <p className="text-sm font-black uppercase italic text-white mb-6">FIFA World Cup™</p>
             <div className="relative aspect-[3/4] overflow-hidden rounded-sm group">
-              <img src="https://images.unsplash.com/photo-1540749303346-5b0aa034ef82?auto=format&fit=crop&w=800&q=80" className="h-full w-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110" alt="Stadium" referrerPolicy="no-referrer" />
+              <OptimizedImage 
+                src="https://images.unsplash.com/photo-1540749303346-5b0aa034ef82?auto=format&fit=crop&w=800&q=80" 
+                className="h-full w-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110" 
+                alt="Stadium" 
+                containerClassName="h-full w-full"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
               <div className="absolute bottom-4 left-4 right-4">
                  <p className="text-xl font-black text-white italic uppercase tracking-tighter">Kings of the Game</p>

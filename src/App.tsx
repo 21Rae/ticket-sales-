@@ -8,9 +8,12 @@ import { MatchListView } from './components/MatchListView';
 import { TicketSelection } from './components/TicketSelection';
 import { UserDashboard } from './components/UserDashboard';
 import { LoginPage, SignupPage, VerifyEmailPage } from './components/AuthPages';
+import { PaymentVerificationView } from './components/PaymentVerificationView';
 
 import { StadiumsList } from './components/StadiumsList';
 import { CitiesList } from './components/CitiesList';
+import TeamsListView from './components/TeamsListView';
+import { BlogView } from './components/BlogView';
 
 const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, isLoading } = useAuth();
@@ -37,10 +40,20 @@ function App() {
             <Route path="/matches" element={<MatchListView />} />
             <Route path="/stadiums" element={<StadiumsList />} />
             <Route path="/cities" element={<CitiesList />} />
+            <Route path="/teams" element={<TeamsListView />} />
+            <Route path="/blog" element={<BlogView />} />
             <Route path="/matches/:id/tickets" element={<TicketSelection />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/verify-email" element={<VerifyEmailPage />} />
+            <Route 
+              path="/payment-verification" 
+              element={
+                <PrivateRoute>
+                  <PaymentVerificationView />
+                </PrivateRoute>
+              } 
+            />
             <Route 
               path="/dashboard" 
               element={

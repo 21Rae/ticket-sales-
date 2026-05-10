@@ -12,6 +12,12 @@ export function getSupabase(): SupabaseClient | null {
     return null;
   }
 
+  // Basic validation to catch "your_supabase_project_url" placeholders
+  if (supabaseUrl.includes('your_supabase') || !supabaseUrl.startsWith('https://')) {
+    console.error('SUPABASE ERROR: VITE_SUPABASE_URL is not configured correctly. Currently:', supabaseUrl);
+    return null;
+  }
+
   supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
   return supabaseClient;
 }
