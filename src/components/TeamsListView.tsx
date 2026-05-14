@@ -17,17 +17,29 @@ export default function TeamsListView() {
   useEffect(() => {
     const fetchTeams = async () => {
       try {
+        const supabase = getSupabase();
+        if (!supabase) {
+          setError('Supabase is not configured. Falling back to local data.');
+          setTeams(MOCK_TEAMS);
+          setLoading(false);
+          return;
+        }
+
         const data = await supabaseService.getTeams();
-        if (data && data.length > 0) {
+        if (data === null) {
+          setError('Failed to connect to Supabase. Using local data fallback.');
+          setTeams(MOCK_TEAMS);
+        } else if (data.length > 0) {
           setTeams(data);
           setError(null);
         } else {
           // If no data in DB, we show mock data for design but indicate it's empty
+          console.log('No teams found in database, using mock data.');
           setTeams(MOCK_TEAMS);
-          // Don't set error, just stay on mock data
         }
       } catch (err: any) {
         console.error('Error fetching teams:', err);
+        setError(`Database Error: ${err.message || 'Unknown error'}`);
         setTeams(MOCK_TEAMS);
       } finally {
         setLoading(false);

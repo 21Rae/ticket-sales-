@@ -4,26 +4,29 @@ import { Event, Team, Stadium, City } from '../types';
 export const supabaseService = {
   async getEvents() {
     const supabase = getSupabase();
-    if (!supabase) return null;
+    if (!supabase) {
+      console.warn('Supabase not configured. Check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.');
+      return null;
+    }
 
     const { data, error } = await supabase
       .from('matches')
-      .select(`
-        id,
-        name,
-        venue,
-        location,
-        date,
-        time,
-        startingPrice:starting_price,
-        category,
-        image,
-        details
-      `)
+      .select('*')
       .order('date', { ascending: true });
     
-    if (error) throw error;
-    return data as Event[];
+    if (error) {
+      console.error('Supabase getEvents Error:', error);
+      throw error;
+    }
+
+    // Map to camelCase if needed to match interface
+    const events = (data || []).map(item => ({
+      ...item,
+      startingPrice: item.starting_price
+    }));
+
+    console.log('Processed Events:', events);
+    return events as Event[];
   },
 
   async getEventById(id: string) {
@@ -32,44 +35,46 @@ export const supabaseService = {
 
     const { data, error } = await supabase
       .from('matches')
-      .select(`
-        id,
-        name,
-        venue,
-        location,
-        date,
-        time,
-        startingPrice:starting_price,
-        category,
-        image,
-        details
-      `)
+      .select('*')
       .eq('id', id)
       .single();
     
-    if (error) throw error;
-    return data as Event;
+    if (error) {
+      console.error('Supabase getEventById Error:', error);
+      throw error;
+    }
+
+    if (!data) return null;
+
+    return {
+      ...data,
+      startingPrice: data.starting_price
+    } as Event;
   },
 
   async getTeams() {
     const supabase = getSupabase();
-    if (!supabase) return null;
+    if (!supabase) {
+      console.warn('Supabase not configured. Check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.');
+      return null;
+    }
 
     const { data, error } = await supabase
       .from('teams')
-      .select(`
-        id,
-        name,
-        description,
-        image,
-        group,
-        ranking,
-        flagCode:flag_code
-      `)
+      .select('*')
       .order('name', { ascending: true });
     
-    if (error) throw error;
-    return data as Team[];
+    if (error) {
+      console.error('Supabase getTeams Error:', error);
+      throw error;
+    }
+
+    const teams = (data || []).map(item => ({
+      ...item,
+      flagCode: item.flag_code
+    }));
+
+    return teams as Team[];
   },
 
   async getStadiums() {

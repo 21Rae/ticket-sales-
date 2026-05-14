@@ -4,6 +4,7 @@ import { Trophy, ArrowRight, Search, Ticket, CheckCircle, Star, Sparkles, Mail, 
 import { Link } from 'react-router-dom';
 import { MOCK_EVENTS, TESTIMONIALS, FAQ_ITEMS } from '../constants';
 import { Logo } from './Logo';
+import { getSupabase } from '../lib/supabase';
 import { OptimizedImage } from './OptimizedImage';
 import { supabaseService } from '../services/supabaseService';
 import { Event } from '../types';
@@ -15,18 +16,23 @@ export const LandingPage: React.FC = () => {
   useEffect(() => {
     const fetchFeatured = async () => {
       try {
+        const supabase = getSupabase();
+        if (!supabase) {
+          console.warn('Supabase not configured on Landing Page, using mock data.');
+          setFeaturedMatches(MOCK_EVENTS.slice(0, 3));
+          return;
+        }
+
         const data = await supabaseService.getEvents();
-        if (data) {
-          if (data.length > 0) {
-            setFeaturedMatches(data.slice(0, 3));
-          } else {
-            setFeaturedMatches(MOCK_EVENTS.slice(0, 3));
-          }
+        if (data && data.length > 0) {
+          setFeaturedMatches(data.slice(0, 3));
+          setError(null);
         } else {
           setFeaturedMatches(MOCK_EVENTS.slice(0, 3));
         }
-      } catch (err) {
+      } catch (err: any) {
         console.error('Error fetching featured matches:', err);
+        setError(`Connection failed: ${err.message}`);
         setFeaturedMatches(MOCK_EVENTS.slice(0, 3));
       }
     };

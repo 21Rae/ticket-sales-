@@ -26,24 +26,44 @@ export const MatchListView: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const supabase = getSupabase();
+        if (!supabase) {
+          setError('Supabase is not configured. Please add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to your environment variables.');
+          setMatches(MOCK_EVENTS);
+          setTeams(MOCK_TEAMS);
+          setLoading(false);
+          return;
+        }
+
         const [matchData, teamData] = await Promise.all([
           supabaseService.getEvents(),
           supabaseService.getTeams()
         ]);
 
-        if (matchData && matchData.length > 0) {
-          setMatches(matchData);
-        } else {
-          setMatches(MOCK_EVENTS);
-        }
+        console.log('Match Data from Supabase:', matchData);
+        console.log('Team Data from Supabase:', teamData);
 
-        if (teamData && teamData.length > 0) {
-          setTeams(teamData);
+        if (matchData === null || teamData === null) {
+          setError('Failed to fetch data from Supabase. Check your connection and permissions.');
+          // If we explicitly get null (no supabase config), use mock
+          if (!supabase) {
+            setMatches(MOCK_EVENTS);
+            setTeams(MOCK_TEAMS);
+          }
         } else {
-          setTeams(MOCK_TEAMS);
+          // If matchData is empty, it means the table has no records. 
+          // Do not fallback to mock if the user is expect their own records.
+          setMatches(matchData);
+          setTeams(teamData.length > 0 ? teamData : MOCK_TEAMS);
+          
+          if (matchData.length === 0) {
+            console.log('Database connected but matches table is empty.');
+          }
+          setError(null);
         }
-      } catch (err) {
+      } catch (err: any) {
         console.error('Error fetching data:', err);
+        setError(`Database Error: ${err.message || 'Unknown error occurred while connecting to Supabase.'}`);
         setMatches(MOCK_EVENTS);
         setTeams(MOCK_TEAMS);
       } finally {
