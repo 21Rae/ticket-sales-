@@ -4,7 +4,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { 
   ChevronLeft, Info, ShieldCheck, CreditCard, 
   CheckCircle, Plus, Minus, Ticket as TicketIcon,
-  Trophy, MapPin, Calendar, Clock
+  Trophy, MapPin, Calendar, Clock, AlertTriangle, Zap
 } from 'lucide-react';
 import { MOCK_EVENTS, TICKET_CATEGORIES } from '../constants';
 import { useBookings } from '../lib/BookingContext';
@@ -192,6 +192,29 @@ export const TicketSelection: React.FC = () => {
           <ChevronLeft size={16} />
           <span>Back to Match Details</span>
         </button>
+
+        {/* Urgency Banner */}
+        <motion.div 
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: 'auto', opacity: 1 }}
+          className="mb-10 overflow-hidden"
+        >
+          <div className="bg-red-500/10 border border-red-500/20 p-4 flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="bg-red-500 p-1.5 rounded-full animate-pulse">
+                <Zap size={14} className="text-white" />
+              </div>
+              <div>
+                <p className="text-[11px] font-black text-red-500 uppercase tracking-[0.2em] italic mb-0.5">High Demand Experience</p>
+                <p className="text-[10px] font-bold text-white/60 uppercase tracking-widest leading-none">Limited tickets remaining for this category. Secure yours before they sell out.</p>
+              </div>
+            </div>
+            <div className="hidden md:flex items-center gap-2 px-3 py-1 bg-red-500/10 rounded-full border border-red-500/20 shrink-0">
+               <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping" />
+               <span className="text-[9px] font-black text-red-500 uppercase tracking-widest">Only 14 left</span>
+            </div>
+          </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* Main Area */}
