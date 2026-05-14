@@ -4,7 +4,7 @@ export const MOCK_TEAMS: Team[] = [
   {
     id: 'usa',
     name: 'United States',
-    description: 'USA at the FIFA World Cup: Team profile and history',
+    description: 'The Stars and Stripes return as hosts, looking to leverage home field advantage in their quest for global glory.',
     image: 'https://www.thesportsbank.net/wp-content/uploads/2022/09/USMNT-1-300x169.png',
     group: 'D',
     ranking: 11,
@@ -13,7 +13,7 @@ export const MOCK_TEAMS: Team[] = [
   {
     id: 'canada',
     name: 'Canada',
-    description: 'Canada at the FIFA World Cup: Team profile and history',
+    description: 'After a historic qualifying run, the Maple Leafs are ready to showcase their rising talent on the big stage.',
     image: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=800&q=80',
     group: 'B',
     ranking: 45,
@@ -22,7 +22,7 @@ export const MOCK_TEAMS: Team[] = [
   {
     id: 'mexico',
     name: 'Mexico',
-    description: 'Mexico at the FIFA World Cup: Team profile and history',
+    description: 'With some of the most passionate fans on earth, El Tri aims to dominate in their legendary home stadiums.',
     image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
     group: 'A',
     ranking: 15,
@@ -31,7 +31,7 @@ export const MOCK_TEAMS: Team[] = [
   {
     id: 'brazil',
     name: 'Brazil',
-    description: 'Brazil at the FIFA World Cup: Team profile and history',
+    description: 'The five-time champions bring Samba football to North America, chasing an unprecedented sixth star.',
     image: 'https://images.unsplash.com/photo-1431324155629-1a6eda1eed2d?auto=format&fit=crop&w=800&q=80',
     group: 'C',
     ranking: 5,
@@ -40,7 +40,7 @@ export const MOCK_TEAMS: Team[] = [
   {
     id: 'argentina',
     name: 'Argentina',
-    description: 'Argentina at the FIFA World Cup: Team profile and history',
+    description: 'The defending champions lead by example, proving why they are the standard of excellence in world football.',
     image: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80',
     group: 'J',
     ranking: 1,
@@ -721,12 +721,12 @@ export const MOCK_BLOG_POSTS: BlogPost[] = [
   {
     id: '1',
     title: 'The Road to 2026: North America Prepares',
-    excerpt: 'Explore how the three host nations are transforming their cities and stadiums for the biggest tournament in history.',
+    excerpt: 'Detailed insights into how the three host nations are transforming their urban infrastructure and stadiums for the 48-team expansion.',
     content: `The 2026 FIFA World Cup is set to be a milestone in sporting history. For the first time, 48 teams will compete across 16 host cities in Canada, Mexico, and the United States. 
 
-From the historic heights of Estadio Azteca in Mexico City to the cutting-edge technology of SoFi Stadium in Los Angeles, the scale of preparation is unprecedented. Infrastructure projects are underway in every host city, including expanded public transit, airport upgrades, and stadium renovations.
+From the historic heights of Estadio Azteca in Mexico City to the cutting-edge technology of SoFi Stadium in Los Angeles, the scale of preparation is unprecedented. Infrastructure projects are underway in every host city, including expanded public transit, airport upgrades, and stadium renovations to handle the massive influx of international fans.
 
-This tournament isn't just about football; it's about a cultural exchange on a global scale. Fans from every corner of the planet will descend upon North America, creating a vibrant tapestry of traditions and passion.`,
+This tournament marks a shift in global sports logistics, focusing on sustainability and the legacy of these world-class venues long after the final whistle.`,
     author: 'Admin',
     date: '2024-05-15',
     image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80',
@@ -736,12 +736,12 @@ This tournament isn't just about football; it's about a cultural exchange on a g
   {
     id: '2',
     title: 'Stadium Spotlight: MetLife Stadium',
-    excerpt: 'A deep dive into the venue selected to host the Grand Final in East Rutherford, New Jersey.',
-    content: `MetLife Stadium has been officially announced as the venue for the FIFA World Cup 2026 final. Located just outside New York City, this iconic stadium has a history of hosting major events, from Super Bowls to international friendlies.
+    excerpt: 'An in-depth look at the East Rutherford venue selected for the 2026 Grand Final, detailing its capacity and technical upgrades.',
+    content: `MetLife Stadium has been officially announced as the prestigious venue for the FIFA World Cup 2026 Grand Final. Located in the New York/New Jersey metropolitan area, this stadium will become the center of the sporting world on July 19, 2026.
 
-The stadium features a capacity of over 82,000, ensuring a thunderous atmosphere for the tournament's climax. Modifications are planned to bring the field up to FIFA's international standards, including a natural grass surface and improved sightlines for soccer fans.
+The stadium features a massive capacity of over 82,000, ensuring a thunderous atmosphere for the tournament's climax. Technical modifications are currently in progress to bring the field up to FIFA's elite international standards, including the installation of a specialized natural grass surface and high-definition sightlines for the global broadcast audience.
 
-Getting there will be part of the adventure, with enhanced rail links from Manhattan and major New Jersey hubs being prioritized for the summer of 2026.`,
+Transportation logistics are also being overhauled, with enhanced rail links from Manhattan and major New Jersey hubs being prioritized to ensure a smooth experience for the thousands of arriving fans.`,
     author: 'Sports Desk',
     date: '2024-05-10',
     image: 'https://images.unsplash.com/photo-1577223625816-7546f13df25d?auto=format&fit=crop&w=1200&q=80',

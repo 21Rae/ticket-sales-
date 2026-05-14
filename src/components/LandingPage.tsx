@@ -59,7 +59,7 @@ export const LandingPage: React.FC = () => {
               UNITE THE <br /> <span className="text-accent">WORLD</span>
             </h1>
             <p className="max-w-2xl mx-auto text-white/60 text-lg mb-10 font-medium tracking-tight">
-              Secure your place in history. Watch the 48 greatest nations battle for glory across North America. Tickets for the FIFA World Cup 26™ are now available.
+              Join the global celebration as Canada, Mexico, and the USA host the first ever 48-team FIFA World Cup. Witness football history across 16 world-class venues and iconic host cities.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link to="/matches" className="w-full sm:w-auto px-10 py-5 bg-accent text-black font-black uppercase tracking-widest text-sm hover:bg-white transition-all duration-300 transform hover:scale-105 active:scale-95">

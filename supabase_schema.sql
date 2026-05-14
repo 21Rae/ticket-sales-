@@ -91,13 +91,21 @@ CREATE POLICY "Users can insert their own proof" ON payment_proofs FOR INSERT WI
 CREATE POLICY "Users can read their own proof" ON payment_proofs FOR SELECT USING (auth.uid() = user_id);
 
 -- 8. Enable Realtime for all tables
+-- IMPORTANT: In some environments, the 'supabase_realtime' publication might not exist.
+-- If you get an error that the publication doesn't exist, you can create it with:
+-- CREATE PUBLICATION supabase_realtime FOR ALL TABLES;
+
 BEGIN;
+  -- Add tables to the publication
+  -- We use this approach because it's the standard for Supabase projects
   ALTER PUBLICATION supabase_realtime ADD TABLE stadiums;
   ALTER PUBLICATION supabase_realtime ADD TABLE matches;
   ALTER PUBLICATION supabase_realtime ADD TABLE teams;
   ALTER PUBLICATION supabase_realtime ADD TABLE cities;
   ALTER PUBLICATION supabase_realtime ADD TABLE ticket_categories;
   ALTER PUBLICATION supabase_realtime ADD TABLE payment_proofs;
+-- Note: If you have already added these individual tables, you can also just use:
+-- ALTER PUBLICATION supabase_realtime ADD TABLE host_cities; -- if cities table was renamed or similar
 COMMIT;
 
 -- 9. Storage Setup

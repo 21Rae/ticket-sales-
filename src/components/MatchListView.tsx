@@ -7,13 +7,14 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { MOCK_EVENTS, MOCK_CITIES, MOCK_TEAMS } from '../constants';
-import { Event } from '../types';
+import { Event, Team } from '../types';
 import { OptimizedImage } from './OptimizedImage';
 import { supabaseService } from '../services/supabaseService';
 import { getSupabase } from '../lib/supabase';
 
 export const MatchListView: React.FC = () => {
   const [matches, setMatches] = useState<Event[]>([]);
+  const [teams, setTeams] = useState<Team[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -23,37 +24,59 @@ export const MatchListView: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   useEffect(() => {
-    const fetchMatches = async () => {
+    const fetchData = async () => {
       try {
-        const data = await supabaseService.getEvents();
-        if (data && data.length > 0) {
-          setMatches(data);
+        const [matchData, teamData] = await Promise.all([
+          supabaseService.getEvents(),
+          supabaseService.getTeams()
+        ]);
+
+        if (matchData && matchData.length > 0) {
+          setMatches(matchData);
         } else {
           setMatches(MOCK_EVENTS);
         }
+
+        if (teamData && teamData.length > 0) {
+          setTeams(teamData);
+        } else {
+          setTeams(MOCK_TEAMS);
+        }
       } catch (err) {
-        console.error('Error fetching matches:', err);
+        console.error('Error fetching data:', err);
         setMatches(MOCK_EVENTS);
+        setTeams(MOCK_TEAMS);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchMatches();
+    fetchData();
 
     const supabase = getSupabase();
     if (supabase) {
-      const channel = supabase
-        .channel('matches-changes')
+      // Subscribe to both matches and teams to ensure flags/names update too
+      const matchChannel = supabase
+        .channel('matches-realtime')
         .on(
           'postgres_changes',
           { event: '*', schema: 'public', table: 'matches' },
-          () => fetchMatches()
+          () => fetchData()
+        )
+        .subscribe();
+
+      const teamChannel = supabase
+        .channel('teams-realtime-matches')
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'teams' },
+          () => fetchData()
         )
         .subscribe();
 
       return () => {
-        supabase.removeChannel(channel);
+        supabase.removeChannel(matchChannel);
+        supabase.removeChannel(teamChannel);
       };
     }
   }, []);
@@ -71,8 +94,14 @@ export const MatchListView: React.FC = () => {
 
   const getTeamFlag = (teamName: string) => {
     if (!teamName) return 'https://flagcdn.com/w40/un.png';
-    const team = MOCK_TEAMS.find(t => teamName.includes(t.name));
+    // Use dynamic teams state instead of hardcoded MOCK_TEAMS
+    const team = teams.find(t => teamName.includes(t.name) || t.name.includes(teamName));
     if (team) return `https://flagcdn.com/w40/${team.flagCode.toLowerCase()}.png`;
+    
+    // Final fallback to mock if still not found
+    const mockTeam = MOCK_TEAMS.find(t => teamName.includes(t.name));
+    if (mockTeam) return `https://flagcdn.com/w40/${mockTeam.flagCode.toLowerCase()}.png`;
+    
     return 'https://flagcdn.com/w40/un.png';
   };
 

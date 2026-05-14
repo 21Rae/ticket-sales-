@@ -20,10 +20,13 @@ export default function TeamsListView() {
         const data = await supabaseService.getTeams();
         if (data && data.length > 0) {
           setTeams(data);
+          setError(null);
         } else {
+          // If no data in DB, we show mock data for design but indicate it's empty
           setTeams(MOCK_TEAMS);
+          // Don't set error, just stay on mock data
         }
-      } catch (err) {
+      } catch (err: any) {
         console.error('Error fetching teams:', err);
         setTeams(MOCK_TEAMS);
       } finally {
@@ -36,13 +39,20 @@ export default function TeamsListView() {
     const supabase = getSupabase();
     if (supabase) {
       const channel = supabase
-        .channel('teams-changes')
+        .channel('teams-realtime')
         .on(
           'postgres_changes',
           { event: '*', schema: 'public', table: 'teams' },
-          () => fetchTeams()
+          (payload) => {
+            console.log('Real-time team update:', payload);
+            fetchTeams();
+          }
         )
-        .subscribe();
+        .subscribe((status) => {
+          if (status !== 'SUBSCRIBED') {
+            console.warn('Supabase Realtime subscription status for teams:', status);
+          }
+        });
 
       return () => {
         supabase.removeChannel(channel);
@@ -55,31 +65,38 @@ export default function TeamsListView() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="container mx-auto px-4 py-8 max-w-7xl"
+      className="container mx-auto px-4 py-8 max-w-7xl relative"
     >
+      {/* Page Background Logo */}
+      <div className="fixed inset-0 pointer-events-none flex items-center justify-center opacity-[0.03] grayscale">
+        <img 
+          src="https://www.logodesignlove.com/wp-content/uploads/2008/02/fifa-world-cup-trophy-01-2048x1385.jpeg" 
+          alt="" 
+          className="w-full max-w-4xl object-contain lg:-rotate-12"
+        />
+      </div>
+
       {/* Back Button */}
       <button 
         onClick={() => navigate(-1)}
-        className="flex items-center gap-1.5 text-slate-500 hover:text-white mb-8 transition-colors text-[13px] font-medium"
+        className="flex items-center gap-1.5 text-slate-500 hover:text-white mb-8 transition-colors text-[13px] font-medium relative z-10"
       >
         <ChevronLeft size={16} />
         Back
       </button>
 
       {/* Header */}
-      <div className="mb-12">
+      <div className="mb-12 relative z-10">
         <h1 className="text-[52px] font-bold text-white tracking-tight leading-tight mb-4">
           Team profiles
         </h1>
-        {error && (
-          <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-lg text-amber-500 text-sm mb-4">
-            {error}
-          </div>
-        )}
+        <p className="text-slate-400 text-lg max-w-2xl">
+          Discover the 48 nations competing across North America. Explore team histories, current rankings, and their journey to the world stage in the biggest tournament ever.
+        </p>
       </div>
 
       {/* Teams Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 relative z-10">
         {teams.map((team, index) => (
           <motion.div
             key={team.id}
@@ -88,14 +105,15 @@ export default function TeamsListView() {
             transition={{ delay: index * 0.05 }}
             className="group cursor-pointer"
           >
-            {/* Card Image Container */}
-            <div className="relative aspect-[16/9] overflow-hidden rounded-xs bg-slate-900 border border-white/5 mb-4 shadow-lg group-hover:shadow-accent/10 transition-all duration-300">
-              <OptimizedImage 
-                src={team.image} 
-                alt={team.name}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                containerClassName="w-full h-full"
-              />
+            {/* Card Image Container - Removed background image, added logo instead */}
+            <div className="relative aspect-[16/9] overflow-hidden rounded-xs bg-slate-900/50 backdrop-blur-sm border border-white/5 mb-4 shadow-lg group-hover:bg-slate-800/80 transition-all duration-300">
+              <div className="absolute inset-0 flex items-center justify-center opacity-[0.07] grayscale group-hover:opacity-10 transition-opacity">
+                <img 
+                  src="https://www.logodesignlove.com/wp-content/uploads/2008/02/fifa-world-cup-trophy-01-2048x1385.jpeg" 
+                  alt="" 
+                  className="w-32 h-32 object-contain"
+                />
+              </div>
               
               {/* Specialized Overlay from Screenshot */}
               <div className="absolute inset-0 flex items-center justify-start p-6">
@@ -130,17 +148,10 @@ export default function TeamsListView() {
                  </div>
               </div>
 
-              {/* WC Logo Placement */}
-              <div className="absolute top-4 right-4 flex flex-col items-center opacity-80">
-                 <div className="h-10 w-6 border-2 border-white/30 rounded-full flex items-center justify-center">
-                   <div className="h-4 w-4 rounded-full bg-white/10" />
-                 </div>
-                 <span className="text-[6px] font-black mt-1 text-white/50 tracking-tighter">WC2026</span>
-              </div>
             </div>
             
             {/* Content area */}
-            <div className="space-y-1">
+            <div className="space-y-1 relative z-10">
               <div className="flex items-center gap-2">
                 <OptimizedImage 
                   src={`https://flagcdn.com/w40/${team.flagCode.toLowerCase()}.png`} 
@@ -153,16 +164,13 @@ export default function TeamsListView() {
                   {team.name}
                 </p>
               </div>
-              <h3 className="text-[15px] font-bold text-white/90 leading-snug group-hover:text-white transition-colors">
-                {team.description}
-              </h3>
             </div>
           </motion.div>
         ))}
       </div>
 
       {/* Load More Button */}
-      <div className="mt-20 flex flex-col items-center gap-4">
+      <div className="mt-20 flex flex-col items-center gap-4 relative z-10">
          <button className="flex flex-col items-center gap-3 group">
             <span className="text-[15px] font-bold text-sky-400 group-hover:text-sky-300 transition-colors">Load more</span>
             <div className="h-10 w-10 rounded-full border border-white/10 flex items-center justify-center text-sky-400 group-hover:bg-white/5 transition-all">
