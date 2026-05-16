@@ -8,19 +8,22 @@ import { City } from '../types';
 import { getSupabase } from '../lib/supabase';
 import { supabaseService } from '../services/supabaseService';
 
-const API_KEY =
-  (import.meta as any).env?.VITE_GOOGLE_MAPS_PLATFORM_KEY ||
-  (process.env as any).GOOGLE_MAPS_PLATFORM_KEY ||
-  '';
-
-const MAP_ID = (import.meta as any).env?.VITE_GOOGLE_MAPS_MAP_ID || 
-               (process.env as any).VITE_GOOGLE_MAPS_MAP_ID || 
-               null;
+const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_PLATFORM_KEY || '';
+const MAP_ID = import.meta.env.VITE_GOOGLE_MAPS_MAP_ID || null;
 
 const hasValidKey = Boolean(API_KEY) && 
                    API_KEY !== 'YOUR_API_KEY' && 
                    API_KEY !== 'undefined' && 
                    API_KEY.length > 10;
+
+// Log configuration status for easier debugging in dev tools
+if (import.meta.env.DEV) {
+  console.log('Maps Config Status:', { 
+    hasKey: Boolean(API_KEY), 
+    hasMapId: Boolean(MAP_ID),
+    keyLength: API_KEY?.length 
+  });
+}
 
 function RouteDisplay({ origin, destination, destinationCoords, onRouteFound, onError }: {
   origin: string;
@@ -268,15 +271,26 @@ export const TravelGuideView: React.FC = () => {
           <div className="space-y-4 text-left">
             <div className="bg-white/5 p-4 border border-white/5 rounded">
               <p className="text-[10px] font-black text-accent uppercase tracking-widest mb-1 font-mono">STEP 1</p>
-              <p className="text-white font-medium">Add Secret Key: <code>VITE_GOOGLE_MAPS_PLATFORM_KEY</code> in Settings.</p>
+              <p className="text-white font-medium italic">Configure Environment Variables</p>
+              <ul className="text-white/60 text-[11px] mt-2 space-y-1 list-disc pl-4">
+                <li>VITE_GOOGLE_MAPS_PLATFORM_KEY (Required)</li>
+                <li>VITE_GOOGLE_MAPS_MAP_ID (Required for Advanced Markers)</li>
+              </ul>
             </div>
             <div className="bg-white/5 p-4 border border-white/5 rounded">
               <p className="text-[10px] font-black text-accent uppercase tracking-widest mb-1 font-mono">STEP 2</p>
-              <p className="text-white font-medium leading-relaxed">Enable <b>Maps JavaScript API</b>, <b>Routes API</b>, and <b>Geocoding API</b> in your Google Cloud Console.</p>
+              <p className="text-white font-medium italic">Enable Required APIs</p>
+              <ul className="text-white/60 text-[11px] mt-2 space-y-1 list-disc pl-4">
+                <li><b>Maps JavaScript API</b> (rendering)</li>
+                <li><b>Routes API</b> (driving directions)</li>
+                <li><b>Geocoding API</b> (location lookup & flight paths)</li>
+              </ul>
             </div>
             <div className="bg-white/5 p-4 border border-white/5 rounded">
-              <p className="text-[10px] font-black text-accent uppercase tracking-widest mb-1 font-mono">DEBUG TIP</p>
-              <p className="text-white/60 text-xs italic">If you see "ApiTargetBlockedMapError", ensure your Map ID is created for the "Web" platform and associated with your API key.</p>
+              <p className="text-[10px] font-black text-accent uppercase tracking-widest mb-1 font-mono">TROUBLESHOOTING</p>
+              <p className="text-white/60 text-xs italic">If the map is blank or shows an error:</p>
+              <p className="text-white/60 text-[10px] mt-1">1. Check your API Key restrictions in Google Cloud Console. Ensure it allows your Vercel/Production domain.</p>
+              <p className="text-white/60 text-[10px] mt-1">2. Ensure your Map ID is associated with the API Key and set for the "JavaScript" platform.</p>
             </div>
           </div>
           
