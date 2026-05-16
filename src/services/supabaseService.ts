@@ -19,13 +19,25 @@ export const supabaseService = {
       throw error;
     }
 
-    // Map to camelCase if needed to match interface
-    const events = (data || []).map(item => ({
-      ...item,
-      startingPrice: item.starting_price
-    }));
+    // Map to camelCase and handle common schema variations
+    const events = (data || []).map(item => {
+      const home = item.home_team || item.home_team_name;
+      const away = item.away_team || item.away_team_name;
+      const derivedName = home && away ? `${home} vs ${away}` : (item.name || 'TBD Match');
+      
+      return {
+        ...item,
+        name: derivedName,
+        location: item.location || item.city || item.host_city || 'USA',
+        venue: item.venue || item.stadium || 'TBD Venue',
+        startingPrice: item.starting_price || item.price || 0,
+        // Ensure home/away names are available for easier searching
+        homeTeam: home,
+        awayTeam: away
+      };
+    });
 
-    console.log('Processed Events:', events);
+    console.log('Processed Events from matches table (enhanced):', events);
     return events as Event[];
   },
 
@@ -46,10 +58,19 @@ export const supabaseService = {
 
     if (!data) return null;
 
+    const home = data.home_team || data.home_team_name;
+    const away = data.away_team || data.away_team_name;
+    const derivedName = home && away ? `${home} vs ${away}` : (data.name || 'TBD Match');
+
     return {
       ...data,
-      startingPrice: data.starting_price
-    } as Event;
+      name: derivedName,
+      location: data.location || data.city || data.host_city || 'USA',
+      venue: data.venue || data.stadium || 'TBD Venue',
+      startingPrice: data.starting_price || data.price || 0,
+      homeTeam: home,
+      awayTeam: away
+    } as any;
   },
 
   async getTeams() {
@@ -99,6 +120,23 @@ export const supabaseService = {
     
     if (error) throw error;
     return data as City[];
+  },
+
+  async getCityById(id: string) {
+    const supabase = getSupabase();
+    if (!supabase) return null;
+
+    const { data, error } = await supabase
+      .from('host_cities')
+      .select('*')
+      .eq('id', id)
+      .single();
+    
+    if (error) {
+      console.error('Supabase getCityById Error:', error);
+      throw error;
+    }
+    return data as City;
   },
 
   async getTicketCategories() {

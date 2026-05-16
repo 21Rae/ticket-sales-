@@ -103,23 +103,69 @@ export const MatchListView: React.FC = () => {
 
   const filteredMatches = useMemo(() => {
     return matches.filter(match => {
-      const searchStr = searchQuery.toLowerCase();
-      const matchesSearch = (match.name?.toLowerCase() || '').includes(searchStr) ||
-                           (match.location?.toLowerCase() || '').includes(searchStr);
+      const searchStr = searchQuery.toLowerCase().trim();
+      
+      // Basic filters (City, Category)
       const matchesCity = selectedCity === 'All' || (match.location || '').includes(selectedCity);
       const matchesCategory = selectedCategory === 'All' || match.category === selectedCategory;
-      return matchesSearch && matchesCity && matchesCategory;
-    });
-  }, [matches, searchQuery, selectedCity, selectedCategory]);
+      
+      if (!matchesCity || !matchesCategory) return false;
+      if (!searchStr) return true;
+      
+      // 1. Basic search in common fields
+      const matchAny = (val: string | undefined | null) => (val?.toLowerCase() || '').includes(searchStr);
+      
+      const basicMatch = matchAny(match.name) ||
+                        matchAny(match.location) ||
+                        matchAny(match.venue) ||
+                        matchAny((match as any).homeTeam) ||
+                        matchAny((match as any).awayTeam);
 
-  const getTeamFlag = (teamName: string) => {
+      if (basicMatch) return true;
+
+      // 2. Advanced search: Check if search query matches any team involved in the match
+      // First, find all teams that match the search string
+      const relevantTeams = teams.filter(t => 
+        t.name.toLowerCase().includes(searchStr) || 
+        t.id.toLowerCase().includes(searchStr) ||
+        t.flagCode.toLowerCase().includes(searchStr)
+      );
+
+      // Then, check if any of these relevant teams are in the current match data
+      const teamMatch = relevantTeams.some(team => {
+        const checkStrings = [
+          match.name,
+          (match as any).homeTeam,
+          (match as any).awayTeam
+        ].filter(Boolean).map(s => s!.toLowerCase());
+
+        return checkStrings.some(s => 
+          s.includes(team.name.toLowerCase()) || 
+          s.includes(team.id.toLowerCase()) ||
+          s.includes(team.flagCode.toLowerCase())
+        );
+      });
+
+      return teamMatch;
+    });
+  }, [matches, searchQuery, selectedCity, selectedCategory, teams]);
+
+  const getTeamFlag = (teamName: string, fallbackIndex?: number) => {
     if (!teamName) return 'https://flagcdn.com/w40/un.png';
-    // Use dynamic teams state instead of hardcoded MOCK_TEAMS
-    const team = teams.find(t => teamName.includes(t.name) || t.name.includes(teamName));
+    const cleanName = teamName.toLowerCase().trim();
+    
+    // 1. Find team in our dynamic teams state
+    const team = teams.find(t => 
+      cleanName.includes(t.name.toLowerCase()) || 
+      t.name.toLowerCase().includes(cleanName) ||
+      t.id.toLowerCase() === cleanName ||
+      t.flagCode.toLowerCase() === cleanName
+    );
+
     if (team) return `https://flagcdn.com/w40/${team.flagCode.toLowerCase()}.png`;
     
-    // Final fallback to mock if still not found
-    const mockTeam = MOCK_TEAMS.find(t => teamName.includes(t.name));
+    // 2. Mock fallback
+    const mockTeam = MOCK_TEAMS.find(t => cleanName.includes(t.name.toLowerCase()));
     if (mockTeam) return `https://flagcdn.com/w40/${mockTeam.flagCode.toLowerCase()}.png`;
     
     return 'https://flagcdn.com/w40/un.png';
@@ -274,14 +320,14 @@ export const MatchListView: React.FC = () => {
                         />
                         <div className="absolute top-4 left-4 flex gap-1 items-center bg-black/40 backdrop-blur-md px-2 py-1 border border-white/10 rounded-xs">
                           <OptimizedImage 
-                            src={getTeamFlag((match.name || '').split(' vs. ')[0])} 
+                            src={getTeamFlag((match as any).homeTeam || (match.name || '').split(' vs. ')[0])} 
                             alt="" 
                             className="w-3.5 h-2.5 object-cover rounded-xs"
                             containerClassName="w-3.5 h-2.5"
                           />
                           <span className="text-[8px] font-black text-white/40 italic">VS</span>
                           <OptimizedImage 
-                            src={getTeamFlag((match.name || '').split(' vs. ')[1])} 
+                            src={getTeamFlag((match as any).awayTeam || (match.name || '').split(' vs. ')[1])} 
                             alt="" 
                             className="w-3.5 h-2.5 object-cover rounded-xs"
                             containerClassName="w-3.5 h-2.5"
@@ -329,14 +375,14 @@ export const MatchListView: React.FC = () => {
                         />
                         <div className="absolute bottom-2 left-2 flex gap-1 items-center bg-black/60 backdrop-blur-md px-2 py-1 border border-white/5 rounded-xs scale-90 origin-bottom-left">
                           <OptimizedImage 
-                            src={getTeamFlag((match.name || '').split(' vs. ')[0])} 
+                            src={getTeamFlag((match as any).homeTeam || (match.name || '').split(' vs. ')[0])} 
                             alt="" 
                             className="w-3.5 h-2.5 object-cover rounded-xs"
                             containerClassName="w-3.5 h-2.5"
                           />
                           <span className="text-[6px] font-black text-white/40 italic">VS</span>
                           <OptimizedImage 
-                            src={getTeamFlag((match.name || '').split(' vs. ')[1])} 
+                            src={getTeamFlag((match as any).awayTeam || (match.name || '').split(' vs. ')[1])} 
                             alt="" 
                             className="w-3.5 h-2.5 object-cover rounded-xs"
                             containerClassName="w-3.5 h-2.5"

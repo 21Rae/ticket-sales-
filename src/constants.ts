@@ -671,7 +671,8 @@ export const MOCK_CITIES: City[] = [
     description: 'A global metropolis with a rich football history, set to host the historic opening match at Estadio Azteca.',
     stadium: 'Estadio Azteca',
     image: 'https://images.unsplash.com/photo-1589487391730-58f20eb2c308?auto=format&fit=crop&w=1200&q=80',
-    highlights: ['Opening Match Venue', 'Historic Altitude', 'Football Capital']
+    highlights: ['Opening Match Venue', 'Historic Altitude', 'Football Capital'],
+    location: { lat: 19.3029, lng: -99.1505 }
   },
   {
     id: 'c2',
@@ -680,7 +681,8 @@ export const MOCK_CITIES: City[] = [
     description: 'The entertainment capital of the world, featuring the cutting-edge SoFi Stadium in Inglewood.',
     stadium: 'SoFi Stadium',
     image: 'https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&w=1200&q=80',
-    highlights: ['Hollywood Entertainment', 'Coastal Weather', 'Luxury Suites']
+    highlights: ['Hollywood Entertainment', 'Coastal Weather', 'Luxury Suites'],
+    location: { lat: 33.9535, lng: -118.3391 }
   },
   {
     id: 'c3',
@@ -689,7 +691,8 @@ export const MOCK_CITIES: City[] = [
     description: "Canada's largest city and cultural hub, bringing a diverse global audience to BMO Field.",
     stadium: 'BMO Field',
     image: 'https://images.unsplash.com/photo-1510051640316-cee39563ddab?auto=format&fit=crop&w=1200&q=80',
-    highlights: ['Multicultural Hub', 'Lakeshore Scenery', 'Expanded Stadium']
+    highlights: ['Multicultural Hub', 'Lakeshore Scenery', 'Expanded Stadium'],
+    location: { lat: 43.6332, lng: -79.4186 }
   },
   {
     id: 'c4',
@@ -698,7 +701,8 @@ export const MOCK_CITIES: City[] = [
     description: 'The world stage for the Grand Final 2026, where history will be made at MetLife Stadium.',
     stadium: 'MetLife Stadium',
     image: 'https://images.unsplash.com/photo-1577223625816-7546f13df25d?auto=format&fit=crop&w=1200&q=80',
-    highlights: ['Final Match Venue', 'Skyline Views', 'Global Transit Hub']
+    highlights: ['Final Match Venue', 'Skyline Views', 'Global Transit Hub'],
+    location: { lat: 40.8128, lng: -74.0742 }
   }
 ];
 

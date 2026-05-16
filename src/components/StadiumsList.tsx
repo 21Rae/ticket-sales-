@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
+import { useNavigate } from 'react-router-dom';
 import { MapPin, Users, Info, ChevronRight, Sparkles } from 'lucide-react';
 import { MOCK_STADIUMS } from '../constants';
 import { OptimizedImage } from './OptimizedImage';
@@ -8,6 +9,7 @@ import { Stadium } from '../types';
 import { getSupabase } from '../lib/supabase';
 
 export const StadiumsList: React.FC = () => {
+  const navigate = useNavigate();
   const [stadiums, setStadiums] = useState<Stadium[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -111,8 +113,11 @@ export const StadiumsList: React.FC = () => {
                 <p className="text-sm text-white/60 leading-relaxed font-medium mb-8">
                   {stadium.description}
                 </p>
-                <button className="w-full py-4 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all">
-                  View Virtual Tour
+                <button 
+                  onClick={() => navigate('/matches')}
+                  className="w-full py-4 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all"
+                >
+                  Secure Seat Now
                 </button>
               </div>
             </motion.div>

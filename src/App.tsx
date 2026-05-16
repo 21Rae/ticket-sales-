@@ -14,6 +14,9 @@ import { StadiumsList } from './components/StadiumsList';
 import { CitiesList } from './components/CitiesList';
 import TeamsListView from './components/TeamsListView';
 import { BlogView } from './components/BlogView';
+import { TravelGuideView } from './components/TravelGuideView';
+import SeatSelectionView from './components/SeatSelectionView';
+import BookingView from './components/BookingView';
 
 const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, isLoading } = useAuth();
@@ -42,7 +45,10 @@ function App() {
             <Route path="/cities" element={<CitiesList />} />
             <Route path="/teams" element={<TeamsListView />} />
             <Route path="/blog" element={<BlogView />} />
+            <Route path="/travel-guide/:cityId" element={<TravelGuideView />} />
             <Route path="/matches/:id/tickets" element={<TicketSelection />} />
+            <Route path="/seats/:eventId" element={<SeatSelectionView />} />
+            <Route path="/book" element={<BookingView />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/verify-email" element={<VerifyEmailPage />} />

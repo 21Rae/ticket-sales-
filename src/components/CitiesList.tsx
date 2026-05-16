@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
+import { useNavigate } from 'react-router-dom';
 import { MapPin, Star, Sparkles, Navigation } from 'lucide-react';
 import { MOCK_CITIES } from '../constants';
 import { OptimizedImage } from './OptimizedImage';
@@ -8,6 +9,7 @@ import { City } from '../types';
 import { getSupabase } from '../lib/supabase';
 
 export const CitiesList: React.FC = () => {
+  const navigate = useNavigate();
   const [cities, setCities] = useState<City[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -110,7 +112,10 @@ export const CitiesList: React.FC = () => {
                     </span>
                   ))}
                 </div>
-                <button className="flex items-center space-x-3 text-accent font-black uppercase tracking-widest text-xs hover:text-white transition-colors group/btn">
+                <button 
+                  onClick={() => navigate(`/travel-guide/${city.id}`)}
+                  className="flex items-center space-x-3 text-accent font-black uppercase tracking-widest text-xs hover:text-white transition-colors group/btn"
+                >
                   <span>Explore Travel Guide</span>
                   <div className="w-8 h-[1px] bg-accent group-hover/btn:w-12 transition-all" />
                 </button>

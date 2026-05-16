@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { 
   ChevronLeft, Info, ShieldCheck, CreditCard, 
   CheckCircle, Plus, Minus, Ticket as TicketIcon,
-  Trophy, MapPin, Calendar, Clock, AlertTriangle, Zap
+  Trophy, MapPin, Calendar, Clock, AlertTriangle, Zap, Sparkles
 } from 'lucide-react';
 import { MOCK_EVENTS, TICKET_CATEGORIES } from '../constants';
 import { useBookings } from '../lib/BookingContext';
@@ -12,6 +12,82 @@ import { useAuth } from '../lib/AuthContext';
 import { getSupabase } from '../lib/supabase';
 import { supabaseService } from '../services/supabaseService';
 import { Event } from '../types';
+
+const StadiumMap = ({ selectedCategory, onSelectCategory }: { selectedCategory: string, onSelectCategory: (id: string) => void }) => {
+  return (
+    <div className="relative w-full h-full flex items-center justify-center p-4">
+      <svg viewBox="0 0 400 320" className="w-full h-full drop-shadow-2xl">
+        {/* Stadium Exterior Bowl */}
+        <ellipse cx="200" cy="160" rx="190" ry="140" className="fill-white/5 stroke-white/10" strokeWidth="1" />
+        <ellipse cx="200" cy="160" rx="180" ry="130" className="fill-white/5 stroke-white/10" strokeWidth="2" />
+        
+        {/* The Pitch */}
+        <rect x="120" y="90" width="160" height="140" className="fill-blue-500/5 stroke-blue-500/20" strokeWidth="2" rx="4" />
+        <line x1="200" y1="90" x2="200" y2="230" className="stroke-blue-500/20" strokeWidth="1" />
+        <circle cx="200" cy="160" r="20" className="fill-none stroke-blue-500/20" strokeWidth="1" />
+        
+        {/* WEST Side: VIP */}
+        <motion.path 
+          d="M 50 100 Q 20 160 50 220 L 110 220 L 110 100 Z" 
+          whileHover={{ scale: 1.05 }}
+          className={`cursor-pointer transition-all duration-300 ${selectedCategory === 'vip' ? 'fill-accent stroke-white' : 'fill-purple-500/10 stroke-purple-500/20 hover:fill-purple-500/20'}`}
+          strokeWidth={selectedCategory === 'vip' ? '2' : '1'}
+          onClick={() => onSelectCategory('vip')}
+        />
+        <text x="65" y="165" className="text-[10px] font-black pointer-events-none fill-white/20 uppercase italic">VIP</text>
+        
+        {/* NORTH End: Premium */}
+        <motion.path 
+          d="M 120 40 Q 200 15 280 40 L 280 80 L 120 80 Z" 
+          whileHover={{ scale: 1.05 }}
+          className={`cursor-pointer transition-all duration-300 ${selectedCategory === 'premium' ? 'fill-accent stroke-white' : 'fill-amber-500/10 stroke-amber-500/20 hover:fill-amber-500/20'}`}
+          strokeWidth={selectedCategory === 'premium' ? '2' : '1'}
+          onClick={() => onSelectCategory('premium')}
+        />
+        <text x="180" y="65" className="text-[10px] font-black pointer-events-none fill-white/20 uppercase italic">PREM</text>
+
+        {/* SOUTH End: Premium */}
+        <motion.path 
+          d="M 120 280 Q 200 305 280 280 L 280 240 L 120 240 Z" 
+          whileHover={{ scale: 1.05 }}
+          className={`cursor-pointer transition-all duration-300 ${selectedCategory === 'premium' ? 'fill-accent stroke-white' : 'fill-amber-500/10 stroke-amber-500/20 hover:fill-amber-500/20'}`}
+          strokeWidth={selectedCategory === 'premium' ? '2' : '1'}
+          onClick={() => onSelectCategory('premium')}
+        />
+        <text x="180" y="265" className="text-[10px] font-black pointer-events-none fill-white/20 uppercase italic">PREM</text>
+
+        {/* EAST Side: Standard */}
+        <motion.path 
+          d="M 350 100 Q 380 160 350 220 L 290 220 L 290 100 Z" 
+          whileHover={{ scale: 1.05 }}
+          className={`cursor-pointer transition-all duration-300 ${selectedCategory === 'standard' ? 'fill-accent stroke-white' : 'fill-blue-500/10 stroke-blue-500/20 hover:fill-blue-500/20'}`}
+          strokeWidth={selectedCategory === 'standard' ? '2' : '1'}
+          onClick={() => onSelectCategory('standard')}
+        />
+        <text x="310" y="165" className="text-[10px] font-black pointer-events-none fill-white/20 uppercase italic">STD</text>
+      </svg>
+      
+      {/* Floating Price Indicators */}
+      <AnimatePresence>
+        {selectedCategory === 'vip' && (
+          <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} className="absolute left-8 top-1/2 -translate-y-1/2 bg-black text-white px-3 py-1 rounded text-[10px] font-black italic">
+            $3,983
+          </motion.div>
+        )}
+        {selectedCategory === 'premium' && (
+          <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} className="absolute top-12 left-1/2 -translate-x-1/2 bg-black text-white px-3 py-1 rounded text-[10px] font-black italic">
+            $5,200
+          </motion.div>
+        )}
+        {selectedCategory === 'standard' && (
+          <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} className="absolute right-8 top-1/2 -translate-y-1/2 bg-black text-white px-3 py-1 rounded text-[10px] font-black italic">
+            $1,270
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 export const TicketSelection: React.FC = () => {
   const { id } = useParams();
@@ -104,6 +180,46 @@ export const TicketSelection: React.FC = () => {
     fetchEvent();
   }, [id]);
 
+  const [selectedSeat, setSelectedSeat] = useState<string | null>(null);
+
+  const handleSeatClick = (seat: string) => {
+    setSelectedSeat(seat);
+  };
+
+  const [remainingTickets, setRemainingTickets] = useState(14);
+  
+  useEffect(() => {
+    if (!event) return;
+
+    const calculateRemaining = () => {
+      // Handle various date formats (June 11, 2026 or 2026-06-11)
+      const dateStr = event.date.includes(',') ? event.date : event.date;
+      const matchDate = new Date(dateStr);
+      const now = new Date();
+      
+      // If date parsing fails, fallback to a safe number
+      if (isNaN(matchDate.getTime())) return 14;
+
+      const diffTime = matchDate.getTime() - now.getTime();
+      const diffDays = Math.max(0, diffTime / (1000 * 60 * 60 * 24));
+      
+      // Stable noise based on event ID
+      const seed = event.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+      const noise = (seed % 15); // 0 to 15
+      
+      // tickets = 300 * (1 - e^(-days/k)) + noise
+      // k=45 means at 30 days left, ~150 tickets remain
+      // at 5 days left, ~30 tickets remain
+      const k = 45;
+      const baseTickets = 300 * (1 - Math.exp(-diffDays / k));
+      const finalCount = Math.max(5, Math.floor(baseTickets + noise));
+      
+      setRemainingTickets(finalCount);
+    };
+
+    calculateRemaining();
+  }, [event]);
+
   if (loading && !event) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
@@ -183,402 +299,409 @@ export const TicketSelection: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black pt-24 pb-20">
-      <div className="max-w-7xl mx-auto px-4">
-        <button 
-          onClick={() => navigate(-1)}
-          className="flex items-center space-x-2 text-[10px] font-black text-white/40 uppercase tracking-widest mb-10 hover:text-white transition-colors"
-        >
-          <ChevronLeft size={16} />
-          <span>Back to Match Details</span>
-        </button>
-
-        {/* Urgency Banner */}
-        <motion.div 
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: 'auto', opacity: 1 }}
-          className="mb-10 overflow-hidden"
-        >
-          <div className="bg-red-500/10 border border-red-500/20 p-4 flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="bg-red-500 p-1.5 rounded-full animate-pulse">
-                <Zap size={14} className="text-white" />
-              </div>
-              <div>
-                <p className="text-[11px] font-black text-red-500 uppercase tracking-[0.2em] italic mb-0.5">High Demand Experience</p>
-                <p className="text-[10px] font-bold text-white/60 uppercase tracking-widest leading-none">Limited tickets remaining for this category. Secure yours before they sell out.</p>
+    <div className="min-h-screen bg-primary">
+      {/* Event Header */}
+      <div className="bg-secondary border-b border-white/5 pt-24 pb-6">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex flex-col">
+               <button 
+                onClick={() => navigate(-1)}
+                className="flex items-center space-x-1 text-[11px] font-bold text-white/40 uppercase tracking-widest mb-4 hover:text-accent transition-colors w-fit"
+              >
+                <ChevronLeft size={16} />
+                <span>Matches</span>
+              </button>
+              <h1 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tight flex items-center gap-3 italic">
+                {event.name}
+              </h1>
+              <div className="flex flex-wrap items-center gap-4 mt-2">
+                <div className="flex items-center gap-1.5 text-white/40 text-[11px] font-semibold uppercase tracking-wider">
+                  <Calendar size={14} className="text-accent" />
+                  <span>{event.date}</span>
+                </div>
+                <div className="w-1 h-1 bg-white/10 rounded-full" />
+                <div className="flex items-center gap-1.5 text-white/40 text-[11px] font-semibold uppercase tracking-wider">
+                  <Clock size={14} className="text-accent" />
+                  <span>{event.time}</span>
+                </div>
+                <div className="w-1 h-1 bg-white/10 rounded-full" />
+                <div className="flex items-center gap-1.5 text-white/40 text-[11px] font-semibold uppercase tracking-wider">
+                  <MapPin size={14} className="text-accent" />
+                  <span>{event.venue}, {event.location}</span>
+                </div>
               </div>
             </div>
-            <div className="hidden md:flex items-center gap-2 px-3 py-1 bg-red-500/10 rounded-full border border-red-500/20 shrink-0">
-               <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping" />
-               <span className="text-[9px] font-black text-red-500 uppercase tracking-widest">Only 14 left</span>
+
+            <div className="flex items-center gap-4">
+               <div className="text-right hidden md:block">
+                  <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-1">Starting from</p>
+                  <p className="text-2xl font-black text-white italic">${event.startingPrice}</p>
+               </div>
+               <div className="bg-red-500/10 text-red-500 px-4 py-2 rounded-lg border border-red-500/20 flex items-center gap-2">
+                  <div className="w-2 h-2 bg-red-500 rounded-full animate-ping" />
+                  <span className="text-xs font-bold uppercase tracking-tight">{remainingTickets} tickets left</span>
+               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          {/* Main Area */}
-          <div className="lg:col-span-8 space-y-12">
-            <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 pb-12 border-b border-white/10">
-              <div>
-                <p className="text-accent font-black uppercase tracking-[0.3em] text-[10px] mb-2 italic">Ticketdome | World Cup 26</p>
-                <h1 className="text-5xl md:text-6xl font-black text-white italic uppercase tracking-tighter leading-none">{event.name}</h1>
-                <div className="flex flex-wrap items-center gap-6 mt-6">
-                   <div className="flex items-center gap-2 text-white/40 text-[10px] font-bold uppercase tracking-widest">
-                      <MapPin size={14} className="text-accent" />
-                      <span>{event.venue}, {event.location}</span>
-                   </div>
-                   <div className="flex items-center gap-2 text-white/40 text-[10px] font-bold uppercase tracking-widest">
-                      <Calendar size={14} className="text-accent" />
-                      <span>{event.date}</span>
-                   </div>
-                   <div className="flex items-center gap-2 text-white/40 text-[10px] font-bold uppercase tracking-widest">
-                      <Clock size={14} className="text-accent" />
-                      <span>{event.time} Local</span>
-                   </div>
-                </div>
-              </div>
-            </header>
-
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* Left Column: Tickets & Summary */}
+          <div className="lg:col-span-7 space-y-6">
             {step === 'selection' ? (
-              <div className="space-y-12">
-                {/* Stadium Map Simulation */}
-                <div>
-                   <h3 className="text-xl font-black text-white italic uppercase tracking-tighter mb-6 flex items-center gap-3">
-                      <div className="w-1.5 h-6 bg-accent" />
-                      Select Your Zone
-                   </h3>
-                   <div className="aspect-square md:aspect-video bg-white/5 border border-white/10 rounded-sm relative flex items-center justify-center overflow-hidden">
-                      <div className="absolute inset-0 opacity-20 pointer-events-none">
-                         <div className="absolute inset-0 grid grid-cols-12 gap-1 px-4 py-8">
-                            {[...Array(144)].map((_, i) => (
-                              <div key={i} className="aspect-square bg-white/10 rounded-full" />
-                            ))}
-                         </div>
+              <>
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-secondary p-6 rounded-2xl border border-white/5">
+                  <div>
+                    <h2 className="text-lg font-black text-white uppercase tracking-tighter italic">Select your tickets</h2>
+                    <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest mt-1">Found {ticketCategories.length} categories for this event</p>
+                  </div>
+                  <div className="flex items-center gap-4">
+                     <div className="flex items-center gap-3 bg-white/5 p-2 rounded-xl border border-white/5">
+                        <span className="text-[10px] font-black text-white/40 uppercase tracking-widest pl-2">Tickets</span>
+                        <div className="flex items-center gap-4 bg-black border border-white/10 px-3 py-1.5 rounded-lg shadow-sm">
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); setQuantity(Math.max(1, quantity - 1)); }}
+                            className="text-white/40 hover:text-accent transition-colors"
+                          >
+                            <Minus size={14} />
+                          </button>
+                          <span className="text-sm font-black text-white w-4 text-center">{quantity}</span>
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); setQuantity(Math.min(10, quantity + 1)); }}
+                            className="text-white/40 hover:text-accent transition-colors"
+                          >
+                            <Plus size={14} />
+                          </button>
+                        </div>
                       </div>
-                      <svg className="w-4/5 h-4/5 relative z-10" viewBox="0 0 100 60">
-                         {/* pitch */}
-                         <rect x="20" y="10" width="60" height="40" fill="transparent" stroke="white" strokeWidth="0.5" opacity="0.3" />
-                         <circle cx="50" cy="30" r="5" fill="transparent" stroke="white" strokeWidth="0.5" opacity="0.3" />
-                         <line x1="50" y1="10" x2="50" y2="50" stroke="white" strokeWidth="0.5" opacity="0.3" />
-                         
-                         {/* Stands */}
-                         {/* VIP */}
-                         <path 
-                           d="M 20 5 L 80 5 C 85 5, 85 10, 80 15 L 20 15 C 15 15, 15 5, 20 5" 
-                           fill={selectedCategory === 'vip' ? '#F27D26' : 'transparent'} 
-                           stroke="#F27D26" 
-                           className="cursor-pointer transition-all duration-300 hover:fill-accent/40"
-                           onClick={() => setSelectedCategory('vip')}
-                         />
-                         {/* Premium Bottom */}
-                         <path 
-                           d="M 20 45 L 80 45 C 85 45, 85 55, 80 55 L 20 55 C 15 55, 15 45, 20 45" 
-                           fill={selectedCategory === 'premium' ? '#F27D26' : 'transparent'} 
-                           stroke="#F27D26" 
-                           className="cursor-pointer transition-all duration-300 hover:fill-accent/40"
-                           onClick={() => setSelectedCategory('premium')}
-                         />
-                         {/* Standard Sides */}
-                         <path 
-                           d="M 5 15 L 15 20 L 15 40 L 5 45 Z" 
-                           fill={selectedCategory === 'standard' ? '#F27D26' : 'transparent'} 
-                           stroke="#F27D26" 
-                           className="cursor-pointer transition-all duration-300 hover:fill-accent/40"
-                           onClick={() => setSelectedCategory('standard')}
-                         />
-                         <path 
-                           d="M 95 15 L 85 20 L 85 40 L 95 45 Z" 
-                           fill={selectedCategory === 'standard' ? '#F27D26' : 'transparent'} 
-                           stroke="#F27D26" 
-                           className="cursor-pointer transition-all duration-300 hover:fill-accent/40"
-                           onClick={() => setSelectedCategory('standard')}
-                         />
-
-                         <text x="50" y="3" textAnchor="middle" fill="white" fontSize="2" fontWeight="bold" opacity="0.5">NORTH STAND</text>
-                      </svg>
-                      <div className="absolute bottom-6 left-6 right-6 flex items-center justify-center space-x-6">
-                         {ticketCategories.map(c => (
-                           <div key={c.id} className="flex items-center space-x-2">
-                             <div className={`w-3 h-3 border  ${c.id === selectedCategory ? 'bg-accent border-accent' : 'border-white/20'}`} />
-                             <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">{c.name}</span>
-                           </div>
-                         ))}
-                      </div>
-                   </div>
+                  </div>
                 </div>
 
-                <div className="space-y-4">
-                  <h3 className="text-xl font-black text-white italic uppercase tracking-tighter mb-6 flex items-center gap-3">
-                    <div className="w-1.5 h-6 bg-accent" />
-                    Available Categories
-                  </h3>
+                <div className="space-y-3">
                   {ticketCategories.map(category => (
-                    <div 
-                      key={category.id} 
-                      onClick={() => setSelectedCategory(category.id)}
-                      className={`p-6 border transition-all cursor-pointer rounded-sm ${
+                    <motion.div 
+                      key={category.id}
+                      whileHover={{ x: 4 }}
+                      className={`group relative bg-secondary border-2 rounded-2xl p-5 transition-all cursor-pointer shadow-sm hover:shadow-md ${
                         selectedCategory === category.id 
-                          ? 'bg-accent border-accent' 
-                          : 'bg-white/5 border-white/10 hover:border-white/30'
+                        ? 'border-accent ring-4 ring-accent/10' 
+                        : 'border-white/5'
                       }`}
+                      onClick={() => setSelectedCategory(category.id)}
                     >
-                      <div className="flex justify-between items-start mb-2">
-                        <div>
-                          <h4 className={`text-xl font-black italic uppercase tracking-tighter ${selectedCategory === category.id ? 'text-black' : 'text-white'}`}>
-                            {category.name}
-                          </h4>
-                          <p className={`text-[10px] font-bold uppercase tracking-widest ${selectedCategory === category.id ? 'text-black/60' : 'text-white/40'}`}>
-                            {category.description}
-                          </p>
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div className="flex items-center gap-5 flex-1">
+                          <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 ${
+                            category.id === 'vip' ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' :
+                            category.id === 'premium' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' :
+                            'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                          }`}>
+                            <div className="text-center">
+                              <p className="text-[9px] font-black uppercase leading-none mb-1">SEC</p>
+                              <p className="text-sm font-black italic">{category.id === 'vip' ? '101' : category.id === 'premium' ? '204' : '312'}</p>
+                            </div>
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <h3 className="text-lg font-black text-white uppercase italic tracking-tight">{category.name}</h3>
+                              {category.id === 'vip' && (
+                                <span className="bg-purple-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded-sm uppercase italic">Luxury</span>
+                              )}
+                            </div>
+                            <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-2">{category.description}</p>
+                            <div className="flex items-center gap-3">
+                              <div className="flex items-center gap-1 text-[9px] font-black text-green-500 uppercase italic bg-green-500/5 px-2 py-0.5 rounded">
+                                <CheckCircle size={10} />
+                                <span>Verified Listing</span>
+                              </div>
+                              <div className="flex items-center gap-1 text-[9px] font-black text-blue-500 uppercase italic bg-blue-500/5 px-2 py-0.5 rounded">
+                                <Zap size={10} />
+                                <span>Instant Transfer</span>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div className="text-right">
-                          <p className={`text-2xl font-black italic tracking-tighter ${selectedCategory === category.id ? 'text-black' : 'text-white'}`}>
-                            ${category.basePrice}
-                          </p>
-                          <p className={`text-[8px] font-bold uppercase tracking-widest ${selectedCategory === category.id ? 'text-black/40' : 'text-white/20'}`}>
-                            Per Seat
-                          </p>
+                        
+                        <div className="flex items-center justify-between md:justify-end gap-8 border-t md:border-t-0 pt-4 md:pt-0 border-white/5">
+                          <div className="text-left md:text-right">
+                            <p className="text-sm font-bold text-white/20 line-through decoration-red-400/40 opacity-50">${(category.basePrice * 1.2).toFixed(0)}</p>
+                            <p className="text-2xl font-black text-white italic">${category.basePrice}</p>
+                            <p className="text-[9px] font-bold text-white/40 uppercase tracking-widest">total per seat</p>
+                          </div>
+                          <button 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedCategory(category.id);
+                              setStep('summary');
+                            }}
+                            className={`px-8 py-3 rounded-xl font-black uppercase text-xs italic tracking-widest transition-all ${
+                              selectedCategory === category.id 
+                              ? 'bg-accent text-black shadow-lg shadow-accent/25' 
+                              : 'bg-white/5 text-white hover:bg-white/10'
+                            }`}
+                          >
+                            Checkout
+                          </button>
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
-              </div>
-            ) : (
-              <div className="space-y-12">
-                 <h3 className="text-xl font-black text-white italic uppercase tracking-tighter mb-6 flex items-center gap-3">
-                    <div className="w-1.5 h-6 bg-accent" />
-                    Review & Pay
-                 </h3>
-                 <div className="bg-white/5 border border-white/10 p-8 rounded-sm">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                       <div className="space-y-8">
-                          <div>
-                             <h4 className="text-[10px] font-black text-accent uppercase tracking-widest mb-6 italic">Select Payment Method</h4>
-                             <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-8">
-                                <button 
-                                  onClick={() => setPaymentMethod('card')}
-                                  className={`p-4 border rounded-sm flex flex-col items-center justify-center gap-2 transition-all ${paymentMethod === 'card' ? 'bg-accent border-accent text-black' : 'bg-white/5 border-white/10 text-white/40 hover:border-white/30'}`}
-                                >
-                                   <CreditCard size={20} />
-                                   <span className="text-[8px] font-black uppercase tracking-widest">Card</span>
-                                </button>
-                                <button 
-                                  onClick={() => setPaymentMethod('cashapp')}
-                                  className={`p-4 border rounded-sm flex flex-col items-center justify-center gap-2 transition-all ${paymentMethod === 'cashapp' ? 'bg-[#00D632] border-[#00D632] text-white' : 'bg-white/5 border-white/10 text-white/40 hover:border-white/30'}`}
-                                >
-                                   <div className="w-5 h-5 flex items-center justify-center font-bold text-lg">$</div>
-                                   <span className="text-[8px] font-black uppercase tracking-widest">Cash App</span>
-                                </button>
-                                <button 
-                                  onClick={() => setPaymentMethod('zelle')}
-                                  className={`p-4 border rounded-sm flex flex-col items-center justify-center gap-2 transition-all ${paymentMethod === 'zelle' ? 'bg-[#6d1edb] border-[#6d1edb] text-white' : 'bg-white/5 border-white/10 text-white/40 hover:border-white/30'}`}
-                                >
-                                   <div className="w-5 h-5 flex items-center justify-center font-bold text-lg">Z</div>
-                                   <span className="text-[8px] font-black uppercase tracking-widest">Zelle</span>
-                                </button>
-                                <button 
-                                  onClick={() => setPaymentMethod('btc')}
-                                  className={`p-4 border rounded-sm flex flex-col items-center justify-center gap-2 transition-all ${paymentMethod === 'btc' ? 'bg-[#F7931A] border-[#F7931A] text-white' : 'bg-white/5 border-white/10 text-white/40 hover:border-white/30'}`}
-                                >
-                                   <div className="w-5 h-5 flex items-center justify-center font-bold text-lg">₿</div>
-                                   <span className="text-[8px] font-black uppercase tracking-widest">BTC</span>
-                                </button>
-                                <button 
-                                  onClick={() => setPaymentMethod('eth')}
-                                  className={`p-4 border rounded-sm flex flex-col items-center justify-center gap-2 transition-all ${paymentMethod === 'eth' ? 'bg-[#627EEA] border-[#627EEA] text-white' : 'bg-white/5 border-white/10 text-white/40 hover:border-white/30'}`}
-                                >
-                                   <div className="w-5 h-5 flex items-center justify-center font-bold text-lg">Ξ</div>
-                                   <span className="text-[8px] font-black uppercase tracking-widest">ETH</span>
-                                </button>
-                             </div>
 
-                             <h4 className="text-[10px] font-black text-accent uppercase tracking-widest mb-4 italic">
-                                {paymentMethod === 'card' && 'Billing Details'}
-                                {paymentMethod === 'cashapp' && 'Cash App Info'}
-                                {paymentMethod === 'zelle' && 'Zelle Info'}
-                                {paymentMethod === 'btc' && 'Bitcoin Payment'}
-                                {paymentMethod === 'eth' && 'Ethereum Payment'}
-                             </h4>
-                             
-                             <div className="space-y-4">
-                                {paymentError && (
-                                  <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-sm mb-4">
-                                    <p className="text-[10px] font-black text-red-500 uppercase tracking-widest italic leading-relaxed">
-                                      {paymentError}
-                                    </p>
-                                  </div>
-                                )}
-                                {paymentMethod === 'card' ? (
-                                   <>
-                                      <input type="text" placeholder="FULL NAME ON CARD" className="w-full bg-white/5 border border-white/10 p-4 text-xs font-black uppercase tracking-widest text-white focus:border-accent outline-none" />
-                                      <div className="relative">
-                                         <CreditCard className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20" size={18} />
-                                         <input type="text" placeholder="CARD NUMBER" className="w-full bg-white/5 border border-white/10 p-4 pl-12 text-xs font-black uppercase tracking-widest text-white focus:border-accent outline-none" />
-                                      </div>
-                                      <div className="grid grid-cols-2 gap-4">
-                                         <input type="text" placeholder="MM/YY" className="w-full bg-white/5 border border-white/10 p-4 text-xs font-black uppercase tracking-widest text-white focus:border-accent outline-none" />
-                                         <input type="text" placeholder="CVC" className="w-full bg-white/5 border border-white/10 p-4 text-xs font-black uppercase tracking-widest text-white focus:border-accent outline-none" />
-                                      </div>
-                                   </>
-                                ) : paymentMethod === 'cashapp' ? (
-                                   <div className="space-y-4">
-                                      <div className="p-4 bg-[#00D632]/10 border border-[#00D632]/20 rounded-sm">
-                                         <p className="text-[10px] font-black text-[#00D632] uppercase tracking-widest mb-2 italic">Official Handle</p>
-                                         <div className="w-full bg-white/5 border border-white/10 p-4 text-xs font-black uppercase tracking-widest text-accent mb-2">
-                                            {paymentSettings.cashapp_handle}
-                                         </div>
-                                         <input type="text" placeholder="YOUR $CASHTAG" className="w-full bg-white/5 border border-white/10 p-4 text-xs font-black uppercase tracking-widest text-white focus:border-[#00D632] outline-none" />
-                                      </div>
-                                      <p className="text-[8px] font-bold text-white/20 uppercase tracking-[0.2em]">You will be redirected to confirm in the Cash App mobile application.</p>
-                                   </div>
-                                ) : paymentMethod === 'zelle' ? (
-                                   <div className="space-y-4">
-                                      <div className="p-4 bg-[#6d1edb]/10 border border-[#6d1edb]/20 rounded-sm">
-                                         <p className="text-[10px] font-black text-[#6d1edb] uppercase tracking-widest mb-2 italic">Registered Email or Phone</p>
-                                         <div className="w-full bg-white/5 border border-white/10 p-4 text-xs font-black uppercase tracking-widest text-accent mb-2">
-                                            {paymentSettings.zelle_info}
-                                         </div>
-                                         <input type="text" placeholder="YOUR EMAIL OR PHONE" className="w-full bg-white/5 border border-white/10 p-4 text-xs font-black uppercase tracking-widest text-white focus:border-[#6d1edb] outline-none" />
-                                      </div>
-                                      <p className="text-[8px] font-bold text-white/20 uppercase tracking-[0.2em]">Authentication required via your banking application provider.</p>
-                                   </div>
-                                ) : (
-                                   <div className="space-y-4">
-                                      <div className="p-4 bg-white/5 border border-white/10 rounded-sm">
-                                         <p className="text-[10px] font-black uppercase tracking-widest mb-2 italic text-accent">
-                                            {paymentMethod === 'btc' ? 'Bitcoin (BTC) Wallet Address' : 'Ethereum (ETH) Wallet Address'}
-                                         </p>
-                                         <div className="flex gap-2">
-                                            <input 
-                                               type="text" 
-                                               readOnly 
-                                               value={paymentMethod === 'btc' ? paymentSettings.btc_address : paymentSettings.eth_address}
-                                               className="w-full bg-black/40 border border-white/10 p-4 text-[10px] font-mono text-white/60 outline-none" 
-                                            />
-                                         </div>
-                                      </div>
-                                      <p className="text-[8px] font-bold text-white/20 uppercase tracking-[0.2em]">Please send exact total to the address above. Confirmation may take up to 10 minutes.</p>
-                                   </div>
-                                )}
-                             </div>
+                {/* Secure Guarantee */}
+                <div className="bg-secondary border border-white/5 rounded-2xl p-6 flex items-center justify-between gap-6">
+                  <div className="flex items-center gap-4">
+                    <ShieldCheck className="text-accent" size={32} />
+                    <div>
+                      <p className="text-xs font-black text-white uppercase italic mb-0.5 tracking-tight">100% Buyer Guarantee</p>
+                      <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest">Safe and secure transactions with full protection.</p>
+                    </div>
+                  </div>
+                  <Link to="/blog/1" className="text-[10px] font-black text-accent uppercase tracking-widest hover:underline shrink-0">Learn More</Link>
+                </div>
+              </>
+            ) : (
+              <div className="space-y-6">
+                <button 
+                  onClick={() => setStep('selection')}
+                  className="flex items-center gap-2 text-[10px] font-black text-white/40 uppercase tracking-widest hover:text-accent transition-colors"
+                >
+                  <ChevronLeft size={14} />
+                  <span>Modify Selection</span>
+                </button>
+                
+                <div className="bg-secondary rounded-2xl border border-white/5 p-8 shadow-sm">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div className="space-y-8">
+                       <div>
+                          <h4 className="text-xs font-black text-white uppercase tracking-widest mb-6 border-b border-white/5 pb-2 italic">Payment Option</h4>
+                          <div className="grid grid-cols-5 gap-2">
+                             {[
+                               { id: 'card', icon: <CreditCard size={18} /> },
+                               { id: 'cashapp', icon: <span className="font-bold">$</span> },
+                               { id: 'zelle', icon: <span className="font-bold">Z</span> },
+                               { id: 'btc', icon: <span className="font-bold">₿</span> },
+                               { id: 'eth', icon: <span className="font-bold">Ξ</span> }
+                             ].map((p) => (
+                               <button 
+                                 key={p.id}
+                                 onClick={() => setPaymentMethod(p.id as any)}
+                                 className={`p-3 rounded-lg border-2 flex items-center justify-center transition-all ${
+                                   paymentMethod === p.id 
+                                   ? 'bg-accent border-accent text-black scale-105' 
+                                   : 'bg-black border-white/5 text-white/40 hover:border-white/20'
+                                 }`}
+                               >
+                                 {p.icon}
+                               </button>
+                             ))}
                           </div>
                        </div>
-                       <div className="bg-black/40 p-6 border border-white/5 rounded-sm">
-                          <h4 className="text-[10px] font-black text-white uppercase tracking-widest mb-4 italic">Security Check</h4>
-                          <div className="flex items-center gap-4 p-4 border border-green-500/20 bg-green-500/5 rounded-sm mb-6">
-                             <ShieldCheck className="text-green-500" size={24} />
-                             <p className="text-[10px] font-bold text-green-500 uppercase leading-relaxed tracking-wider">
-                                Your payment is encrypted with 256-bit SSL security. 
-                             </p>
-                          </div>
-                          <div className="flex items-center gap-4 p-4 border border-accent/20 bg-accent/5 rounded-sm">
-                             <TicketIcon className="text-accent" size={24} />
-                             <p className="text-[10px] font-bold text-accent uppercase leading-relaxed tracking-wider">
-                                Instant delivery to your member wallet upon confirmation.
-                             </p>
-                          </div>
+
+                       <div className="space-y-4">
+                          {paymentError && (
+                            <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500">
+                              <p className="text-[11px] font-bold leading-relaxed">{paymentError}</p>
+                            </div>
+                          )}
+
+                          {paymentMethod === 'card' ? (
+                             <div className="space-y-4">
+                                <input type="text" placeholder="CARDHOLDER NAME" className="w-full bg-black border-2 border-white/5 rounded-xl p-4 text-xs font-bold uppercase focus:border-accent outline-none text-white" />
+                                <input type="text" placeholder="CARD NUMBER" className="w-full bg-black border-2 border-white/5 rounded-xl p-4 text-xs font-bold uppercase focus:border-accent outline-none text-white" />
+                                <div className="grid grid-cols-2 gap-4">
+                                  <input type="text" placeholder="MM/YY" className="w-full bg-black border-2 border-white/5 rounded-xl p-4 text-xs font-bold uppercase focus:border-accent outline-none text-white" />
+                                  <input type="text" placeholder="CVC" className="w-full bg-black border-2 border-white/5 rounded-xl p-4 text-xs font-bold uppercase focus:border-accent outline-none text-white" />
+                                </div>
+                             </div>
+                          ) : (
+                             <div className="p-5 bg-black rounded-xl text-white space-y-4 border border-white/5">
+                                <p className="text-[10px] font-black text-accent uppercase tracking-widest italic leading-none">Transfer Instructions</p>
+                                <div className="bg-white/5 p-4 rounded-lg font-mono text-xs break-all border border-white/10 text-white/60">
+                                   {paymentMethod === 'cashapp' ? paymentSettings.cashapp_handle :
+                                    paymentMethod === 'zelle' ? paymentSettings.zelle_info :
+                                    paymentMethod === 'btc' ? paymentSettings.btc_address :
+                                    paymentSettings.eth_address}
+                                </div>
+                                <p className="text-[9px] text-white/40 font-bold uppercase tracking-wider">Please send exact total. Your tickets will release instantly upon network confirmation.</p>
+                             </div>
+                          )}
                        </div>
                     </div>
-                 </div>
+
+                    <div className="space-y-6">
+                       <div className="bg-black/40 p-6 rounded-xl border border-white/5">
+                          <h4 className="text-xs font-black text-white uppercase tracking-widest mb-4 italic">Security</h4>
+                          <div className="space-y-4">
+                            <div className="flex items-center gap-3">
+                              <ShieldCheck className="text-accent" size={20} />
+                              <span className="text-[10px] font-bold text-white/40 uppercase tracking-wide leading-tight">Garanteed Authentic Tickets</span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <CreditCard className="text-accent" size={20} />
+                              <span className="text-[10px] font-bold text-white/40 uppercase tracking-wide leading-tight">Fraud Protection Enabled</span>
+                            </div>
+                          </div>
+                       </div>
+                       
+                       <button 
+                        onClick={handleBooking}
+                        disabled={isProcessing}
+                        className="w-full py-5 bg-white text-black font-black uppercase text-sm italic tracking-widest rounded-xl hover:bg-accent transition-all flex items-center justify-center gap-3"
+                      >
+                        {isProcessing ? (
+                          <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                        ) : (
+                          <>
+                            <Zap size={18} className="text-accent" />
+                            <span>Complete Order</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
           </div>
 
-          {/* Checkout Info Sidebar */}
-          <div className="lg:col-span-4">
+          {/* Right Column: Interaction Map */}
+          <div className="lg:col-span-5 relative">
             <div className="sticky top-32 space-y-6">
-              <div className="bg-white/5 border border-white/10 p-6 rounded-sm">
-                <h3 className="text-xs font-black text-white uppercase tracking-[0.2em] mb-6 italic border-b border-white/5 pb-4">Order Summary</h3>
-                
-                <div className="space-y-6 mb-8">
-                  <div className="flex justify-between items-center text-[10px] font-bold text-white/40 uppercase tracking-widest">
-                    <span>Category</span>
-                    <span className="text-white">{currentCategory.name}</span>
-                  </div>
-                  
-                  <div className="flex justify-between items-center">
-                    <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">Quantity</span>
-                    <div className="flex items-center space-x-4 bg-white/5 border border-white/10 p-1 rounded-sm">
-                      <button 
-                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                        className="p-1 hover:text-accent transition-colors disabled:opacity-30"
-                        disabled={step === 'summary'}
-                      >
-                        <Minus size={14} />
-                      </button>
-                      <span className="text-xs font-black text-white w-4 text-center">{quantity}</span>
-                      <button 
-                        onClick={() => setQuantity(Math.min(10, quantity + 1))}
-                        className="p-1 hover:text-accent transition-colors disabled:opacity-30"
-                        disabled={step === 'summary'}
-                      >
-                        <Plus size={14} />
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2 pt-4 border-t border-white/5">
-                    <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-white/60">
-                      <span>Subtotal</span>
-                      <span>${subtotal.toFixed(2)}</span>
-                    </div>
-                  </div>
-
-                  <div className="pt-4 border-t border-white/20 flex justify-between items-center">
-                    <span className="text-xs font-black text-accent uppercase tracking-tighter">Total Amount</span>
-                    <span className="text-3xl font-black text-white italic tracking-tighter">${total.toFixed(2)}</span>
+              <div className="bg-secondary rounded-2xl border border-white/5 p-6 shadow-sm overflow-hidden group">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-xs font-black text-white uppercase tracking-widest italic flex items-center gap-2">
+                    <Sparkles size={16} className="text-accent" />
+                    Interactive Stadium
+                  </h3>
+                  <div className="flex items-center gap-2">
+                    {['vip', 'premium', 'standard'].map(type => (
+                      <div key={type} className="flex items-center gap-1.5">
+                        <div className={`w-2 h-2 rounded-full ${
+                          type === 'vip' ? 'bg-purple-500' : 
+                          type === 'premium' ? 'bg-amber-500' : 
+                          'bg-blue-500'
+                        }`} />
+                        <span className="text-[8px] font-bold text-white/40 uppercase tracking-tighter">{type}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
-
-                {step === 'selection' ? (
-                  <button 
-                    onClick={() => setStep('summary')}
-                    className="w-full py-5 bg-white text-black font-black uppercase tracking-widest text-sm hover:bg-accent transition-all duration-300"
-                  >
-                    Continue to Payment
-                  </button>
-                ) : (
-                  <button 
-                    onClick={handleBooking}
-                    disabled={isProcessing}
-                    className="w-full py-5 bg-accent text-black font-black uppercase tracking-widest text-sm hover:bg-white transition-all duration-300 flex items-center justify-center space-x-2"
-                  >
-                    {isProcessing ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                        <span>Verifying...</span>
-                      </>
-                    ) : (
-                      <>
-                        <CheckCircle size={18} />
-                        <span>Confirm & Pay</span>
-                      </>
-                    )}
-                  </button>
-                )}
                 
-                {step === 'summary' && (
-                   <button 
-                    onClick={() => setStep('selection')}
-                    className="w-full mt-4 text-[10px] font-black text-white/40 uppercase tracking-widest hover:text-white transition-colors"
-                   >
-                     Adjust Selection
-                   </button>
-                )}
-              </div>
+                <motion.div 
+                  style={{ perspective: '1000px' }}
+                  className="relative aspect-[1.3/1] flex items-center justify-center bg-black/40 rounded-2xl border border-white/5 overflow-hidden group shadow-inner"
+                >
+                  <StadiumMap 
+                    selectedCategory={selectedCategory} 
+                    onSelectCategory={setSelectedCategory} 
+                  />
+                </motion.div>
+                
+                <div className="mt-8 grid grid-cols-3 gap-2">
+                   {ticketCategories.map(c => (
+                      <button 
+                        key={c.id}
+                        onClick={() => setSelectedCategory(c.id)}
+                        className={`p-3 rounded-xl border-2 transition-all text-center ${
+                          selectedCategory === c.id 
+                          ? 'bg-accent border-accent text-black scale-105 shadow-lg' 
+                          : 'bg-black border-white/5 text-white/40 hover:border-white/20 hover:text-white'
+                        }`}
+                      >
+                         <p className="text-[10px] font-black uppercase italic leading-none mb-1">{c.name}</p>
+                         <p className="text-[8px] font-bold opacity-60">${c.basePrice}</p>
+                      </button>
+                   ))}
+                </div>
 
-              <div className="p-6 bg-white/[0.02] border border-white/10 rounded-sm">
-                 <div className="flex items-center gap-4 text-white/60 mb-4">
-                    <Info size={18} className="text-accent shrink-0" />
-                    <p className="text-[10px] font-bold uppercase leading-relaxed tracking-wider">
-                       Tickets for this event are mobile-only. You will not receive a print-at-home PDF. 
-                    </p>
-                 </div>
-                 <p className="text-[8px] font-medium text-white/20 uppercase tracking-[0.2em] italic">
-                   Price includes all federal and stadium surcharges.
-                 </p>
+                {/* Individual Seat Picker */}
+                <AnimatePresence mode="wait">
+                  {selectedCategory && (
+                    <motion.div 
+                      key={selectedCategory}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      className="mt-6 bg-black/40 rounded-2xl border border-white/5 p-6"
+                    >
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h4 className="text-[10px] font-black text-white uppercase italic">Select Seats for {selectedCategory.toUpperCase()}</h4>
+                          <p className="text-[9px] font-bold text-white/40 uppercase tracking-widest leading-none mt-1">Available seats in Section {selectedCategory === 'vip' ? '101' : selectedCategory === 'premium' ? '204' : '312'}</p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-1">
+                            <div className="w-2 h-2 rounded-full bg-accent" />
+                            <span className="text-[8px] font-bold text-white/40 uppercase">Selected</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <div className="w-2 h-2 rounded-full bg-white/5 border border-white/10" />
+                            <span className="text-[8px] font-bold text-white/40 uppercase">Available</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-10 gap-1.5">
+                        {Array.from({ length: 30 }).map((_, i) => {
+                          const seatId = `${selectedCategory.toUpperCase()}-${i+1}`;
+                          const isOccupied = (i * 13) % 7 === 0;
+                          const isSelected = selectedSeat === seatId;
+                          
+                          return (
+                            <button
+                              key={i}
+                              disabled={isOccupied}
+                              onClick={() => handleSeatClick(seatId)}
+                              className={`aspect-square rounded-sm border transition-all flex items-center justify-center text-[8px] font-bold ${
+                                isOccupied ? 'bg-white/5 border-white/10 text-white/20 cursor-not-allowed opacity-40' :
+                                isSelected ? 'bg-accent border-white text-black scale-110 shadow-lg' :
+                                'bg-white/5 border-white/10 text-white/40 hover:border-accent hover:text-white'
+                              }`}
+                            >
+                              {i + 1}
+                            </button>
+                          );
+                        })}
+                      </div>
+                      
+                      {selectedSeat && (
+                        <div className="mt-4 p-3 bg-white rounded-xl flex items-center justify-between text-black animate-in slide-in-from-bottom-2 fade-in">
+                          <div className="flex items-center gap-3">
+                            <div className="bg-black text-accent px-2 py-1 rounded text-[10px] font-black italic">
+                              SEAT {selectedSeat.split('-')[1]}
+                            </div>
+                            <span className="text-[10px] font-bold uppercase tracking-widest italic">Section {selectedSeat.split('-')[0]} Reserved</span>
+                          </div>
+                          <button 
+                            onClick={() => setStep('summary')}
+                            className="bg-accent text-black px-4 py-1.5 rounded-lg text-[10px] font-black uppercase hover:bg-black hover:text-white transition-colors"
+                          >
+                            Confirm Seat
+                          </button>
+                        </div>
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+              {/* Real-time Ticker */}
+              <div className="bg-black border border-white/10 rounded-2xl p-6 text-white overflow-hidden relative group">
+                <div className="absolute top-0 right-0 p-4 opacity-10">
+                   <Zap size={60} />
+                </div>
+                <div className="relative z-10 flex items-center gap-4">
+                  <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center shrink-0 shadow-lg shadow-accent/20">
+                    <Trophy size={20} className="text-black" />
+                  </div>
+                  <div>
+                    <h4 className="text-[11px] font-black uppercase italic text-accent">Exclusive Selection</h4>
+                    <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest leading-none mt-1 italic">Direct from official resale network</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

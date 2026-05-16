@@ -56,6 +56,7 @@ export interface City {
   stadium: string;
   image: string;
   highlights: string[];
+  location?: { lat: number; lng: number };
 }
 
 export interface User {
